@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Timers</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><b>Timers</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="timer.html">CountDown</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="chesstimer.html">ChessTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="stopwatch.html">Stopwatch</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="splittimer.html">SplitTimer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
+        <h2 class="p-3"><b>CountDown Timer</b></h2>
+        <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:00:0</div>
+        <h3 class="p-2"><b>Set Time</b></h3>
+        <div class="d-flex flex-row justify-content-center my-2 mb-3">
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5>Hours</h5>
+                <input class="input-group" type="number" id="hours" min="0" step="1" placeholder="00" onchange="setHours(this);"/>
+            </div>
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5>Minutes</h5>
+                <input class="input-group" type="number" id="minutes" min="0" max="60" step="1" placeholder="00" onchange="setMinutes(this);"/>
+            </div>
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5>Seconds</h5>
+                <input class="input-group" type="number" id="seconds" min="0" max="60" step="1" placeholder="00" onchange="setSeconds(this);"/>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center my-2 m-2 pb-2 border-bottom">
+            <button class="btn btn-info mx-3" onclick="preSetMinutes(1)">1 min</button>
+            <button class="btn btn-info mx-3" onclick="preSetMinutes(5)">5 mins</button>
+            <button class="btn btn-info mx-3" onclick="preSetMinutes(30)">30 mins</button>
+            <button class="btn btn-info mx-3" onclick="preSetHours(1)">1 hour</button>
+            <button class="btn btn-info mx-3" onclick="preSetHours(3)">3 hours</button>
+        </div>
+        
+        <div id="chronoExample">
+            <button class="btn btn-success startButton">Start</button>
+            <button class="btn btn-warning pauseButton" >Pause</button>
+            <button class="btn btn-dark stopButton">Stop</button>
+            <button class="btn btn-danger resetButton">Reset</button>
+        </div>
+    </div>
+
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script src="easytimer.min.js"></script>
+    <script>
+        var timer = new easytimer.Timer();
+        var valuesDict = {
+            hours:0,
+            minutes:0,
+            seconds:0
+
+        }
+        function setHours(obj){
+            var hours = $(obj).val();
+            if(hours!=""){
+                valuesDict.hours = hours;
+            }
+        }
+        function setMinutes(obj){
+            var minutes = $(obj).val();
+            if(minutes!=""){
+                valuesDict.minutes = minutes;
+            }
+        }
+        function setSeconds(obj){
+            var seconds = $(obj).val();
+            if(seconds!=""){
+                valuesDict.seconds = seconds;
+            }
+        }
+        function preSetHours(obj){
+            $("#hours").val(obj);
+            valuesDict.hours = obj;
+        }
+        function preSetMinutes(obj){
+            $("#minutes").val(obj);
+            valuesDict.minutes = obj;
+        }
+        function preSetSeconds(obj){
+            $("#seconds").val(obj);
+            valuesDict.seconds = obj;
+        }
+        $('#chronoExample .startButton').click(function () {
+            console.log(valuesDict)
+            timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+
+            timer.addEventListener('secondTenthsUpdated', function (e) {
+                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+            });
+        });
+        
+        $('#chronoExample .pauseButton').click(function () {
+            timer.pause();
+        });
+        
+        $('#chronoExample .stopButton').click(function () {
+            timer.stop();
+        });
+        
+        $('#chronoExample .resetButton').click(function () {
+            timer.reset();
+        });
+        
+        timer.addEventListener('secondsUpdated', function (e) {
+            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        });
+        
+        timer.addEventListener('started', function (e) {
+            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        });
+        
+        timer.addEventListener('reset', function (e) {
+            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        });
+    </script>
+  </body>
+</html>
+

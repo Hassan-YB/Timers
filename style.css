@@ -1,0 +1,26 @@
+
+#timeunit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
+#timeunit .miliseconds {
+    font-size: 1.5rem;
+    transform: translate(0, 10px);
+}
+#action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.input-group{
+    width: 120px;
+    height: 65px;
+    border: 1px solid #dee2e6!important;
+    padding: 20px 10px;
+    font-size: 56px;
+    color: black;
+    text-align: center;
+}

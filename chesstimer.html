@@ -162,10 +162,14 @@
         
         $('#chronoExample .stopButton').click(function () {
             timer1.stop();
+            timer2.stop();
         });
         
         $('#chronoExample .resetButton').click(function () {
             timer1.reset();
+            timer2.reset();
+            timer1.stop();
+            timer2.stop();
         });
         
         timer1.addEventListener('secondsUpdated', function (e) {

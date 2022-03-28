@@ -20,7 +20,7 @@
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="timer.html">CountDown</a>
                 </li>
                 <li class="nav-item">
@@ -32,7 +32,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="splittimer.html">SplitTimer</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="eggtimer.html">EggTimer</a>
                 </li>
             </ul>
@@ -40,7 +40,7 @@
     </nav>
 
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
-        <h2 class="p-3"><b>CountDown Timer</b></h2>
+        <h2 class="p-3"><b>Egg Timer</b></h2>
         <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:00:0</div>
         <h3 class="p-2"><b>Set Time</b></h3>
         <div class="d-flex flex-row justify-content-center my-2 mb-3">
@@ -55,6 +55,26 @@
             <div class="d-flex flex-column align-items-center mx-2">
                 <h5>Seconds</h5>
                 <input class="input-group" type="number" id="seconds" min="0" max="60" step="1" placeholder="00" onchange="setSeconds(this);"/>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center align-items-center my-2 mx-3">
+            <div class="form-group mx-2 text-center">
+                <label for="egg-size" class="font-weight-bold">Egg Size</label>
+                <select id="egg-size" class="form-control" onchange="setEggType(this);">
+                  <option value="" selected>Choose size</option>
+                  <option value="1">Medium</option>
+                  <option value="2">Large</option>
+                  <option value="3">Extra Large</option>
+                </select>
+            </div>
+            <div class="form-group mx-2 text-center">
+                <label for="egg-type" class="font-weight-bold">Egg boil type</label>
+                <select id="egg-type" class="form-control" onchange="setEggSize(this);">
+                  <option selected>Choose boil type</option>
+                  <option value="2">Soft</option>
+                  <option value="3">Medium</option>
+                  <option value="6">Hard</option>
+                </select>
             </div>
         </div>
         <div class="d-flex flex-row justify-content-center my-2 m-2 pb-2 border-bottom">
@@ -88,6 +108,10 @@
             seconds:0
 
         }
+        var egg_size = 0;
+        var egg_type = 0;
+
+        
         function setHours(obj){
             var hours = $(obj).val();
             if(hours!=""){
@@ -118,6 +142,29 @@
             $("#seconds").val(obj);
             valuesDict.seconds = obj;
         }
+
+        
+        function setBoilingTimer(type,size){
+            var time = Number(type)+Number(size);
+            preSetMinutes(time);
+        }
+        function setEggType(obj){
+            if ($(obj).val()!==""){
+                egg_type = $(obj).val();
+            }
+            if (egg_size!="0" && egg_type!="0"){
+                setBoilingTimer(egg_type,egg_size);
+            }
+        }
+        function setEggSize(obj){
+            if ($(obj).val()!==""){
+                egg_size = $(obj).val();
+            }
+            if (egg_size!=="0" && egg_type!=="0"){
+                setBoilingTimer(egg_type,egg_size);
+            }
+        }
+
         $('#chronoExample .startButton').click(function () {
             console.log(valuesDict)
             timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});

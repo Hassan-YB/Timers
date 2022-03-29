@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Timers</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><b>Timers</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="timer.html">CountDown</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="chesstimer.html">ChessTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="stopwatch.html">Stopwatch</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="splittimer.html">SplitTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="eggtimer.html">EggTimer</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="tabata.html">TabataTimer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
+        <h2 class="p-3"><b>Tabadata Timer</b></h2>
+        <p class="timer-class"></p>
+        <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:00:0</div>
+        <h3 class="p-2"><b>Set Time</b></h3>
+        <div class="d-flex flex-row justify-content-center my-2 mb-3">
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5>Intervals</h5>
+                <input class="input-group" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
+            </div>
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5>Sets</h5>
+                <input class="input-group" type="number" id="sets" min="0" max="20" step="1" value="1"/>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2">
+            <div class="d-flex flex-column align-items-center m-2">
+                <h3 class="p-2 text-info"><b>Work Time</b></h3>
+                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2 border-right">
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Minutes</h6>
+                        <input class="input-group" style="width:172px;" type="number" id="work-minutes" min="0" max="60" step="1" value="00"/>
+                    </div>
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Seconds</h6>
+                        <input class="input-group" style="width:172px;" type="number" id="work-seconds" min="0" max="60" step="1" value="30"/>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-center m-2">
+                <h3 class="p-2 text-success"><b>Rest Time</b></h3>
+                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2 border-right">
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Minutes</h6>
+                        <input class="input-group" style="width:172px;" type="number" id="rest-minutes" min="0" max="60" step="1" value="00" />
+                    </div>
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Seconds</h6>
+                        <input class="input-group" style="width:172px;" type="number" id="rest-seconds" min="0" max="60" step="1" value="30" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2">
+            <div class="d-flex flex-column align-items-center m-2">
+                <h3 class="p-2 text-info"><b>Warm Up Time</b></h3>
+                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2 border-right">
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Minutes</h6>
+                        <input class="input-group" style="width:172px;" type="number" id="warm-up-minutes" min="0" max="60" step="1" value="1"/>
+                    </div>
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Seconds</h6>
+                        <input class="input-group" style="width:172px;" type="number" id="warm-up-seconds" min="0" max="60" step="1" value="00"/>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column align-items-center m-2">
+                <h3 class="p-2 text-success"><b>Cool Down Time</b></h3>
+                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2 border-right">
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Minutes</h6>
+                        <input class="input-group" style="width:172px;" type="number" id="cool-down-minutes" min="0" max="60" step="1" value="1"/>
+                    </div>
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Seconds</h6>
+                        <input class="input-group" style="width:172px;" type="number" id="cool-down-seconds" min="0" max="60" step="1" value="00"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="chronoExample">
+            <button class="btn btn-success startButton">Start</button>
+            <button class="btn btn-warning pauseButton" >Pause</button>
+            <button class="btn btn-dark stopButton">Stop</button>
+            <button class="btn btn-danger resetButton">Reset</button>
+        </div>
+    </div>
+
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script src="easytimer.min.js"></script>
+    <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        var timer = new easytimer.Timer();
+        var valuesDict = {
+            hours:0,
+            minutes:0,
+            seconds:0
+
+        }
+
+
+        function setMinutes(obj){
+            valuesDict.minutes = obj;
+        }
+        function setSeconds(obj){
+            valuesDict.seconds = obj;
+        }
+        function milliSeconds(minutes,seconds){
+            return ((Number(minutes) * 60)+Number(seconds))*1000;
+        }
+        async function tabata(){
+            var intervals = $("#intervals").val();
+            var sets = $("#sets").val();
+            var work_minutes = $("#work-minutes").val();
+            var work_seconds = $("#work-seconds").val();
+            var rest_minutes = $("#rest-minutes").val();
+            var rest_seconds = $("#rest-seconds").val();
+            var warm_up_minutes = $("#warm-up-minutes").val();
+            var warm_up_seconds = $("#warm-up-seconds").val();
+            var cool_down_minutes = $("#cool-down-minutes").val();
+            var cool_down_seconds = $("#cool-down-seconds").val();
+            if (sets!="0"){
+                for(i=0;i<sets;i++){
+                    if (warm_up_minutes!="0" || warm_up_seconds!="0"){
+                        setMinutes(warm_up_minutes);
+                        setSeconds(warm_up_seconds);
+                        $(".timer-class").html('<span class="text-success">Warm up</span>');
+                        timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+                        await sleep(milliSeconds(warm_up_minutes,warm_up_seconds));
+                        if (intervals!="0"){
+                            for (i=0;i<intervals;i++){
+                                if (work_minutes!="0" || work_seconds!="0"){
+                                    setMinutes(work_minutes);
+                                    setSeconds(work_seconds);
+                                    $(".timer-class").html('<span class="text-primary">Work</span>');
+                                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+                                    await sleep(milliSeconds(work_minutes,work_seconds));
+                                }
+                                if (rest_minutes!="0" || rest_seconds!="0"){
+                                    setMinutes(rest_minutes);
+                                    setSeconds(rest_seconds);
+                                    $(".timer-class").html('<span class="text-success">Rest</span>');
+                                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+                                    await sleep(milliSeconds(rest_minutes,rest_seconds));
+                                }
+                            }
+                        }
+                    }
+                    if (cool_down_minutes!="0" || cool_down_seconds!="0"){
+                        setMinutes(cool_down_minutes);
+                        setSeconds(cool_down_seconds);
+                        $(".timer-class").html('<span class="text-warning">Cool down</span>');
+                        timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+                        await sleep(milliSeconds(cool_down_minutes,cool_down_seconds));
+                    }
+                }
+            }
+        }
+        $('#chronoExample .startButton').click(function () {
+            //timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+            tabata();
+            timer.addEventListener('secondTenthsUpdated', function (e) {
+                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+            });
+        });
+        
+        $('#chronoExample .pauseButton').click(function () {
+            timer.pause();
+        });
+        
+        $('#chronoExample .stopButton').click(function () {
+            timer.stop();
+        });
+        
+        $('#chronoExample .resetButton').click(function () {
+            timer.reset();
+        });
+        
+        timer.addEventListener('secondsUpdated', function (e) {
+            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        });
+        
+        timer.addEventListener('started', function (e) {
+            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        });
+        
+        timer.addEventListener('reset', function (e) {
+            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        });
+    </script>
+  </body>
+</html>
+

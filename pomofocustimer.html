@@ -32,13 +32,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="splittimer.html">SplitTimer</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" href="eggtimer.html">EggTimer</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="tabata.html">TabataTimer</a>
+                    <a class="nav-link" href="pomofocus.html">pomofocusTimer</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="pomofocustimer.html">PomofocusTimer</a>
                 </li>
             </ul>
@@ -46,49 +46,45 @@
     </nav>
 
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
-        <h2 class="p-3"><b>Egg Timer</b></h2>
-        <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:00:0</div>
-        <h3 class="p-2"><b>Set Time</b></h3>
-        <div class="d-flex flex-row justify-content-center my-2 mb-3">
-            <div class="d-flex flex-column align-items-center mx-2">
-                <h5>Hours</h5>
-                <input class="input-group" type="number" id="hours" min="0" step="1" placeholder="00" onchange="setHours(this);"/>
-            </div>
-            <div class="d-flex flex-column align-items-center mx-2">
-                <h5>Minutes</h5>
-                <input class="input-group" type="number" id="minutes" min="0" max="60" step="1" placeholder="00" onchange="setMinutes(this);"/>
-            </div>
-            <div class="d-flex flex-column align-items-center mx-2">
-                <h5>Seconds</h5>
-                <input class="input-group" type="number" id="seconds" min="0" max="60" step="1" placeholder="00" onchange="setSeconds(this);"/>
+        <p class="timer-class"></p>
+        <div class="d-flex flex-row justify-content-center align-items-center">
+            <div class="m-2 text-center">
+                <h2 class="p-3"><b>Pomofocus Timer</b></h2>
+                <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:25:0</div>
             </div>
         </div>
+        <h3 class="p-2"><b>Set Time</b></h3>
         <div class="d-flex flex-row justify-content-center align-items-center my-2 mx-3">
             <div class="form-group mx-2 text-center">
-                <label for="egg-size" class="font-weight-bold">Egg Size</label>
-                <select id="egg-size" class="form-control" onchange="setEggType(this);">
-                  <option value="" selected>Choose size</option>
-                  <option value="1">Medium</option>
-                  <option value="2">Large</option>
-                  <option value="3">Extra Large</option>
+                <label for="break-time" class="font-weight-bold">Break Time</label>
+                <select id="break-time" class="form-control">
+                  <option value="5" selected>5 minutes</option>
+                  <option value="10">10 minutes</option>
+                  <option value="15">15 minutes</option>
+                  <option value="20">20 minutes</option>
                 </select>
             </div>
+                <div class="form-check m-3">
+                  <input class="form-check-input" type="checkbox" id="no-break-check">
+                  <label class="form-check-label" for="gridCheck">
+                    Remove last break
+                  </label>
+                </div>
             <div class="form-group mx-2 text-center">
-                <label for="egg-type" class="font-weight-bold">Egg boil type</label>
-                <select id="egg-type" class="form-control" onchange="setEggSize(this);">
-                  <option selected>Choose boil type</option>
-                  <option value="2">Soft</option>
-                  <option value="3">Medium</option>
-                  <option value="6">Hard</option>
+                <label for="tasks" class="font-weight-bold">Scheduler</label>
+                <select id="tasks" class="form-control">
+                  <option value="1" selected>1 task</option>
+                  <option value="2">2 task</option>
+                  <option value="3">3 tasks</option>
+                  <option value="4">4 tasks</option>
+                  <option value="5">5 tasks</option>
+                  <option value="6">6 tasks</option>
+                  <option value="7">7 tasks</option>
+                  <option value="8">8 tasks</option>
+                  <option value="9">9 tasks</option>
+                  <option value="10">10 tasks</option>
                 </select>
             </div>
-        </div>
-        <div class="d-flex flex-row justify-content-center my-2 m-2 pb-2 border-bottom">
-            <button class="btn btn-info mx-3" onclick="preSetMinutes(1)">1 min</button>
-            <button class="btn btn-info mx-3" onclick="preSetMinutes(5)">5 mins</button>
-            <button class="btn btn-info mx-3" onclick="preSetMinutes(30)">30 mins</button>
-            <button class="btn btn-info mx-3" onclick="preSetHours(1)">1 hour</button>
-            <button class="btn btn-info mx-3" onclick="preSetHours(3)">3 hours</button>
         </div>
         
         <div id="chronoExample">
@@ -107,76 +103,68 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
     <script src="easytimer.min.js"></script>
     <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
         var timer = new easytimer.Timer();
+        var timer2 = new easytimer.Timer();
         var valuesDict = {
             hours:0,
             minutes:0,
             seconds:0
 
         }
-        var egg_size = 0;
-        var egg_type = 0;
-
-        
-        function setHours(obj){
-            var hours = $(obj).val();
-            if(hours!=""){
-                valuesDict.hours = hours;
-            }
+        var totalDict = {
+            hours:0,
+            minutes:0,
+            seconds:0
+        }
+        var total_seconds = 0;
+        function getMinutesSeonds(time){
+            var minutes = Math.floor(time / 60);
+            var seconds = time - minutes * 60;
+            return [minutes,seconds]
         }
         function setMinutes(obj){
-            var minutes = $(obj).val();
-            if(minutes!=""){
-                valuesDict.minutes = minutes;
-            }
-        }
-        function setSeconds(obj){
-            var seconds = $(obj).val();
-            if(seconds!=""){
-                valuesDict.seconds = seconds;
-            }
-        }
-        function preSetHours(obj){
-            $("#hours").val(obj);
-            valuesDict.hours = obj;
-        }
-        function preSetMinutes(obj){
-            $("#minutes").val(obj);
             valuesDict.minutes = obj;
         }
-        function preSetSeconds(obj){
-            $("#seconds").val(obj);
+        function setSeconds(obj){
             valuesDict.seconds = obj;
         }
+        function milliSeconds(minutes){
+            return Number(minutes)*60000;
+        }
+        async function pomofocus(){
+            var break_minutes= Number($("#break-time").val());
+            var tasks = Number($("#tasks").val());
+            var pomofocus_minutes = 25;
+            if (tasks > 0){
 
-        
-        function setBoilingTimer(type,size){
-            var time = Number(type)+Number(size);
-            preSetMinutes(time);
-        }
-        function setEggType(obj){
-            if ($(obj).val()!==""){
-                egg_type = $(obj).val();
-            }
-            if (egg_size!="0" && egg_type!="0"){
-                setBoilingTimer(egg_type,egg_size);
-            }
-        }
-        function setEggSize(obj){
-            if ($(obj).val()!==""){
-                egg_size = $(obj).val();
-            }
-            if (egg_size!=="0" && egg_type!=="0"){
-                setBoilingTimer(egg_type,egg_size);
-            }
-        }
+                while(tasks!=0){
+                    setMinutes(pomofocus_minutes);
+                    $(".timer-class").html('<span class="text-primary">Work</span>');
+                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+                    await sleep(milliSeconds(pomofocus_minutes));
 
+                    if ($("#no-break-check").is(":checked") == true && tasks==1){
+                        //pass
+                    }
+                    else{
+                        setMinutes(break_minutes);
+                        $(".timer-class").html('<span class="text-success">Break</span>');
+                        timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+                        await sleep(milliSeconds(break_minutes));
+                    }
+                    tasks--;
+                }
+            }
+        }
         $('#chronoExample .startButton').click(function () {
-            console.log(valuesDict)
-            timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-
+            
+            pomofocus();
+            
             timer.addEventListener('secondTenthsUpdated', function (e) {
-                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds', 'secondTenths']));
             });
         });
         
@@ -203,6 +191,7 @@
         timer.addEventListener('reset', function (e) {
             $('#chronoExample .values').html(timer.getTimeValues().toString());
         });
+
     </script>
   </body>
 </html>

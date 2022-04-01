@@ -12,6 +12,28 @@
     <title>Timers</title>
   </head>
   <body>
+      <style>
+
+        #style-1::-webkit-scrollbar-track
+        {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            background-color: #F5F5F5;
+        }
+        
+        #style-1::-webkit-scrollbar
+        {
+            width: 8px;
+            background-color: #F5F5F5;
+        }
+        
+        #style-1::-webkit-scrollbar-thumb
+        {
+            border-radius: 10px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            background-color: #555;
+        }
+      </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><b>Timers</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,57 +66,49 @@
             </ul>
         </div>
     </nav>
-
-    <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
-        <p class="timer-class"></p>
-        <div class="d-flex flex-row justify-content-center align-items-center">
-            <div class="m-2 text-center">
-                <h2 class="p-3"><b>Pomofocus Timer</b></h2>
-                <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:25:0</div>
-            </div>
-        </div>
-        <h3 class="p-2"><b>Set Time</b></h3>
-        <div class="d-flex flex-row justify-content-center align-items-center my-2 mx-3">
-            <div class="form-group mx-2 text-center">
-                <label for="break-time" class="font-weight-bold">Break Time</label>
-                <select id="break-time" class="form-control">
-                  <option value="5" selected>5 minutes</option>
-                  <option value="10">10 minutes</option>
-                  <option value="15">15 minutes</option>
-                  <option value="20">20 minutes</option>
-                </select>
-            </div>
-                <div class="form-check m-3">
-                  <input class="form-check-input" type="checkbox" id="no-break-check">
-                  <label class="form-check-label" for="gridCheck">
-                    Remove last break
-                  </label>
+    <div class="d-flex flex-column justify-content-center align-items-center p-2">
+        <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
+            <p class="timer-class"></p>
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                <div class="m-2 text-center">
+                    <h2 class="p-3"><b>Pomofocus Timer</b></h2>
+                    <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00</div>
                 </div>
-            <div class="form-group mx-2 text-center">
-                <label for="tasks" class="font-weight-bold">Scheduler</label>
-                <select id="tasks" class="form-control">
-                  <option value="1" selected>1 task</option>
-                  <option value="2">2 task</option>
-                  <option value="3">3 tasks</option>
-                  <option value="4">4 tasks</option>
-                  <option value="5">5 tasks</option>
-                  <option value="6">6 tasks</option>
-                  <option value="7">7 tasks</option>
-                  <option value="8">8 tasks</option>
-                  <option value="9">9 tasks</option>
-                  <option value="10">10 tasks</option>
-                </select>
+            </div>
+            <h3 class="p-2"><b>Set Time</b></h3>
+            <div class="d-flex flex-column align-items-center my-2 mx-3 ">
+                <div class="form-group mx-2 text-center">
+                    <label for="tasks" class="font-weight-bold">Select number of tasks</label>
+                    <select id="tasks" class="form-control" onchange="setTask();">
+                    <option value="1" selected>1 task</option>
+                    <option value="2">2 task</option>
+                    <option value="3">3 tasks</option>
+                    <option value="4">4 tasks</option>
+                    <option value="5">5 tasks</option>
+                    <option value="6">6 tasks</option>
+                    <option value="7">7 tasks</option>
+                    <option value="8">8 tasks</option>
+                    <option value="9">9 tasks</option>
+                    <option value="10">10 tasks</option>
+                    </select>
+                </div>
+                <div class="form-check my-1">
+                    <input class="form-check-input" type="checkbox" id="no-break-check">
+                    <label class="form-check-label" for="gridCheck">
+                      Remove last break
+                    </label>
+                </div>
+            </div>
+            <div class="d-flex align-items-center flex-column p-2 tasks-column mb-3" id="style-1" style="max-height:320px;overflow:auto;">
+            </div>
+            <div id="chronoExample">
+                <button class="btn btn-success startButton">Start</button>
+                <button class="btn btn-dark stopButton">Stop</button>
+                <button class="btn btn-danger resetButton">Reset</button>
             </div>
         </div>
         
-        <div id="chronoExample">
-            <button class="btn btn-success startButton">Start</button>
-            <button class="btn btn-warning pauseButton" >Pause</button>
-            <button class="btn btn-dark stopButton">Stop</button>
-            <button class="btn btn-danger resetButton">Reset</button>
-        </div>
     </div>
-
     
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -131,49 +145,99 @@
         function setSeconds(obj){
             valuesDict.seconds = obj;
         }
-        function milliSeconds(minutes){
-            return Number(minutes)*60000;
+        function milliSeconds(minutes,seconds){
+            return ((Number(minutes) * 60)+Number(seconds))*1000;
         }
-        async function pomofocus(){
-            var break_minutes= Number($("#break-time").val());
-            var tasks = Number($("#tasks").val());
-            var pomofocus_minutes = 25;
-            if (tasks > 0){
-
-                while(tasks!=0){
-                    setMinutes(pomofocus_minutes);
-                    $(".timer-class").html('<span class="text-primary">Work</span>');
-                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-                    await sleep(milliSeconds(pomofocus_minutes));
-
-                    if ($("#no-break-check").is(":checked") == true && tasks==1){
-                        //pass
-                    }
-                    else{
-                        setMinutes(break_minutes);
-                        $(".timer-class").html('<span class="text-success">Break</span>');
-                        timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-                        await sleep(milliSeconds(break_minutes));
-                    }
-                    tasks--;
-                }
+        function setTask(){
+            $('.tasks-column').empty();
+            var task_number = Number($("#tasks").val());
+            var i=1;
+            while (task_number+1!=i){
+                $('.tasks-column').append(
+                    `
+                    <div class="d-flex flex-column align-items-center task my-2">
+                        <div class="d-flex flex-row justify-content-between align-items-center bg-primary px-2 py-1 border rounded my-2">
+                            <h5 class="text-white pt-1 mr-5">Task ${i}</h5>
+                            <div class="d-flex justify-content-between">
+                                <input style="width:70px;font-size:1.25rem" class="form-control mx-1 task-minutes" name="task-minutes" id="task-${i}" type="number" max="60" value="25">
+                                <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 task-seconds" name="task-seconds" id="task-${i}" type="number" max="59" value="00">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between align-items-center bg-success px-2 py-1 border rounded my-2 break-${i}">
+                            <h5 class="text-white pt-1 mr-5">Break</h5>
+                            <div class="d-flex justify-content-between">
+                                <input style="width:70px;font-size:1.25rem" class="form-control mx-1 break-minutes" name="break-minutes" id="break-${i}" type="number" max="60" value="5">
+                                <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 break-seconds" name="break-seconds" id="break-${i}" type="number" max="59" value="00">
+                            </div>
+                        </div>
+                    </div>
+                    `
+                );
+                i++;
             }
         }
+        setTask();
+        var time_list = []
+        async function pomofocus(){
+            if ($("#no-break-check").is(":checked") == true){
+                $(".break-"+$("#tasks").val()).remove();
+            }
+            for (i=0; i<time_list.length; i++){
+                setMinutes(time_list[i]['task_minutes']);
+                setSeconds(time_list[i]['task_seconds']);
+                $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3">#${time_list[i]['index']} Work </div>`);
+                
+                timer.start({countdown: true, startValues: valuesDict});
+                await sleep(milliSeconds(time_list[i]['task_minutes'],time_list[i]['task_seconds']));
+                if ($("#no-break-check").is(":checked") == true && time_list[i]['index'] == $("#tasks").val()){
+                    //pass
+                }
+                else{
+                    if (time_list[i]['break_minutes'] > 0 || time_list[i]['break_seconds'] > 0){
+                        setMinutes(time_list[i]['break_minutes']);
+                        setSeconds(time_list[i]['break_seconds']);
+                        $(".timer-class").html(`<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3">#${time_list[i]['index']} Time for a break </div>`);
+                        timer.start({countdown: true, startValues: valuesDict});
+                        await sleep(milliSeconds(time_list[i]['break_minutes'],time_list[i]['break_seconds']));
+                    }   
+                }
+                             
+            }
+            $(".timer-class").text("");
+
+        }
+        var started = false;
         $('#chronoExample .startButton').click(function () {
+            if (started == false){
+                var count = 1;
+                $('.task').each(async function(i, obj) {
+                    var task_minutes = $(this).find(".task-minutes").val();
+                    var task_seconds = $(this).find(".task-seconds").val();
+                    var break_minutes = $(this).find(".break-minutes").val();
+                    var break_seconds = $(this).find(".break-seconds").val();
+                    time_list.push( {
+                        "task_minutes" : task_minutes,
+                        "task_seconds" : task_seconds,
+                        "break_minutes" : break_minutes,
+                        "break_seconds" : break_seconds,
+                        "index" : count
+                    });
+                    count ++;
+                });
+                pomofocus();
+                timer.addEventListener('secondTenthsUpdated', function (e) {
+                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));
+                });
+                started = false;
+            }
+            else{
+                timer.start();
+            }
             
-            pomofocus();
-            
-            timer.addEventListener('secondTenthsUpdated', function (e) {
-                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds', 'secondTenths']));
-            });
-        });
-        
-        $('#chronoExample .pauseButton').click(function () {
-            timer.pause();
         });
         
         $('#chronoExample .stopButton').click(function () {
-            timer.stop();
+            timer.pause();
         });
         
         $('#chronoExample .resetButton').click(function () {

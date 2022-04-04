@@ -12,6 +12,38 @@
     <title>Timers</title>
   </head>
   <body>
+  <style>
+       
+    .switch{
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 27px;
+        border-radius: 27px;
+        box-shadow: inset 0px 0px 0px 1px #bdc3c7;
+        cursor: pointer;
+        transition: all .3s;
+    }
+    .switch input{
+        display: none;
+    }
+    .switch input:checked + div{
+        left: calc(100% - 25px);
+    }
+    .switch div{
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        border-radius: 25px;
+        background-color: #2ecc71;
+        top: 1px;
+        left: 0px;
+        transition: all .4s;
+    }
+    
+  
+  </style>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><b>Timers</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +79,17 @@
 
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
         <h2 class="p-3"><b>Split Timer</b></h2>
-        <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:00:0</div>
-        <h3 class="p-2"><b>Set Time</b></h3>
-        <div class="d-flex flex-row justify-content-center my-2 mb-3">
+        <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:00:<span style="font-size:40px">0</span></div>
+        <div class="d-flex justify-content-center flex-row mb-3">
+            <h5 class="mx-3">Stopwatch split</h5>
+            <label class="switch">
+                <input type="checkbox" id="switch-checkbox" onchange="switchTimer();"/>
+                <div></div>
+            </label>
+            <h5 class="mx-3">Countdown split</h5>
+        </div>
+        <h3 class="p-2 set-time"><b>Set Time</b></h3>
+        <div class="d-flex flex-row justify-content-center my-2 mb-3 set-time">
             <div class="d-flex flex-column align-items-center mx-2">
                 <h5>Hours</h5>
                 <input class="input-group" type="number" id="hours" min="0" step="1" placeholder="00" onchange="setHours(this);"/>
@@ -65,6 +105,7 @@
         </div>
         
         
+        
         <div id="chronoExample">
             <button class="btn btn-success startButton">Start</button>
             <button class="btn btn-secondary startButton" onclick="lapRow();">Lap</button>
@@ -77,8 +118,8 @@
             <thead class="table-secondary">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Lap Time</th>
                 <th scope="col">Split Time</th>
+                <th scope="col">Difference</th>
               </tr>
             </thead>
             <tbody id="table-row">
@@ -96,6 +137,7 @@
     <script src="easytimer.min.js"></script>
     <script>
         var timer = new easytimer.Timer();
+        var countdown_val = true;
         var valuesDict = {
             hours:0,
             minutes:0,
@@ -122,10 +164,10 @@
         }
         $('#chronoExample .startButton').click(function () {
             console.log(valuesDict);
-            timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+            timer.start({countdown: countdown_val, startValues: valuesDict,precision: 'secondTenths'});
 
             timer.addEventListener('secondTenthsUpdated', function (e) {
-                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']) + ':<span style="font-size:40px">' + timer.getTimeValues().secondTenths) + '</span>';
             });
         });
         
@@ -155,6 +197,20 @@
         var counter = 1;
         var previous_lap = "00:00:00";
         var first_lap = true;
+        switchTimer();
+        function switchTimer(){
+            
+            //checked for countdown timer
+            if ($("#switch-checkbox").is(":checked") == true){
+                $(".set-time").addClass("d-flex");
+                countdown_val = true;
+            }
+            //unchecked for stopwatch timer
+            else{
+                $(".set-time").removeClass("d-flex").addClass("d-none");
+                countdown_val =  false;
+            }
+        }
 
         function lapDifference(previous_time,current_time) {
             var previous = previous_time.toString().split(":");
@@ -194,6 +250,15 @@
                 first_lap = false;
             }
         }
+    </script>
+    <script>
+        $('.switch input').on('change', function(){
+            var dad = $(this).parent();
+            if($(this).is(':checked'))
+              dad.addClass('switch-checked');
+            else
+              dad.removeClass('switch-checked');
+        });
     </script>
   </body>
 </html>

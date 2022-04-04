@@ -33,6 +33,62 @@
             -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
             background-color: #555;
         }
+        .switch3{
+            position: relative;
+            display: inline-block;
+            width: 80px;
+            height: 37px;
+            border-radius: 37px;
+            background-color: #f3f4f4;
+            cursor: pointer;
+            transition: all .3s;
+            overflow: hidden;
+            box-shadow: 0px 0px 2px rgba(0,0,0, .3);
+          }
+          .switch3 input{
+            display: none;
+          }
+          .switch3 input:checked + div{
+            left: calc(80px - 32px);
+            box-shadow: 0px 0px 0px white;
+          }
+          .switch3 div{
+            position: absolute;
+            width: 27px;
+            height: 27px;
+            border-radius: 27px;
+            background-color: white;
+            top: 5px;
+            left: 5px;
+            box-shadow: 0px 0px 1px rgb(150,150,150);
+            transition: all .3s;
+          }
+          .switch3 div:before, .switch3 div:after{
+            position: absolute;
+            content: 'ON';
+            width: calc(80px - 40px);
+            height: 37px;
+            line-height: 37px;
+            font-family: 'Varela Round';
+            font-size: 14px;
+            font-weight: bold;
+            top: -5px;
+          }
+          .switch3 div:before{
+            content: 'OFF';
+            color: rgb(120,120,120);
+            left: 100%;
+          }
+          .switch3 div:after{
+            content: 'ON';
+            right: 100%;
+            color: white;
+          }
+          
+          .switch3-checked{
+            background-color : #e74c3c;
+            box-shadow: none;
+          }
       </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><b>Timers</b></a>
@@ -58,7 +114,7 @@
                     <a class="nav-link" href="eggtimer.html">EggTimer</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="pomofocus.html">pomofocusTimer</a>
+                    <a class="nav-link" href="tabata.html">TabataTimer</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="pomofocustimer.html">PomofocusTimer</a>
@@ -92,10 +148,11 @@
                     <option value="10">10 tasks</option>
                     </select>
                 </div>
-                <div class="form-check my-1">
-                    <input class="form-check-input" type="checkbox" id="no-break-check">
-                    <label class="form-check-label" for="gridCheck">
-                      Remove last break
+                <div class="form-check my-1 align-items-center d-flex flex-column">
+                    <h5>Remove last break</h5>
+                    <label class="switch3" >
+                        <input type="checkbox" id="no-break-check"/>
+                        <div></div>
                     </label>
                 </div>
             </div>
@@ -256,6 +313,15 @@
             $('#chronoExample .values').html(timer.getTimeValues().toString());
         });
 
+    </script>
+    <script>
+        $('.switch3 input').on('change', function(){
+            var dad = $(this).parent();
+            if($(this).is(':checked'))
+              dad.addClass('switch3-checked');
+            else
+              dad.removeClass('switch3-checked');
+        });
     </script>
   </body>
 </html>

@@ -176,7 +176,7 @@
             if (timer_btn == 0){
                 timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
                 timer.addEventListener('secondTenthsUpdated', function (e) {
-                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']) + ':<span style="font-size:40px">' + timer.getTimeValues().secondTenths) + '</span>';
                 });
                 timer_btn = 1; //timer has started
                 $('#timer-btn').removeClass("btn-success").addClass("btn-dark");

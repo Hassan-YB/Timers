@@ -12,6 +12,77 @@
     <title>Timers</title>
   </head>
   <body>
+    <style>
+        .input-group {
+            border-radius:10px;
+            background-color:#f3f4f4;
+        }
+        .switch3{
+            position: relative;
+            display: inline-block;
+            width: 80px;
+            height: 37px;
+            border-radius: 37px;
+            background-color: #f3f4f4;
+            cursor: pointer;
+            transition: all .3s;
+            overflow: hidden;
+            box-shadow: 0px 0px 2px rgba(0,0,0, .3);
+          }
+          .switch3 input{
+            display: none;
+          }
+          .switch3 input:checked + div{
+            left: calc(80px - 32px);
+            box-shadow: 0px 0px 0px white;
+          }
+          .switch3 div{
+            position: absolute;
+            width: 27px;
+            height: 27px;
+            border-radius: 27px;
+            background-color: white;
+            top: 5px;
+            left: 5px;
+            box-shadow: 0px 0px 1px rgb(150,150,150);
+            transition: all .3s;
+          }
+          .switch3 div:before, .switch3 div:after{
+            position: absolute;
+            content: 'ON';
+            width: calc(80px - 40px);
+            height: 37px;
+            line-height: 37px;
+            font-family: 'Varela Round';
+            font-size: 14px;
+            font-weight: bold;
+            top: -5px;
+          }
+          .switch3 div:before{
+            content: 'OFF';
+            color: rgb(120,120,120);
+            left: 100%;
+          }
+          .switch3 div:after{
+            content: 'ON';
+            right: 100%;
+            color: white;
+          }
+          
+          .switch3-checked{
+            background-color : #e74c3c;
+            box-shadow: none;
+          }
+          .remaining-time{
+            width: 170px;
+            height: 65px;
+            border: 1px solid #dee2e6!important;
+            padding: 20px 10px;
+            font-size: 56px;
+            color: black;
+            text-align: center;
+          }
+    </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><b>Timers</b></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,34 +115,36 @@
             </ul>
         </div>
     </nav>
-
+    
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
         <p class="timer-class"></p>
-        <div class="d-flex flex-row justify-content-center align-items-end">
+        <div class="d-flex flex-column justify-content-center align-items-end">
             <div class="m-2 text-center">
-                <h2 class="p-3"><b>Pomofocus Timer</b></h2>
-                <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:0</div>
-            </div>
-            <div class="m-2 text-center">
-                <h2 class="p-3"><b>Total Time</b></h2>
-                <div class="total-time my-3 p-3 border rounded" style="font-size:56px;">00:00:0</div>
+                <h3 id="main-timer"><b>Pomofocus Timer</b></h3>
+                <div class="values my-1 px-3 py-1 border" style="font-size:56px;border-radius:10px;">00:00</div>
             </div>
         </div>
-        <h3 class="p-2"><b>Set Time</b></h3>
-        <div class="d-flex flex-row justify-content-center my-2 mb-3">
-            <div class="d-flex flex-column align-items-center mx-2">
-                <h5>Intervals</h5>
-                <input class="input-group" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
-            </div>
-            <div class="d-flex flex-column align-items-center mx-2">
-                <h5>Sets</h5>
-                <input class="input-group" type="number" id="sets" min="0" max="20" step="1" value="1"/>
+        <div class="d-flex flex-row justify-content-between">
+            <div class="d-flex flex-row align-self-center">
+                <div class="d-flex flex-column align-items-center mx-2">
+                    <h6>Intervals</h6>
+                    <input class="input-group" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
+                </div>
+                <div class="d-flex flex-column align-items-center mx-2">
+                    <h6>Sets</h6>
+                    <input class="input-group" type="number" id="sets" min="0" max="20" step="1" value="1"/>
+                </div>
+                <div class="d-flex flex-column align-items-center mx-2">
+                    <h6 id="remaining-time">Remaining Time</h6>
+                    <div class="total-time d-flex align-items-center justify-content-center border remaining-time" style="border-radius:10px">00:00</div>
+                </div>
             </div>
         </div>
+                
         <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2">
             <div class="d-flex flex-column align-items-center m-2">
                 <h3 class="p-2 text-info"><b>Work Time</b></h3>
-                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2 border-right">
+                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-3 border-right">
                     <div class="d-flex flex-column align-items-center mx-2">
                         <h6>Minutes</h6>
                         <input class="input-group" style="width:172px;" type="number" id="work-minutes" min="0" max="60" step="1" value="00"/>
@@ -82,9 +155,9 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-column align-items-center m-2">
+            <div class="d-flex flex-column align-items-center my-2">
                 <h3 class="p-2 text-success"><b>Rest Time</b></h3>
-                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2">
+                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-3">
                     <div class="d-flex flex-column align-items-center mx-2">
                         <h6>Minutes</h6>
                         <input class="input-group" style="width:172px;" type="number" id="rest-minutes" min="0" max="60" step="1" value="00" />
@@ -96,39 +169,42 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2">
-            <div class="d-flex flex-column align-items-center m-2">
-                <h3 class="p-2 text-info"><b>Warm Up Time</b></h3>
-                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2 border-right">
-                    <div class="d-flex flex-column align-items-center mx-2">
-                        <h6>Minutes</h6>
-                        <input class="input-group" style="width:172px;" type="number" id="warm-up-minutes" min="0" max="60" step="1" value="1"/>
-                    </div>
-                    <div class="d-flex flex-column align-items-center mx-2">
-                        <h6>Seconds</h6>
-                        <input class="input-group" style="width:172px;" type="number" id="warm-up-seconds" min="0" max="60" step="1" value="00"/>
-                    </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="form-check my-1 align-items-center d-flex flex-column">
+                <h5>Warm Up</h5>
+                <label class="switch3" >
+                    <input type="checkbox" id="warm-up-check" onchange="checkboxField();"/>
+                    <div></div>
+                </label>
+            </div>
+            <div class="form-check my-1 align-items-center d-flex flex-column">
+                <h5>Cool Down</h5>
+                <label class="switch3" >
+                    <input type="checkbox" id="cool-down-check" onchange="checkboxField();"/>
+                    <div></div>
+                </label>
+            </div>
+        </div>
+        <div class="d-flex flex-column align-items-stretch task my-2" style="width:450px">
+            <div class="d-none flex-row justify-content-between align-items-center bg-primary px-2 py-1 border rounded my-2" id="warm-up-div">
+                <h5 class="text-white pt-1 mr-5">Warm Up Time</h5>
+                <div class="d-flex justify-content-between">
+                    <input style="width:70px;font-size:1.25rem" class="form-control mx-1 task-minutes" name="task-minutes" id="warm-up-minutes" type="number" max="59" value="00">
+                    <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 task-seconds" name="task-seconds" id="warm-up-seconds" type="number" max="59" value="00">
                 </div>
             </div>
-            <div class="d-flex flex-column align-items-center m-2">
-                <h3 class="p-2 text-success"><b>Cool Down Time</b></h3>
-                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2">
-                    <div class="d-flex flex-column align-items-center mx-2">
-                        <h6>Minutes</h6>
-                        <input class="input-group" style="width:172px;" type="number" id="cool-down-minutes" min="0" max="60" step="1" value="1"/>
-                    </div>
-                    <div class="d-flex flex-column align-items-center mx-2">
-                        <h6>Seconds</h6>
-                        <input class="input-group" style="width:172px;" type="number" id="cool-down-seconds" min="0" max="60" step="1" value="00"/>
-                    </div>
+            <div class="d-none flex-row justify-content-between align-items-center bg-success px-2 py-1 border rounded my-2" id="cool-down-div">
+                <h5 class="text-white pt-1 mr-5">Cool Down Time</h5>
+                <div class="d-flex justify-content-between">
+                    <input style="width:70px;font-size:1.25rem" class="form-control mx-1 break-minutes" name="break-minutes" id="cool-down-minutes" type="number" max="60" value="00">
+                    <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 break-seconds" name="break-seconds" id="cool-down-seconds" type="number" max="59" value="00">
                 </div>
             </div>
         </div>
+
         
         <div id="chronoExample">
-            <button class="btn btn-success startButton">Start</button>
-            <button class="btn btn-warning pauseButton" >Pause</button>
-            <button class="btn btn-dark stopButton">Stop</button>
+            <button class="btn btn-success startButton" id="timer-btn">Start</button>
             <button class="btn btn-danger resetButton">Reset</button>
         </div>
     </div>
@@ -172,7 +248,25 @@
         function milliSeconds(minutes,seconds){
             return ((Number(minutes) * 60)+Number(seconds))*1000;
         }
+
+        function checkboxField(){
+            if ($("#warm-up-check").is(":checked") == true){
+                $("#warm-up-div").removeClass("d-none").addClass("d-flex");
+            }
+            else{
+                $("#warm-up-div").removeClass("d-flex").addClass("d-none");
+            }
+
+            if ($("#cool-down-check").is(":checked") == true){
+                $("#cool-down-div").removeClass("d-none").addClass("d-flex");
+            }
+            else{
+                $("#cool-down-div").removeClass("d-flex").addClass("d-none");
+            }
+
+        }
         async function tabata(){
+
             var intervals = Number($("#intervals").val());
             var sets = Number($("#sets").val());
             var work_minutes = Number($("#work-minutes").val());
@@ -183,7 +277,28 @@
             var warm_up_seconds = Number($("#warm-up-seconds").val());
             var cool_down_minutes = Number($("#cool-down-minutes").val());
             var cool_down_seconds = Number($("#cool-down-seconds").val());
-            total_seconds = Number(sets) *  (Number(warm_up_minutes)*60+Number(warm_up_seconds) +(Number(intervals) * ( (Number(work_minutes)*60) + Number(work_seconds) + (Number(rest_minutes)*60) + Number(rest_seconds) )) + Number(cool_down_minutes)*60+Number(cool_down_seconds));
+
+            if ($("#cool-down-check").is(":checked") == false){
+                total_seconds = Number(warm_up_minutes)*60+Number(warm_up_seconds) + ( Number(sets) *  ( ( Number(intervals) * ( (Number(work_minutes)*60) + Number(work_seconds) + (Number(rest_minutes)*60) + Number(rest_seconds) ) ) )) + Number(cool_down_minutes)*60+Number(cool_down_seconds);
+            }
+            else{
+                total_seconds = 0;
+                total_seconds = (Number(warm_up_minutes)*60) + Number(warm_up_seconds);
+
+                for(y=sets;y>0;y--){
+
+                    for(i=intervals;i>0;i--){
+                        total_seconds = total_seconds + (Number(work_minutes)*60) + Number(work_seconds);
+                        if ( $("#cool-down-check").is(":checked") == true && i==1){
+                            //pass
+                        }
+                        else if(rest_minutes > 0 || rest_seconds > 0){
+                            total_seconds = total_seconds + (Number(rest_minutes)*60) + Number(rest_seconds);
+                        }
+                    }
+                }
+                total_seconds = total_seconds + (Number(rest_minutes)*60) +  Number(rest_seconds);
+            }
             var total_time = getMinutesSeonds(total_seconds);
             console.log("Minutes",total_time[0]);
             console.log("Seonds",total_time[1]);
@@ -191,77 +306,117 @@
             totalDict.seconds = total_time[1];
             console.log(totalDict);
 
-            if (sets!="0"){
-                timer2.start({countdown: true, startValues: totalDict,precision: 'secondTenths'});
+            if (sets > 0){
+
+                timer2.start({countdown: true, startValues: totalDict});
                 timer2.addEventListener('secondTenthsUpdated', function (e) {
-                    $('#secondTenthsExample .total-time').html(timer2.getTimeValues().toString(['minutes', 'seconds', 'secondTenths']));
+                    $('#secondTenthsExample .total-time').html(timer2.getTimeValues().toString(['minutes', 'seconds']));
                 });
-                while(sets!=0){
-                    if (warm_up_minutes > 0 || warm_up_seconds > 0){
-                        setMinutes(warm_up_minutes);
-                        setSeconds(warm_up_seconds);
-                        $(".timer-class").html('<span class="text-success">Warm up</span>');
-                        timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-                        await sleep(milliSeconds(warm_up_minutes,warm_up_seconds));
-                        if (intervals > 0){
-                            for (i=0;i<intervals;i++){
-                                if (work_minutes > 0 || work_seconds > 0){
-                                    setMinutes(work_minutes);
-                                    setSeconds(work_seconds);
-                                    $(".timer-class").html('<span class="text-primary">Work</span>');
-                                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-                                    await sleep(milliSeconds(work_minutes,work_seconds));
-                                }
-                                if (rest_minutes > 0 || rest_seconds > 0){
-                                    setMinutes(rest_minutes);
-                                    setSeconds(rest_seconds);
-                                    $(".timer-class").html('<span class="text-success">Rest</span>');
-                                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-                                    await sleep(milliSeconds(rest_minutes,rest_seconds));
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        if (intervals!="0"){
-                            for (i=0;i<intervals;i++){
-                                if (work_minutes > 0 || work_seconds > 0){
-                                    setMinutes(work_minutes);
-                                    setSeconds(work_seconds);
-                                    $(".timer-class").html('<span class="text-primary">Work</span>');
-                                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-                                    await sleep(milliSeconds(work_minutes,work_seconds));
-                                }
-                                if (rest_minutes > 0 || rest_seconds > 0){
-                                    setMinutes(rest_minutes);
-                                    setSeconds(rest_seconds);
-                                    $(".timer-class").html('<span class="text-success">Rest</span>');
-                                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-                                    await sleep(milliSeconds(rest_minutes,rest_seconds));
-                                }
-                            }
-                        }
-                    }
-                    if (cool_down_minutes > 0 || cool_down_seconds > 0){
-                        setMinutes(cool_down_minutes);
-                        setSeconds(cool_down_seconds);
-                        $(".timer-class").html('<span class="text-warning">Cool down</span>');
-                        timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
-                        await sleep(milliSeconds(cool_down_minutes,cool_down_seconds));
-                    }
-                    sets--;
+                $("#main-timer").hide();
+                if (warm_up_minutes > 0 || warm_up_seconds > 0){
+                    setMinutes(warm_up_minutes);
+                    setSeconds(warm_up_seconds);
+                    $(".timer-class").html(`<div class="bg-warning d-flex rounded text-white justify-content-center py-1 px-3"># Warm up </div>`);
+                    $(".values").removeClass("text-dark").addClass("bg-warning text-white");
+                    timer.start({countdown: true, startValues: valuesDict});
+                    await sleep(milliSeconds(warm_up_minutes,warm_up_seconds));
                 }
+
+                for(y=sets;y>0;y--){
+                    $("#sets").val(y);
+                        if (intervals > 0){
+                            for(i=intervals;i>0;i--){
+                                $("#intervals").val(i);
+                                if (work_minutes > 0 || work_seconds > 0){
+                                    setMinutes(work_minutes);
+                                    setSeconds(work_seconds);
+                                    $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3"># Work </div>`);
+                                    $(".values").removeClass("bg-warning bg-success text-dark").addClass("bg-primary text-white");
+                                    timer.start({countdown: true, startValues: valuesDict});
+                                    await sleep(milliSeconds(work_minutes,work_seconds));
+                                }
+                                if ( $("#cool-down-check").is(":checked") == true && i==1){
+                                    //pass
+                                }
+                                else if(rest_minutes > 0 || rest_seconds > 0){
+                                    setMinutes(rest_minutes);
+                                    setSeconds(rest_seconds);
+                                    $(".timer-class").html(`<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3"># Time for a break </div>`);
+                                    $(".values").removeClass("bg-primary").addClass("bg-success");
+                                    timer.start({countdown: true, startValues: valuesDict});
+                                    await sleep(milliSeconds(rest_minutes,rest_seconds));
+                                }
+                            }
+                        }
+                    }
+                if (cool_down_minutes > 0 || cool_down_seconds > 0){
+                    setMinutes(cool_down_minutes);
+                    setSeconds(cool_down_seconds);
+                    $(".timer-class").html(`<div class="bg-info d-flex rounded text-white justify-content-center py-1 px-3"># Cool Down </div>`);
+                    $(".values").removeClass("bg-success").addClass("bg-info");
+                    timer.start({countdown: true, startValues: valuesDict});
+                    await sleep(milliSeconds(cool_down_minutes,cool_down_seconds));
+                }
+                $(".timer-class").html("");
+                $("#main-timer").show();
+                $(".values").removeClass("bg-primary bg-success bg-info text-white").addClass("text-dark");
+                    
             }
         }
+        var started = 0;
         $('#chronoExample .startButton').click(function () {
+            if (started == 0){
+                started = 1;
+                tabata();
+                $("#timer-btn").html('Stop');
+                $("#timer-btn").addClass("btn btn-dark");
+
+            }
+            else{
+                if(started == 1){
+                    $("#timer-btn").html('Continue');
+                    $("#timer-btn").removeClass('btn-dark').addClass("btn-warning");
+                    timer.pause();
+                    timer2.pause();
+                    started = 2;
+                }
+                else if (started ==2){
+                    $("#timer-btn").html('Stop');
+                    $("#timer-btn").removeClass('btn-warning').addClass("btn-dark");
+                    timer.start();
+                    timer2.start();
+                    started = 1;
+                }
+            }
             
-            tabata();
             
             timer.addEventListener('secondTenthsUpdated', function (e) {
-                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds', 'secondTenths']));
+                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));
             });
         });
         
+        function resetTimer(){
+            $("#work-minutes").val("00");
+            $("#work-seconds").val("00");
+            $("#rest-minutes").val("00");
+            $("#rest-seconds").val("00");
+            $("#warm-up-minutes").val("00");
+            $("#warm-up-seconds").val("00");
+            $("#cool-down-minutes").val("00");
+            $("#cool-down-seconds").val("00");
+            timer.stop();
+            timer2.stop();
+            timer = new easytimer.Timer();
+            timer2 = new easytimer.Timer();
+            $(".remaining-time , .values").html("00:00");
+            started = 0;
+            $("#timer-btn").removeClass('btn-warning btn-dark').addClass('btn-success');
+            $(".timer-class").html("");
+            $("#main-timer").show();
+            $(".values").removeClass("bg-primary bg-success bg-info text-white").addClass("text-dark");
+
+        }
+
         $('#chronoExample .pauseButton').click(function () {
             timer.pause();
             timer2.pause();
@@ -273,8 +428,7 @@
         });
         
         $('#chronoExample .resetButton').click(function () {
-            timer.reset();
-            timer2.reset();
+            resetTimer();
         });
         
         timer.addEventListener('secondsUpdated', function (e) {
@@ -289,6 +443,16 @@
             $('#chronoExample .values').html(timer.getTimeValues().toString());
         });
 
+    </script>
+
+    <script>
+        $('.switch3 input').on('change', function(){
+            var dad = $(this).parent();
+            if($(this).is(':checked'))
+              dad.addClass('switch3-checked');
+            else
+              dad.removeClass('switch3-checked');
+        });
     </script>
   </body>
 </html>

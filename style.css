@@ -23,4 +23,9 @@
     font-size: 56px;
     color: black;
     text-align: center;
+    border-radius:10px;
+    background-color:#f3f4f4;
+}
+body{
+    font-family: Arial, Helvetica, sans-serif !important;
 }

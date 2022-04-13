@@ -91,6 +91,9 @@
             background-color : #e74c3c;
             box-shadow: none;
           }
+          .cursor-pointer{
+              cursor:pointer;
+          }
       </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand " href="#"><i class="fa-regular fa-hourglass"></i> <b> Timers</b></a>
@@ -161,9 +164,8 @@
             <div class="d-flex align-items-center flex-column p-2 tasks-column mb-3" id="style-1" style="max-height:320px;overflow:auto;">
             </div>
             <div id="chronoExample">
-                <button class="btn btn-success startButton">Start</button>
-                <button class="btn btn-dark stopButton">Stop</button>
-                <button class="btn btn-danger resetButton">Reset</button>
+                <button class="btn btn-success startButton" id="timer-btn">Start</button>
+                <button class="btn btn-danger" onclick="resetTimer();">Reset</button>
             </div>
         </div>
         
@@ -180,33 +182,37 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
         var timer = new easytimer.Timer();
-        var timer2 = new easytimer.Timer();
         var valuesDict = {
             hours:0,
             minutes:0,
             seconds:0
 
         }
-        var totalDict = {
-            hours:0,
-            minutes:0,
-            seconds:0
-        }
         var total_seconds = 0;
+
+
         function getMinutesSeonds(time){
             var minutes = Math.floor(time / 60);
             var seconds = time - minutes * 60;
             return [minutes,seconds]
         }
+
+
         function setMinutes(obj){
             valuesDict.minutes = obj;
         }
+
+
         function setSeconds(obj){
             valuesDict.seconds = obj;
         }
+
+
         function milliSeconds(minutes,seconds){
             return ((Number(minutes) * 60)+Number(seconds))*1000;
         }
+
+
         function setTask(){
             $('.tasks-column').empty();
             var task_number = Number($("#tasks").val());
@@ -215,18 +221,18 @@
                 $('.tasks-column').append(
                     `
                     <div class="d-flex flex-column align-items-center task my-2">
-                        <div class="d-flex flex-row justify-content-between align-items-center bg-primary px-2 py-1 border rounded my-2">
-                            <h5 class="text-white pt-1 mr-5">Task ${i}</h5>
+                        <div class="d-flex flex-row justify-content-between align-items-center bg-primary px-2 py-1 border rounded my-2 cursor-pointer">
+                            <h5 class="text-white pt-1 mr-5 cursor-pointer" data-task='${i}' onclick="currentTask(this);">Task ${i}</h5>
                             <div class="d-flex justify-content-between">
-                                <input style="width:70px;font-size:1.25rem" class="form-control mx-1 task-minutes" name="task-minutes" id="task-${i}" type="number" max="60" value="25">
-                                <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 task-seconds" name="task-seconds" id="task-${i}" type="number" max="59" value="00">
+                                <input style="width:70px;font-size:1.25rem" class="form-control mx-1 task-minutes" name="task-minutes" type="number" max="60" value="25">
+                                <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 task-seconds" name="task-seconds"  type="number" max="59" value="00">
                             </div>
                         </div>
-                        <div class="d-flex flex-row justify-content-between align-items-center bg-success px-2 py-1 border rounded my-2 break-${i}">
-                            <h5 class="text-white pt-1 mr-5">Break</h5>
+                        <div class="d-flex flex-row justify-content-between align-items-center bg-success px-2 py-1 border rounded my-2 cursor-pointer break-${i}" >
+                            <h5 class="text-white pt-1 mr-5 cursor-pointer" data-break='${i}' onclick="currentBreak(this);">Break</h5>
                             <div class="d-flex justify-content-between">
-                                <input style="width:70px;font-size:1.25rem" class="form-control mx-1 break-minutes" name="break-minutes" id="break-${i}" type="number" max="60" value="5">
-                                <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 break-seconds" name="break-seconds" id="break-${i}" type="number" max="59" value="00">
+                                <input style="width:70px;font-size:1.25rem" class="form-control mx-1 break-minutes" name="break-minutes" type="number" max="60" value="5">
+                                <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 break-seconds" name="break-seconds" type="number" max="59" value="00">
                             </div>
                         </div>
                     </div>
@@ -236,28 +242,106 @@
             }
         }
         setTask();
+        
         var time_list = []
+        var i = 0; //starting_index
+        var currently_break = false;
+
+        function currentTask(obj){
+            console.log("task clicked");
+            i = Number($(obj).data('task'))-1;
+            timer.stop();
+            timer_btn = 1;
+            count = 1;
+            time_list = [];
+            paused = false;
+            currently_break = false;
+            updateTimerDict();
+            pomofocus();
+            
+            $('#timer-btn').removeClass("btn-warning btn-success").addClass("btn btn-dark");
+            $("#timer-btn").html("Stop");
+        }
+
+
+        function currentBreak(obj){
+            console.log("break clicked");
+            i = Number($(obj).data('break'))-1;
+            timer.stop();
+            timer_btn = 1;
+            count = 1;
+            time_list = [];
+            paused = false;
+            currently_break = true;
+            updateTimerDict();
+            pomofocus();
+            
+            $('#timer-btn').removeClass("btn-warning btn-success").addClass("btn btn-dark");
+            $("#timer-btn").html("Stop");
+        }
+
+
+        function displayTimerValues(mins,secs){
+            var display_mins = ""
+            var display_secs = ""
+
+            if ( (mins.toString()).length === 1 ){
+                display_mins = "0" + mins.toString();
+            }
+            else if ( (mins.toString()).length === 0 ){
+                display_mins = "00";
+            }
+            else{
+                display_mins = mins;
+            }
+            if ( (secs.toString()).length === 1 ){
+                display_secs = "0" + secs.toString();
+            }
+            else if ( (secs.toString()).length === 0 ){
+                display_secs = "00";
+            }
+            else{
+                display_secs = secs
+            }
+            return [display_mins,display_secs]
+        }
+
+
         async function pomofocus(){
             if ($("#no-break-check").is(":checked") == true){
                 $(".break-"+$("#tasks").val()).remove();
             }
-            for (i=0; i<time_list.length; i++){
-                setMinutes(time_list[i]['task_minutes']);
-                setSeconds(time_list[i]['task_seconds']);
-                $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3">#${time_list[i]['index']} Work </div>`);
+            var time_list_length = time_list.length;
+            for (i; i < time_list[ (Number(time_list_length) - 1)].index; i++){
+                if (currently_break == false){
+                    setMinutes(time_list[i]['task_minutes']);
+                    setSeconds(time_list[i]['task_seconds']);
+                    var task_min_and_sec_list = displayTimerValues(time_list[i]['task_minutes'],time_list[i]['task_seconds']);
+                    $(".values").html(task_min_and_sec_list[0] +":"+ task_min_and_sec_list[1]);
+                    $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3">#${time_list[i]['index']} Work </div>`);
+                    
+                    timer.start({countdown: true, startValues: valuesDict});
+                    await sleep(milliSeconds(time_list[i]['task_minutes'],time_list[i]['task_seconds']));
+                }
+                else{
+                    //pass
+                }
                 
-                timer.start({countdown: true, startValues: valuesDict});
-                await sleep(milliSeconds(time_list[i]['task_minutes'],time_list[i]['task_seconds']));
                 if ($("#no-break-check").is(":checked") == true && time_list[i]['index'] == $("#tasks").val()){
                     //pass
                 }
                 else{
                     if (time_list[i]['break_minutes'] > 0 || time_list[i]['break_seconds'] > 0){
+                        
                         setMinutes(time_list[i]['break_minutes']);
                         setSeconds(time_list[i]['break_seconds']);
+                        var break_min_and_sec_list = displayTimerValues(time_list[i]['break_minutes'],time_list[i]['break_seconds']);
+                        $(".values").html(break_min_and_sec_list[0] +":"+ break_min_and_sec_list[1]);
                         $(".timer-class").html(`<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3">#${time_list[i]['index']} Time for a break </div>`);
                         timer.start({countdown: true, startValues: valuesDict});
                         await sleep(milliSeconds(time_list[i]['break_minutes'],time_list[i]['break_seconds']));
+                        currently_break == false;
+                        
                     }   
                 }
                              
@@ -265,38 +349,69 @@
             $(".timer-class").text("");
 
         }
+
+
         var started = false;
-        $('#chronoExample .startButton').click(function () {
-            if (started == false){
-                var count = 1;
-                $('.task').each(async function(i, obj) {
-                    var task_minutes = $(this).find(".task-minutes").val();
-                    var task_seconds = $(this).find(".task-seconds").val();
-                    var break_minutes = $(this).find(".break-minutes").val();
-                    var break_seconds = $(this).find(".break-seconds").val();
-                    time_list.push( {
-                        "task_minutes" : task_minutes,
-                        "task_seconds" : task_seconds,
-                        "break_minutes" : break_minutes,
-                        "break_seconds" : break_seconds,
-                        "index" : count
-                    });
-                    count ++;
+        var count = 1;
+
+        function updateTimerDict(){
+            $('.task').each(async function(i, obj) {
+                var task_minutes = $(this).find(".task-minutes").val();
+                var task_seconds = $(this).find(".task-seconds").val();
+                var break_minutes = $(this).find(".break-minutes").val();
+                var break_seconds = $(this).find(".break-seconds").val();
+                time_list.push( {
+                    "task_minutes" : task_minutes,
+                    "task_seconds" : task_seconds,
+                    "break_minutes" : break_minutes,
+                    "break_seconds" : break_seconds,
+                    "index" : count
                 });
+                count ++;
+            });
+        }
+        var timer_btn = 0;
+        var paused = false;
+        $('#chronoExample .startButton').click(function () {
+
+            if (timer_btn == 0){
+                updateTimerDict();
                 pomofocus();
                 timer.addEventListener('secondTenthsUpdated', function (e) {
                     $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));
                 });
-                started = false;
+
+                timer_btn = 1; //timer has started
+                $('#timer-btn').removeClass("btn-success").addClass("btn-dark");
+                $("#timer-btn").html("Stop");
             }
             else{
-                timer.start();
+                if (timer.getTimeValues().minutes > 0 || timer.getTimeValues().seconds > 0 ){
+                    if (paused == false){
+                        timer.pause();
+                        $('#timer-btn').removeClass("btn-dark").addClass("btn-warning");
+                        $("#timer-btn").html("Continue");
+                        paused = true;
+                    }
+                    else{
+                        timer.start();
+                        $('#timer-btn').removeClass("btn-warning").addClass("btn-dark");
+                        $("#timer-btn").html("Stop");
+                        paused = false;
+                    }
+                    
+                    
+                }
             }
             
         });
         
-        $('#chronoExample .stopButton').click(function () {
+        $('#chronoExample .pauseButton').click(function () {
             timer.pause();
+        });
+        
+        $('#chronoExample .stopButton').click(function () {
+            timer.stop();
         });
         
         $('#chronoExample .resetButton').click(function () {
@@ -314,6 +429,35 @@
         timer.addEventListener('reset', function (e) {
             $('#chronoExample .values').html(timer.getTimeValues().toString());
         });
+
+        function resetTimer(){
+            var id = window.setTimeout(function() {}, 0);
+
+            while (id--) {
+                window.clearTimeout(id); // will do nothing if no timeout with id is present
+            }
+            timer.stop();
+            console.log(timer.isRunning());
+
+            timer_btn = 0;
+            count = 1;
+            updateTimerDict();
+            paused = false;
+            time_list_length = time_list.length;
+            for (i; i < time_list[ (Number(time_list_length) - 1)].index; i++){
+                var task_min_and_sec_list = displayTimerValues(time_list[i]['task_minutes'],time_list[i]['task_seconds']);
+                $(".values").html(task_min_and_sec_list[0] +":"+ task_min_and_sec_list[1]);
+                break;
+            }
+            $('#timer-btn').removeClass("btn-warning btn-dark").addClass("btn btn-success");
+            $("#timer-btn").html("Start");
+            $(".timer-class").html("");
+            
+            
+        }
+
+        
+
 
     </script>
     <script>

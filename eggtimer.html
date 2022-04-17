@@ -138,10 +138,16 @@
         }
         function preSetHours(obj){
             $("#hours").val(obj);
+            $("#minutes").val("00");
+            valuesDict.minutes = 0;
+            resetTimer();
             valuesDict.hours = obj;
         }
         function preSetMinutes(obj){
             $("#minutes").val(obj);
+            $("#hours").val("00");
+            valuesDict.hours = 0;
+            resetTimer();
             valuesDict.minutes = obj;
         }
         function preSetSeconds(obj){
@@ -149,11 +155,49 @@
             valuesDict.seconds = obj;
         }
 
+        function displayTimerValues(hrs, mins, secs){
+            var display_mins = ""
+            var display_secs = ""
+            var display_hrs = ""
+
+            if ( (hrs.toString()).length === 1 ){
+                display_hrs = "0" + hrs.toString();
+            }
+            else if ( (hrs.toString()).length === 0 ){
+                display_hrs = "00";
+            }
+            else{
+                display_hrs = hrs;
+            }
+
+            if ( (mins.toString()).length === 1 ){
+                display_mins = "0" + mins.toString();
+            }
+            else if ( (mins.toString()).length === 0 ){
+                display_mins = "00";
+            }
+            else{
+                display_mins = mins;
+            }
+
+            if ( (secs.toString()).length === 1 ){
+                display_secs = "0" + secs.toString();
+            }
+            else if ( (secs.toString()).length === 0 ){
+                display_secs = "00";
+            }
+            else{
+                display_secs = secs
+            }
+            return [display_hrs, display_mins, display_secs]
+        }
         
         function setBoilingTimer(type,size){
             var time = Number(type)+Number(size);
             preSetMinutes(time);
+            resetTimer();
         }
+
         function setEggType(obj){
             if ($(obj).val()!==""){
                 egg_type = $(obj).val();
@@ -162,6 +206,7 @@
                 setBoilingTimer(egg_type,egg_size);
             }
         }
+
         function setEggSize(obj){
             if ($(obj).val()!==""){
                 egg_size = $(obj).val();
@@ -213,11 +258,9 @@
         });
         
         function resetTimer(){
-            preSetHours('0');
-            preSetMinutes('5');
-            preSetSeconds('0');
+            var total_time = displayTimerValues($("#hours").val(), $("#minutes").val(), $("#seconds").val());
+            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] + ":0");
             timer.stop();
-            $('#secondTenthsExample .values').html("00:05:00:0");
             timer_btn = 0;
             paused = false;
             $('#timer-btn').removeClass().addClass("btn btn-success startButton");

@@ -430,13 +430,17 @@
         timer.addEventListener('reset', function (e) {
             $('#chronoExample .values').html(timer.getTimeValues().toString());
         });
-
-        function resetTimer(){
+        
+        function endTimeout(){
             var id = window.setTimeout(function() {}, 0);
 
             while (id--) {
                 window.clearTimeout(id); // will do nothing if no timeout with id is present
             }
+        }
+
+        function resetTimer(){
+            endTimeout();
             timer.stop();
 
             timer_btn = 0;

@@ -167,14 +167,28 @@
 
         $('#chronoExample .startButton').click(function () {
             if (timer_btn == 0){
-                timer.start({countdown: countdown_val, startValues: valuesDict,precision: 'secondTenths'});
-                timer.addEventListener('secondTenthsUpdated', function (e) {
-                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']) + ':<span style="font-size:40px">' + timer.getTimeValues().secondTenths) + '</span>';
-                });
+                if ($("#switch-checkbox").is(":checked") == true){
+                    if (valuesDict.minutes > 0 || valuesDict.seconds > 0 || valuesDict.hours > 0){
+                        timer.start({countdown: countdown_val, startValues: valuesDict,precision: 'secondTenths'});
+                        timer.addEventListener('secondTenthsUpdated', function (e) {
+                            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']) + ':<span style="font-size:40px">' + timer.getTimeValues().secondTenths) + '</span>';
+                        });
 
-                timer_btn = 1; //timer has started
-                $('#timer-btn').removeClass("btn-success").addClass("btn-dark");
-                $("#timer-btn").html("Stop");
+                        timer_btn = 1; //timer has started
+                        $('#timer-btn').removeClass("btn-success").addClass("btn-dark");
+                        $("#timer-btn").html("Stop");
+                    }                    
+                }
+                else if ($("#switch-checkbox").is(":checked") == false){
+                    timer.start({countdown: countdown_val ,precision: 'secondTenths'});
+                    timer.addEventListener('secondTenthsUpdated', function (e) {
+                        $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']) + ':<span style="font-size:40px">' + timer.getTimeValues().secondTenths) + '</span>';
+                    });
+
+                    timer_btn = 1; //timer has started
+                    $('#timer-btn').removeClass("btn-success").addClass("btn-dark");
+                    $("#timer-btn").html("Stop");
+                }
             }
             else{
                 if (timer.getTimeValues().minutes > 0 || timer.getTimeValues().seconds > 0 ){
@@ -233,6 +247,7 @@
                 valuesDict.seconds = 0;
                 countdown_val =  false;
             }
+            resetTimer();
         }
 
         function displayTimerValues(hrs, mins, secs, milli){
@@ -274,26 +289,58 @@
             
             return [display_hrs, display_mins, display_secs, display_milli]
         }
+        function msToTime(s) {
+
+            // Pad to 2 or 3 digits, default is 2
+            function pad(n, z) {
+              z = z || 2;
+              return ('00' + n).slice(-z);
+            }
+          
+            var ms = s % 1000;
+            s = (s - ms) / 1000;
+            var secs = s % 60;
+            s = (s - secs) / 60;
+            var mins = s % 60;
+            var hrs = (s - mins) / 60;
+          
+            return pad(hrs) + ':' + pad(mins) + ':' + pad(secs) + ':' + pad(ms, 3);
+        }
+        function getMilliSeconds(time){
+            const hours = Number(time.hours);
+            const minutes = Number(time.minutes);
+            const seconds = Number(time.seconds);
+            const milliseconds = Number(time.secondTenths);
+
+            return ((hours*60*60 + minutes*60 + seconds) * 1000) + milliseconds;
+        }
 
         function lapDifference(previous_time,current_time) {
-            var previous = previous_time.toString().split(":");
-            var current  = current_time.toString().split(":");
-            var hours_diff = (Number(current[0]) - Number(previous[0]));
-            var mins_diff = (Number(current[1]) - Number(previous[1]));
-            var secs_diff = (Number(current[2]) - Number(previous[2]));
-            var milli_diff = (Number(previous[3]) - Number(current[3]));
-            console.log(Number(current[3]), Number(previous[3]))
-            var display_time = displayTimerValues(Math.abs(hours_diff), Math.abs(mins_diff), Math.abs(secs_diff), Math.abs(milli_diff));
-            return display_time[0]+":"+display_time[1]+":"+display_time[2]+":"+display_time[3];
+            var s = current_time - previous_time;
+
+            // Pad to 2 or 3 digits, default is 2
+            function pad(n, z) {
+                z = z || 2;
+                return ('00' + n).slice(-z);
+            }
+
+            var ms = s % 1000;
+            s = (s - ms) / 1000;
+            var secs = s % 60;
+            s = (s - secs) / 60;
+            var mins = s % 60;
+            var hrs = (s - mins) / 60;
+
+            return pad(Math.abs(hrs)) + ':' + pad(Math.abs(mins)) + ':' + pad(Math.abs(secs)) + ':' + pad(Math.abs(ms), 1);
         }
 
         function lapRow(){
             if (first_lap == true){
-                previous_lap = timer.getTimeValues().hours + ":" + timer.getTimeValues().minutes + ":" + timer.getTimeValues().seconds + ":" + timer.getTimeValues().secondTenths;
+                previous_lap = getMilliSeconds(timer.getTimeValues()); 
                 first_lap = false;
             }
 
-            current_lap = timer.getTimeValues().hours + ":" + timer.getTimeValues().minutes + ":" + timer.getTimeValues().seconds + ":" + timer.getTimeValues().secondTenths;
+            current_lap = getMilliSeconds(timer.getTimeValues());
             $("#table-row").append(
                 `
                 <tr>
@@ -317,8 +364,9 @@
             }
             //unchecked for stopwatch timer
             else{
-                valuesDict.minutes = 0;
-                valuesDict.seconds = 0;
+                valuesDict.hours = $("#hours").val();
+                valuesDict.minutes = $("#minutes").val();
+                valuesDict.seconds = $("#seconds").val();
                 $("#secondTenthsExample .values").html("00:00:00:0");
             }
             
@@ -330,6 +378,9 @@
             $('#timer-btn').removeClass().addClass("btn btn-success startButton");
             $("#timer-btn").html("Start");
             counter = 1;
+            previous_lap = "00:00:00";
+            even_lap = true;
+            first_lap = true;
         }
         
         $('#chronoExample .resetButton').click(function () {

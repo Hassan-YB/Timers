@@ -207,7 +207,7 @@
         
         <div id="chronoExample">
             <button class="btn btn-success startButton" id="timer-btn">Start</button>
-            <button class="btn btn-danger resetButton">Reset</button>
+            <button class="btn btn-danger resetButton" id="reset-btn">Reset</button>
         </div>
     </div>
 
@@ -220,7 +220,14 @@
     <script src="js/easytimer.min.js"></script>
     <script>
         function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
+            return new Promise(function (resolve, reject) {
+                timer.addEventListener('stopped', function (e) {
+                    return resolve();
+                });
+                timer2.addEventListener('stopped', function (e) {
+                    return resolve();
+                });
+            });
         }
         var timer = new easytimer.Timer();
         var timer2 = new easytimer.Timer();
@@ -294,6 +301,8 @@
         }
 
         async function tabata(){
+            timer = new easytimer.Timer();
+            timer2 = new easytimer.Timer();
 
             var intervals = Number($("#intervals").val());
             var work_minutes = Number($("#work-minutes").val());
@@ -305,93 +314,97 @@
             var cool_down_minutes = Number($("#cool-down-minutes").val());
             var cool_down_seconds = Number($("#cool-down-seconds").val());
 
-
-            total_seconds = 0;
-            if ( $("#warm-up-check").is(":checked") == true){
-                total_seconds = (Number(warm_up_minutes)*60) + Number(warm_up_seconds);
-            }
-
-            for(i=1;i<=intervals;i++){
-                total_seconds = total_seconds + (Number(work_minutes)*60) + Number(work_seconds) + (Number(rest_minutes)*60) + Number(rest_seconds);
-            }
-
-            if ( $("#cool-down-check").is(":checked") == true){
-                total_seconds = total_seconds - ((Number(rest_minutes)*60) + Number(rest_seconds));
-                total_seconds = total_seconds + (Number(cool_down_minutes)*60) +  Number(cool_down_seconds);
-            }
-
-            
-            
-            var total_time = getMinutesSeconds(total_seconds);
-            totalDict.minutes = total_time[0];
-            totalDict.seconds = total_time[1];
-            
-            if (totalDict.minutes > 0 || totalDict.seconds > 0 ){
-                $("#timer-btn").html('Stop');
-                $("#timer-btn").addClass("btn btn-dark");
-            }
-
-
-            timer2.start({countdown: true, startValues: totalDict});
-            var total_time_min_and_sec_list = displayTimerValues(total_time[0],total_time[1]);
-            $(".total-time").html(total_time_min_and_sec_list[0] +":"+ total_time_min_and_sec_list[1])
-            timer2.addEventListener('secondTenthsUpdated', function (e) {
-                $('#secondTenthsExample .total-time').html(timer2.getTimeValues().toString(['minutes', 'seconds']));
-            });
-
-            $("#main-timer").hide();
-            if ($("#warm-up-check").is(":checked") == true){
-                if (warm_up_minutes > 0 || warm_up_seconds > 0){
-                    setMinutes(warm_up_minutes);
-                    setSeconds(warm_up_seconds);
-                    var warm_up_min_and_sec_list = displayTimerValues(warm_up_minutes,warm_up_seconds);
-                    $(".timer-class").html(`<div class="bg-warning d-flex rounded text-white justify-content-center py-1 px-3"># Warm up </div>`);
-                    $(".values").removeClass("text-dark").addClass("bg-warning text-white").html(warm_up_min_and_sec_list[0] +":"+ warm_up_min_and_sec_list[1]);
-                    timer.start({countdown: true, startValues: valuesDict});
-                    await sleep(milliSeconds(warm_up_minutes,warm_up_seconds));
+            try{
+                total_seconds = 0;
+                if ( $("#warm-up-check").is(":checked") == true){
+                    total_seconds = (Number(warm_up_minutes)*60) + Number(warm_up_seconds);
                 }
-            }
-            
 
-            if (intervals > 0){
                 for(i=1;i<=intervals;i++){
-                    if (work_minutes > 0 || work_seconds > 0 || rest_minutes > 0 || rest_seconds > 0){
-                        $(".current-interval").addClass('bg-light py-1 px-2 border-10').html(i+"/"+intervals);
+                    total_seconds = total_seconds + (Number(work_minutes)*60) + Number(work_seconds) + (Number(rest_minutes)*60) + Number(rest_seconds);
+                }
+
+                if ( $("#cool-down-check").is(":checked") == true){
+                    total_seconds = total_seconds - ((Number(rest_minutes)*60) + Number(rest_seconds));
+                    total_seconds = total_seconds + (Number(cool_down_minutes)*60) +  Number(cool_down_seconds);
+                }
+
+                
+                
+                var total_time = getMinutesSeconds(total_seconds);
+                totalDict.minutes = total_time[0];
+                totalDict.seconds = total_time[1];
+                
+                if (totalDict.minutes > 0 || totalDict.seconds > 0 ){
+                    $("#timer-btn").html('Stop');
+                    $("#timer-btn").addClass("btn btn-dark");
+                }
+
+
+                timer2.start({countdown: true, startValues: totalDict, callback: function (timer){$('#secondTenthsExample .total-time').html(timer2.getTimeValues().toString(['minutes', 'seconds']));}});
+                var total_time_min_and_sec_list = displayTimerValues(total_time[0],total_time[1]);
+                $(".total-time").html(total_time_min_and_sec_list[0] +":"+ total_time_min_and_sec_list[1])
+
+                $("#main-timer").hide();
+                if ($("#warm-up-check").is(":checked") == true){
+                    if (warm_up_minutes > 0 || warm_up_seconds > 0){
+                        setMinutes(warm_up_minutes);
+                        setSeconds(warm_up_seconds);
+                        var warm_up_min_and_sec_list = displayTimerValues(warm_up_minutes,warm_up_seconds);
+                        $(".timer-class").html(`<div class="bg-warning d-flex rounded text-white justify-content-center py-1 px-3"># Warm up </div>`);
+                        $(".values").removeClass("text-dark").addClass("bg-warning text-white").html(warm_up_min_and_sec_list[0] +":"+ warm_up_min_and_sec_list[1]);
+                        timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
+                        await sleep(milliSeconds(warm_up_minutes,warm_up_seconds));
                     }
-                    if (work_minutes > 0 || work_seconds > 0){
-                        setMinutes(work_minutes);
-                        setSeconds(work_seconds);
-                        var work_min_and_sec_list = displayTimerValues(work_minutes,work_seconds);
-                        $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3"># Work </div>`);
-                        $(".values").removeClass("bg-warning bg-success text-dark").addClass("bg-primary text-white").html(work_min_and_sec_list[0] +":"+ work_min_and_sec_list[1]);
-                        timer.start({countdown: true, startValues: valuesDict});
-                        await sleep(milliSeconds(work_minutes,work_seconds));
+                }
+                
+
+                if (intervals > 0){
+                    for(i=1;i<=intervals;i++){
+                        if (work_minutes > 0 || work_seconds > 0 || rest_minutes > 0 || rest_seconds > 0){
+                            $(".current-interval").addClass('bg-light py-1 px-2 border-10').html(i+"/"+intervals);
+                        }
+                        if (work_minutes > 0 || work_seconds > 0){
+                            setMinutes(work_minutes);
+                            setSeconds(work_seconds);
+                            var work_min_and_sec_list = displayTimerValues(work_minutes,work_seconds);
+                            $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3"># Work </div>`);
+                            $(".values").removeClass("bg-warning bg-success text-dark").addClass("bg-primary text-white").html(work_min_and_sec_list[0] +":"+ work_min_and_sec_list[1]);
+                            timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
+                            await sleep(milliSeconds(work_minutes,work_seconds));
+                        }
+                        
+
+                        if ( $("#cool-down-check").is(":checked") == true && i==intervals){
+                            //pass
+                        }
+                        else if(rest_minutes > 0 || rest_seconds > 0){
+                            setMinutes(rest_minutes);
+                            setSeconds(rest_seconds);
+                            var rest_min_and_sec_list = displayTimerValues(rest_minutes,rest_seconds);
+                            $(".timer-class").html(`<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3"># Time for a break </div>`);
+                            $(".values").removeClass("bg-primary").addClass("bg-success text-white").html(rest_min_and_sec_list[0] +":"+ rest_min_and_sec_list[1]);
+                            timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
+                            await sleep(milliSeconds(rest_minutes,rest_seconds));
+                        }
                     }
-                    if ( $("#cool-down-check").is(":checked") == true && i==intervals){
-                        //pass
-                    }
-                    else if(rest_minutes > 0 || rest_seconds > 0){
-                        setMinutes(rest_minutes);
-                        setSeconds(rest_seconds);
-                        var rest_min_and_sec_list = displayTimerValues(rest_minutes,rest_seconds);
-                        $(".timer-class").html(`<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3"># Time for a break </div>`);
-                        $(".values").removeClass("bg-primary").addClass("bg-success text-white").html(rest_min_and_sec_list[0] +":"+ rest_min_and_sec_list[1]);
-                        timer.start({countdown: true, startValues: valuesDict});
-                        await sleep(milliSeconds(rest_minutes,rest_seconds));
+                }
+                if ($("#cool-down-check").is(":checked") == true){
+                    if (cool_down_minutes > 0 || cool_down_seconds > 0){
+                        setMinutes(cool_down_minutes);
+                        setSeconds(cool_down_seconds);
+                        var cool_down_min_and_sec_list = displayTimerValues(cool_down_minutes,cool_down_seconds);
+                        $(".timer-class").html(`<div class="bg-info d-flex rounded text-white justify-content-center py-1 px-3"># Cool Down </div>`);
+                        $(".values").removeClass("bg-success bg-warning text-dark").addClass("bg-info text-white").html(cool_down_min_and_sec_list[0] +":"+ cool_down_min_and_sec_list[1]);
+                        timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
+                        await sleep(milliSeconds(cool_down_minutes,cool_down_seconds));
                     }
                 }
             }
-            if ($("#cool-down-check").is(":checked") == true){
-                if (cool_down_minutes > 0 || cool_down_seconds > 0){
-                    setMinutes(cool_down_minutes);
-                    setSeconds(cool_down_seconds);
-                    var cool_down_min_and_sec_list = displayTimerValues(cool_down_minutes,cool_down_seconds);
-                    $(".timer-class").html(`<div class="bg-info d-flex rounded text-white justify-content-center py-1 px-3"># Cool Down </div>`);
-                    $(".values").removeClass("bg-success bg-warning text-dark").addClass("bg-info text-white").html(cool_down_min_and_sec_list[0] +":"+ cool_down_min_and_sec_list[1]);
-                    timer.start({countdown: true, startValues: valuesDict});
-                    await sleep(milliSeconds(cool_down_minutes,cool_down_seconds));
-                }
-            }   
+            catch{
+                //pass                
+            }
+               
             resetTimer();
             
                     
@@ -418,62 +431,42 @@
                     started = 1;
                 }
             }
-            
-            
-            timer.addEventListener('secondTenthsUpdated', function (e) {
-                $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));
-            });
-        });
-        function endTimeout(){
-            var id = window.setTimeout(function() {}, 0);
 
-            while (id--) {
-                window.clearTimeout(id); // will do nothing if no timeout with id is present
-            }
-        }
+        });
+
 
         function resetTimer(){
-            endTimeout();
             $(".current-interval").removeClass("bg-light py-1 px-2 border-10").html("");
-            timer.stop();
-            timer2.stop();
-            timer = new easytimer.Timer();
-            timer2 = new easytimer.Timer();
+            try{
+                timer.stop();
+                timer2.stop();
+            }
+            catch{
+                //pass
+            }
+            
+            
+            timer = null;
+            timer2 = null;
+            
             $(".remaining-time , .values").html("00:00");
             started = 0;
             total_seconds = 0;
-            $("#timer-btn").removeClass('btn-warning btn-dark bg-warning').addClass('btn-success').html("Start");
+            $("#timer-btn").removeClass('btn-warning btn-dark').addClass('btn-success').html("Start");
             $(".timer-class").html("");
             $("#main-timer").show();
             $(".values").removeClass("bg-primary bg-success bg-info text-white").addClass("text-dark");
 
         }
 
-        $('#chronoExample .pauseButton').click(function () {
-            timer.pause();
-            timer2.pause();
-        });
-        
-        $('#chronoExample .stopButton').click(function () {
-            timer.stop();
-            timer2.stop();
-        });
+
         
         $('#chronoExample .resetButton').click(function () {
             resetTimer();
         });
         
-        timer.addEventListener('secondsUpdated', function (e) {
-            $('#chronoExample .values').html(timer.getTimeValues().toString());
-        });
+
         
-        timer.addEventListener('started', function (e) {
-            $('#chronoExample .values').html(timer.getTimeValues().toString());
-        });
-        
-        timer.addEventListener('reset', function (e) {
-            $('#chronoExample .values').html(timer.getTimeValues().toString());
-        });
 
     </script>
 

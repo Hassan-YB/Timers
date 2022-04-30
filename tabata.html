@@ -72,17 +72,8 @@
           }
           
           .switch3-checked{
-            background-color : #e74c3c;
+            background-color : #17a2b8;
             box-shadow: none;
-          }
-          .remaining-time{
-            width: 170px;
-            height: 65px;
-            border: 1px solid #dee2e6!important;
-            padding: 20px 10px;
-            font-size: 56px;
-            color: black;
-            text-align: center;
           }
           .border-10{
               border-radius:10px;
@@ -127,83 +118,104 @@
         <div class="d-flex flex-column justify-content-center align-items-end">
             <div class="m-2 text-center">
                 <h3 id="main-timer"><b>Tabata Timer</b></h3>
-                <div class="values my-1 px-3 py-1 border" style="font-size:56px;border-radius:10px;">00:00</div>
+                <div class="values my-1 px-3 py-1">00:00</div>
             </div>
         </div>
-        <div class="d-flex flex-row justify-content-between">
-            <div class="d-flex flex-row align-self-center">
-                <div class="d-flex flex-column align-items-center mx-2">
-                    <h6>Intervals</h6>
-                    <input class="input-group" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
-                </div>
-                <div class="d-flex flex-column align-items-center mx-2">
-                    <h6 id="remaining-time">Remaining Time</h6>
-                    <div class="total-time d-flex align-items-center justify-content-center border remaining-time" style="border-radius:10px">00:00</div>
-                </div>
-            </div>
+        <div class="d-flex flex-column align-items-center mx-2 mb-5">
+            <h6 id="remaining-time">Remaining Time</h6>
+            <div class="total-time remaining-time">00:00</div>
         </div>
-                
-        <div class="d-flex flex-row justify-content-center my-2 mb-3 px-2">
-            <div class="d-flex flex-column align-items-center m-2">
-                <h3 class="p-2 text-info"><b>Work Time</b></h3>
-                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-3 border-right">
-                    <div class="d-flex flex-column align-items-center mx-2">
-                        <h6>Minutes</h6>
-                        <input class="input-group" style="width:172px;" type="number" id="work-minutes" min="0" max="60" step="1" value="00"/>
+        <!-- Button trigger modal -->
+        <h3 class="cursor-pointer" data-toggle="modal" data-target="#exampleModal"><i class="fa-solid fa-gear fa-1x"></i> Settings</h3>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex align-items-center justify-content-around">
+                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-gear fa-1x"></i> Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex flex-column justify-content-between my-2 mb-3 px-2">
+                        <div class="d-flex flex-row align-self-end mr-3 my-2">
+                            <div class="d-flex flex-column align-items-center mx-2">
+                                <h6>Intervals</h6>
+                                <input class="numberstyle" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center my-2">
+                            <h3 class="text-info pt-4"><b>Work Time</b></h3>
+                            <div class="d-flex flex-row justify-content-center px-3">
+                                <div class="d-flex flex-column align-items-center ml-3 mr-2">
+                                    <h6>Minutes</h6>
+                                    <input class="numberstyle"  type="number" id="work-minutes" min="0" max="60" step="1" value="00"/>
+                                </div>
+                                <div class="d-flex flex-column align-items-center mx-2">
+                                    <h6>Seconds</h6>
+                                    <input class="numberstyle"  type="number" id="work-seconds" min="0" max="60" step="1" value="30"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center my-2">
+                            <h3 class="text-info pt-4"><b>Rest Time</b></h3>
+                            <div class="d-flex flex-row justify-content-center px-3">
+                                <div class="d-flex flex-column align-items-center ml-3 mr-2">
+                                    <h6>Minutes</h6>
+                                    <input class="numberstyle"  type="number" id="rest-minutes" min="0" max="59" step="1" value="00" />
+                                </div>
+                                <div class="d-flex flex-column align-items-center mx-2">
+                                    <h6>Seconds</h6>
+                                    <input class="numberstyle"  type="number" id="rest-seconds" min="0" max="59" step="1" value="30" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-around my-2">
+                            <div class="form-check mt-4 align-items-center d-flex flex-row pl-0">
+                                <label class="switch3 mr-3" >
+                                    <input type="checkbox" id="warm-up-check" onchange="checkboxField();"/>
+                                    <div></div>
+                                </label>
+                                <h5 class="text-info font-weight-bold">Warm Up</h5>
+                            </div>
+                            <div class="d-none flex-row justify-content-between align-items-center px-2" id="warm-up-div">
+                                <div class="d-flex flex-column align-items-center mx-2">
+                                    <h6>Minutes</h6>
+                                    <input style="font-size:1.25rem" class="numberstyle task-minutes" id="warm-up-minutes" type="number" min="0" max="59" step="1" value="00">
+                                </div>
+                                <div class="d-flex flex-column align-items-center mx-2">
+                                    <h6>Seconds</h6>
+                                    <input style="font-size:1.25rem" class="numberstyle task-seconds" id="warm-up-seconds" type="number" max="59" min="0" max="59" step="1" value="00">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-around my-2">
+                            <div class="form-check align-items-center d-flex flex-row pl-1">
+                                <label class="switch3 mr-3" >
+                                    <input type="checkbox" id="cool-down-check" onchange="checkboxField();"/>
+                                    <div></div>
+                                </label>
+                                <h5 class="text-info font-weight-bold">Cool Down</h5>
+                            </div>
+                            <div class="d-none flex-row justify-content-between align-items-center px-3" id="cool-down-div">
+                                <div class="d-flex flex-column align-items-center mx-2">
+                                    <h6>Minutes</h6>
+                                    <input style="font-size:1.25rem" class="numberstyle break-minutes" id="cool-down-minutes" type="number" min="0" max="59" step="1" value="00">
+                                </div>
+                                <div class="d-flex flex-column align-items-center mx-2">
+                                    <h6>Seconds</h6>
+                                    <input style="font-size:1.25rem" class="numberstyle break-seconds" id="cool-down-seconds" type="number" max="59" min="0" max="59" step="1" value="00">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex flex-column align-items-center mx-2">
-                        <h6>Seconds</h6>
-                        <input class="input-group" style="width:172px;" type="number" id="work-seconds" min="0" max="60" step="1" value="30"/>
-                    </div>
                 </div>
             </div>
-            <div class="d-flex flex-column align-items-center my-2">
-                <h3 class="p-2 text-success"><b>Rest Time</b></h3>
-                <div class="d-flex flex-row justify-content-center my-2 mb-3 px-3">
-                    <div class="d-flex flex-column align-items-center mx-2">
-                        <h6>Minutes</h6>
-                        <input class="input-group" style="width:172px;" type="number" id="rest-minutes" min="0" max="60" step="1" value="00" />
-                    </div>
-                    <div class="d-flex flex-column align-items-center mx-2">
-                        <h6>Seconds</h6>
-                        <input class="input-group" style="width:172px;" type="number" id="rest-seconds" min="0" max="60" step="1" value="30" />
-                    </div>
-                </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="form-check my-1 align-items-center d-flex flex-column">
-                <h5>Warm Up</h5>
-                <label class="switch3" >
-                    <input type="checkbox" id="warm-up-check" onchange="checkboxField();"/>
-                    <div></div>
-                </label>
-            </div>
-            <div class="form-check my-1 align-items-center d-flex flex-column">
-                <h5>Cool Down</h5>
-                <label class="switch3" >
-                    <input type="checkbox" id="cool-down-check" onchange="checkboxField();"/>
-                    <div></div>
-                </label>
-            </div>
-        </div>
-        <div class="d-flex flex-column align-items-stretch task my-2" style="width:450px">
-            <div class="d-none flex-row justify-content-between align-items-center bg-primary px-2 py-1 border rounded my-2" id="warm-up-div">
-                <h5 class="text-white pt-1 mr-5">Warm Up Time</h5>
-                <div class="d-flex justify-content-between">
-                    <input style="width:70px;font-size:1.25rem" class="form-control mx-1 task-minutes" name="task-minutes" id="warm-up-minutes" type="number" max="59" value="00">
-                    <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 task-seconds" name="task-seconds" id="warm-up-seconds" type="number" max="59" value="00">
-                </div>
-            </div>
-            <div class="d-none flex-row justify-content-between align-items-center bg-success px-2 py-1 border rounded my-2" id="cool-down-div">
-                <h5 class="text-white pt-1 mr-5">Cool Down Time</h5>
-                <div class="d-flex justify-content-between">
-                    <input style="width:70px;font-size:1.25rem" class="form-control mx-1 break-minutes" name="break-minutes" id="cool-down-minutes" type="number" max="60" value="00">
-                    <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 break-seconds" name="break-seconds" id="cool-down-seconds" type="number" max="59" value="00">
-                </div>
-            </div>
-        </div>
-
+        
         
         <div id="chronoExample">
             <button class="btn btn-success startButton" id="timer-btn">Start</button>
@@ -218,6 +230,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
     <script src="js/easytimer.min.js"></script>
+    <script src="js/inputbutton.js"></script>
     <script>
         function sleep(ms) {
             return new Promise(function (resolve, reject) {
@@ -352,7 +365,7 @@
                         setSeconds(warm_up_seconds);
                         var warm_up_min_and_sec_list = displayTimerValues(warm_up_minutes,warm_up_seconds);
                         $(".timer-class").html(`<div class="bg-warning d-flex rounded text-white justify-content-center py-1 px-3"># Warm up </div>`);
-                        $(".values").removeClass("text-dark").addClass("bg-warning text-white").html(warm_up_min_and_sec_list[0] +":"+ warm_up_min_and_sec_list[1]);
+                        $(".values").html(warm_up_min_and_sec_list[0] +":"+ warm_up_min_and_sec_list[1]);
                         timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                         await sleep(milliSeconds(warm_up_minutes,warm_up_seconds));
                     }
@@ -369,7 +382,7 @@
                             setSeconds(work_seconds);
                             var work_min_and_sec_list = displayTimerValues(work_minutes,work_seconds);
                             $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3"># Work </div>`);
-                            $(".values").removeClass("bg-warning bg-success text-dark").addClass("bg-primary text-white").html(work_min_and_sec_list[0] +":"+ work_min_and_sec_list[1]);
+                            $(".values").html(work_min_and_sec_list[0] +":"+ work_min_and_sec_list[1]);
                             timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                             await sleep(milliSeconds(work_minutes,work_seconds));
                         }
@@ -383,7 +396,7 @@
                             setSeconds(rest_seconds);
                             var rest_min_and_sec_list = displayTimerValues(rest_minutes,rest_seconds);
                             $(".timer-class").html(`<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3"># Time for a break </div>`);
-                            $(".values").removeClass("bg-primary").addClass("bg-success text-white").html(rest_min_and_sec_list[0] +":"+ rest_min_and_sec_list[1]);
+                            $(".values").html(rest_min_and_sec_list[0] +":"+ rest_min_and_sec_list[1]);
                             timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                             await sleep(milliSeconds(rest_minutes,rest_seconds));
                         }
@@ -395,7 +408,7 @@
                         setSeconds(cool_down_seconds);
                         var cool_down_min_and_sec_list = displayTimerValues(cool_down_minutes,cool_down_seconds);
                         $(".timer-class").html(`<div class="bg-info d-flex rounded text-white justify-content-center py-1 px-3"># Cool Down </div>`);
-                        $(".values").removeClass("bg-success bg-warning text-dark").addClass("bg-info text-white").html(cool_down_min_and_sec_list[0] +":"+ cool_down_min_and_sec_list[1]);
+                        $(".values").html(cool_down_min_and_sec_list[0] +":"+ cool_down_min_and_sec_list[1]);
                         timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                         await sleep(milliSeconds(cool_down_minutes,cool_down_seconds));
                     }
@@ -455,7 +468,7 @@
             $("#timer-btn").removeClass('btn-warning btn-dark').addClass('btn-success').html("Start");
             $(".timer-class").html("");
             $("#main-timer").show();
-            $(".values").removeClass("bg-primary bg-success bg-info text-white").addClass("text-dark");
+            $(".values");
 
         }
 

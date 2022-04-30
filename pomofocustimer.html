@@ -257,19 +257,7 @@
 
         
         function currentTask(obj){
-            console.log(`${$(obj).data('task')} Task clicked`);
-            //endTimeout();
-            
-            try{
-                if (timer.isRunning() == true){
-                    console.log("running")
-                    timer.stop();
-                    timer = null;
-                }
-            }
-            catch{
-                //pass
-            }
+            resetTimer();
 
             i = Number($(obj).data('task'))-1;
             timer_btn = 1;
@@ -278,25 +266,14 @@
             currently_break = false;
             updateTimerDict();
             pomofocus();
-            
+            console.log("current task")
             $('#timer-btn').removeClass("btn-warning btn-success").addClass("btn btn-dark");
             $("#timer-btn").html("Stop");
         }
 
 
         function currentBreak(obj){
-            console.log(`${$(obj).data('break')} Break clicked`);
-            //endTimeout();
-            try{
-                if (timer.isRunning() == true){
-                    console.log("running")
-                    timer.stop();
-                    timer = null;
-                }
-            }
-            catch{
-                //pass
-            }
+            restTimer();
             
             i = Number($(obj).data('break'))-1;
             timer_btn = 1;
@@ -305,7 +282,7 @@
             currently_break = true;
             updateTimerDict();
             pomofocus();
-            
+            console.log("current break")
             $('#timer-btn').removeClass("btn-warning btn-success").addClass("btn btn-dark");
             $("#timer-btn").html("Stop");
         }
@@ -354,41 +331,39 @@
         }
         
         async function pomofocus(){
-            console.log(`value of starting index = ${i}, currently_break = ${currently_break}`)
             timer = new easytimer.Timer();
-            for (i; i < time_list.length; i++){
-                try{
-                    if (currently_break == false){
-                        setMinutes(time_list[i]['task_minutes']);
-                        setSeconds(time_list[i]['task_seconds']);
-                        task_min_and_sec_list = displayTimerValues(time_list[i]['task_minutes'],time_list[i]['task_seconds']);
-                        $(".values").html(task_min_and_sec_list[0] +":"+ task_min_and_sec_list[1]);
-                        $(".timer-class").html(`<span class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3">#${i+1} Work </span>`);
-                        
-                        timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));} });
-                        await sleep(milliSeconds(time_list[i]['task_minutes'],time_list[i]['task_seconds']));
-                    }
-                    else{
-                        //pass
-                    }
-                    if (time_list[i]['break_minutes'] > 0 || time_list[i]['break_seconds'] > 0){
-                        
-                        setMinutes(time_list[i]['break_minutes']);
-                        setSeconds(time_list[i]['break_seconds']);
-                        break_min_and_sec_list = displayTimerValues(time_list[i]['break_minutes'],time_list[i]['break_seconds']);
-                        $(".values").html(break_min_and_sec_list[0] +":"+ break_min_and_sec_list[1]);
-                        $(".timer-class").html(`<span class="bg-success d-flex rounded text-white justify-content-center py-1 px-3">#${i+1} Time for a break </span>`);
-                        timer.start({ countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));} });
-                        currently_break = false;
-                        await sleep(milliSeconds(time_list[i]['break_minutes'],time_list[i]['break_seconds']));
-                        
-                    }
+            try{
+                for (i; i < time_list.length; i++){
+                    
+                        if (currently_break == false){
+                            setMinutes(time_list[i]['task_minutes']);
+                            setSeconds(time_list[i]['task_seconds']);
+                            task_min_and_sec_list = displayTimerValues(time_list[i]['task_minutes'],time_list[i]['task_seconds']);
+                            $(".values").html(task_min_and_sec_list[0] +":"+ task_min_and_sec_list[1]);
+                            $(".timer-class").html(`<span class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3">#${i+1} Work </span>`);
+                            
+                            timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));} });
+                            await sleep(milliSeconds(time_list[i]['task_minutes'],time_list[i]['task_seconds']));
+                        }
+                        else{
+                            //pass
+                        }
+                        if (time_list[i]['break_minutes'] > 0 || time_list[i]['break_seconds'] > 0){
+                            
+                            setMinutes(time_list[i]['break_minutes']);
+                            setSeconds(time_list[i]['break_seconds']);
+                            break_min_and_sec_list = displayTimerValues(time_list[i]['break_minutes'],time_list[i]['break_seconds']);
+                            $(".values").html(break_min_and_sec_list[0] +":"+ break_min_and_sec_list[1]);
+                            $(".timer-class").html(`<span class="bg-success d-flex rounded text-white justify-content-center py-1 px-3">#${i+1} Time for a break </span>`);
+                            timer.start({ countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));} });
+                            currently_break = false;
+                            await sleep(milliSeconds(time_list[i]['break_minutes'],time_list[i]['break_seconds']));
+                            
+                        }              
                 }
-                catch(e){
-                    console.log(e)
-                }
-                
-                             
+            }
+            catch(e){
+                console.log(e)
             }
             $(".timer-class").text("");
             resetTimer();
@@ -486,7 +461,6 @@
             
                         
             zero_time_list();
-            console.log(time_list)
             currently_break = false;
             currently_working = true;
             

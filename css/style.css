@@ -49,7 +49,7 @@ h1,h2,h3,h4,h5{
 }
 .btn{
     width: 150px !important;
-    margin: 20px;
+    margin: 10px 20px;
 }
 .modal-dialog {
     max-width: 580px !important;

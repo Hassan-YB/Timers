@@ -331,7 +331,7 @@
             var mins = s % 60;
             var hrs = (s - mins) / 60;
 
-            return pad(Math.abs(hrs)) + ':' + pad(Math.abs(mins)) + ':' + pad(Math.abs(secs)) + ':' + pad(Math.abs(ms), 1);
+            return pad(Math.abs(hrs)) + ':' + pad(Math.abs(mins)) + ':' + pad(Math.abs(secs)) + ':' + pad(Math.abs(ms), 2);
         }
 
         function lapRow(){

@@ -121,109 +121,91 @@
                 <div class="values my-1 px-3 py-1">00:00</div>
             </div>
         </div>
-        <div class="d-flex flex-column align-items-center mx-2 mb-5">
+        <div class="d-flex flex-column align-items-center mx-2 mb-2">
             <h6 id="remaining-time">Remaining Time</h6>
             <div class="total-time remaining-time">00:00</div>
         </div>
-        <!-- Button trigger modal -->
-        <h3 class="cursor-pointer" data-toggle="modal" data-target="#exampleModal"><i class="fa-solid fa-gear fa-1x"></i> Settings</h3>
-        
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header d-flex align-items-center justify-content-around">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa-solid fa-gear fa-1x"></i> Settings</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+
+        <div id="chronoExample">
+            <button class="btn btn-danger resetButton" id="reset-btn">Reset</button>
+            <button class="btn btn-success startButton" id="timer-btn">Start</button>
+        </div>
+
+        <div class="d-flex flex-column justify-content-between my-2 mb-3 px-2">
+            <div class="d-flex flex-row align-self-end mr-3 my-2">
+                <div class="d-flex flex-column align-items-center mx-2">
+                    <h6>Intervals</h6>
+                    <input class="numberstyle" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
                 </div>
-                <div class="modal-body">
-                    <div class="d-flex flex-column justify-content-between my-2 mb-3 px-2">
-                        <div class="d-flex flex-row align-self-end mr-3 my-2">
-                            <div class="d-flex flex-column align-items-center mx-2">
-                                <h6>Intervals</h6>
-                                <input class="numberstyle" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center my-2">
-                            <h3 class="text-info pt-4"><b>Work Time</b></h3>
-                            <div class="d-flex flex-row justify-content-center px-3">
-                                <div class="d-flex flex-column align-items-center ml-3 mr-2">
-                                    <h6>Minutes</h6>
-                                    <input class="numberstyle"  type="number" id="work-minutes" min="0" max="60" step="1" value="00"/>
-                                </div>
-                                <div class="d-flex flex-column align-items-center mx-2">
-                                    <h6>Seconds</h6>
-                                    <input class="numberstyle"  type="number" id="work-seconds" min="0" max="60" step="1" value="30"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center my-2">
-                            <h3 class="text-info pt-4"><b>Rest Time</b></h3>
-                            <div class="d-flex flex-row justify-content-center px-3">
-                                <div class="d-flex flex-column align-items-center ml-3 mr-2">
-                                    <h6>Minutes</h6>
-                                    <input class="numberstyle"  type="number" id="rest-minutes" min="0" max="59" step="1" value="00" />
-                                </div>
-                                <div class="d-flex flex-column align-items-center mx-2">
-                                    <h6>Seconds</h6>
-                                    <input class="numberstyle"  type="number" id="rest-seconds" min="0" max="59" step="1" value="30" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-around my-2">
-                            <div class="form-check mt-4 align-items-center d-flex flex-row pl-0">
-                                <label class="switch3 mr-3" >
-                                    <input type="checkbox" id="warm-up-check" onchange="checkboxField();"/>
-                                    <div></div>
-                                </label>
-                                <h5 class="text-info font-weight-bold">Warm Up</h5>
-                            </div>
-                            <div class="d-none flex-row justify-content-between align-items-center px-2" id="warm-up-div">
-                                <div class="d-flex flex-column align-items-center mx-2">
-                                    <h6>Minutes</h6>
-                                    <input style="font-size:1.25rem" class="numberstyle task-minutes" id="warm-up-minutes" type="number" min="0" max="59" step="1" value="00">
-                                </div>
-                                <div class="d-flex flex-column align-items-center mx-2">
-                                    <h6>Seconds</h6>
-                                    <input style="font-size:1.25rem" class="numberstyle task-seconds" id="warm-up-seconds" type="number" max="59" min="0" max="59" step="1" value="00">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-around my-2">
-                            <div class="form-check align-items-center d-flex flex-row pl-1">
-                                <label class="switch3 mr-3" >
-                                    <input type="checkbox" id="cool-down-check" onchange="checkboxField();"/>
-                                    <div></div>
-                                </label>
-                                <h5 class="text-info font-weight-bold">Cool Down</h5>
-                            </div>
-                            <div class="d-none flex-row justify-content-between align-items-center px-3" id="cool-down-div">
-                                <div class="d-flex flex-column align-items-center mx-2">
-                                    <h6>Minutes</h6>
-                                    <input style="font-size:1.25rem" class="numberstyle break-minutes" id="cool-down-minutes" type="number" min="0" max="59" step="1" value="00">
-                                </div>
-                                <div class="d-flex flex-column align-items-center mx-2">
-                                    <h6>Seconds</h6>
-                                    <input style="font-size:1.25rem" class="numberstyle break-seconds" id="cool-down-seconds" type="number" max="59" min="0" max="59" step="1" value="00">
-                                </div>
-                            </div>
-                        </div>
+            </div>
+            <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center my-2">
+                <h3 class="text-info pt-4"><b>Work Time</b></h3>
+                <div class="d-flex flex-row justify-content-center px-3">
+                    <div class="d-flex flex-column align-items-center ml-3 mr-2">
+                        <h6>Minutes</h6>
+                        <input class="numberstyle"  type="number" id="work-minutes" min="0" max="60" step="1" value="00"/>
+                    </div>
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Seconds</h6>
+                        <input class="numberstyle"  type="number" id="work-seconds" min="0" max="60" step="1" value="30"/>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-                  </div>
             </div>
+            <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center my-2">
+                <h3 class="text-info pt-4"><b>Rest Time</b></h3>
+                <div class="d-flex flex-row justify-content-center px-3">
+                    <div class="d-flex flex-column align-items-center ml-3 mr-2">
+                        <h6>Minutes</h6>
+                        <input class="numberstyle"  type="number" id="rest-minutes" min="0" max="59" step="1" value="00" />
+                    </div>
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Seconds</h6>
+                        <input class="numberstyle"  type="number" id="rest-seconds" min="0" max="59" step="1" value="30" />
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-around my-2">
+                <div class="form-check mt-4 align-items-center d-flex flex-row pl-0">
+                    <label class="switch3 mr-3" >
+                        <input type="checkbox" id="warm-up-check" onchange="checkboxField();"/>
+                        <div></div>
+                    </label>
+                    <h5 class="text-info font-weight-bold">Warm Up</h5>
+                </div>
+                <div class="d-flex flex-row justify-content-between align-items-center px-2" id="warm-up-div">
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Minutes</h6>
+                        <input style="font-size:1.25rem" class="numberstyle task-minutes" id="warm-up-minutes" type="number" min="0" max="59" step="1" value="00">
+                    </div>
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Seconds</h6>
+                        <input style="font-size:1.25rem" class="numberstyle task-seconds" id="warm-up-seconds" type="number" max="59" min="0" max="59" step="1" value="00">
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-around my-2">
+                <div class="form-check align-items-center d-flex flex-row pl-1">
+                    <label class="switch3 mr-3" >
+                        <input type="checkbox" id="cool-down-check" onchange="checkboxField();"/>
+                        <div></div>
+                    </label>
+                    <h5 class="text-info font-weight-bold">Cool Down</h5>
+                </div>
+                <div class="d-flex flex-row justify-content-between align-items-center px-3" id="cool-down-div">
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Minutes</h6>
+                        <input style="font-size:1.25rem" class="numberstyle break-minutes" id="cool-down-minutes" type="number" min="0" max="59" step="1" value="00">
+                    </div>
+                    <div class="d-flex flex-column align-items-center mx-2">
+                        <h6>Seconds</h6>
+                        <input style="font-size:1.25rem" class="numberstyle break-seconds" id="cool-down-seconds" type="number" max="59" min="0" max="59" step="1" value="00">
+                    </div>
+                </div>
             </div>
         </div>
+
         
         
-        <div id="chronoExample">
-            <button class="btn btn-success startButton" id="timer-btn">Start</button>
-            <button class="btn btn-danger resetButton" id="reset-btn">Reset</button>
-        </div>
     </div>
 
     
@@ -276,21 +258,30 @@
 
         function checkboxField(){
             if ($("#warm-up-check").is(":checked") == true){
-                $("#warm-up-div").removeClass("d-none").addClass("d-flex");
+                $("#warm-up-div").find(".qty-btn, .numberstyle").removeClass("bg-disabled").prop("disabled",false).css({
+                    transition : 'opacity 1s ease-in-out'
+                });
             }
             else{
-                $("#warm-up-div").removeClass("d-flex").addClass("d-none");
+                $("#warm-up-div").find(".qty-btn, .numberstyle").addClass("bg-disabled").prop("disabled",true).css({
+                    transition : 'opacity 1s ease-in-out'
+                });
             }
 
             if ($("#cool-down-check").is(":checked") == true){
-                $("#cool-down-div").removeClass("d-none").addClass("d-flex");
+                $("#cool-down-div").find(".qty-btn, .numberstyle").removeClass("bg-disabled").prop("disabled",false).css({
+                    transition : 'opacity 1s ease-in-out'
+                });
             }
             else{
-                $("#cool-down-div").removeClass("d-flex").addClass("d-none");
+                $("#cool-down-div").find(".qty-btn, .numberstyle").addClass("bg-disabled").prop("disabled",true).css({
+                    transition : 'opacity 1s ease-in-out'
+                });
             }
             resetTimer();
         }
-
+        checkboxField();
+        
         function displayTimerValues(mins,secs){
             var display_mins = ""
             var display_secs = ""

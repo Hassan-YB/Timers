@@ -49,11 +49,11 @@
 
       <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
         <h2 class="p-3 d-flex align-items-center justify-content-between"><i class="fas fa-stopwatch fa-2x mx-4"></i><b>Stopwatch</b></h2>
-        <div class="values my-3 p-3 border rounded text-left" style="font-size:56px;">00:00:00:<span style="font-size:40px">0</span></div>
+        <div class="values my-3 p-3 text-left w-75">00:00:00:00</div>
         
         <div id="chronoExample">
-            <button class="btn btn-success startButton" id="timer-btn">Start</button>
-            <button class="btn btn-danger resetButton">Reset</button>
+            <button class="btn btn-primary startButton" id="timer-btn">Start</button>
+            <button class="btn btn-outline-info resetButton">Reset</button>
         </div>
     </div>
 
@@ -62,7 +62,9 @@
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-    <script src="js/easytimer.min.js"></script>
+    <script src="js/easytimer_doubledigits.min.js"></script>
+    <script src="js/sound.js"></script>
+
     <script>
         var timer = new easytimer.Timer();
         var timer_btn = 0;
@@ -74,35 +76,27 @@
                     $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
                 });
                 timer_btn = 1; //timer has started
-                $('#timer-btn').removeClass("btn-success").addClass("btn-dark");
                 $("#timer-btn").html("Stop");
             }
             else{
-                if (timer.getTimeValues().minutes > 0 || timer.getTimeValues().seconds > 0 ){
                     if (paused == false){
                         timer.pause();
-                        $('#timer-btn').removeClass("btn-dark").addClass("btn-warning");
                         $("#timer-btn").html("Continue");
                         paused = true;
                     }
                     else{
                         timer.start();
-                        $('#timer-btn').removeClass("btn-warning").addClass("btn-dark");
                         $("#timer-btn").html("Stop");
                         paused = false;
-                    }
-                    
-                    
-                }
+                    }                    
             }
         });
         function resetTimer(){
+            playStopSound();
             timer.stop();
-            timer = new easytimer.Timer();
-            $('#secondTenthsExample .values').html("00:00:00:0");
+            $('#secondTenthsExample .values').html("00:00:00:00");
             timer_btn = 0;
             paused = false;
-            $('#timer-btn').removeClass().addClass("btn btn-success startButton");
             $("#timer-btn").html("Start");
         }
 
@@ -123,6 +117,7 @@
         });
         
         timer.addEventListener('started', function (e) {
+            playStartSound();
             $('#chronoExample .values').html(timer.getTimeValues().toString());
         });
         

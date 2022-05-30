@@ -170,7 +170,7 @@
         $('#chronoExample .startButton').click(function () {
             if (timer_btn == 0){
                 if ($("#switch-checkbox").is(":checked") == true){
-                    playStopSound();
+                    playStartSound();
                     if (valuesDict.minutes > 0 || valuesDict.seconds > 0 || valuesDict.hours > 0){
                         timer.start({countdown: countdown_val, startValues: valuesDict,precision: 'secondTenths'});
                         timer.addEventListener('secondTenthsUpdated', function (e) {
@@ -182,7 +182,7 @@
                     }                    
                 }
                 else if ($("#switch-checkbox").is(":checked") == false){
-                    playStopSound();
+                    playStartSound();
                     timer.start({countdown: countdown_val ,precision: 'secondTenths'});
                     timer.addEventListener('secondTenthsUpdated', function (e) {
                         $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
@@ -199,7 +199,7 @@
                         paused = true;
                     }
                     else{
-                        playStopSound();
+                        playStartSound();
                         timer.start();
                         $("#timer-btn").html("Stop");
                         paused = false;

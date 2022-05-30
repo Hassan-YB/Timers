@@ -49,20 +49,20 @@
 
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
         <h2 class="p-3 d-flex align-items-center justify-content-between"><i class="fa-solid fa-egg fa-2x mx-4"></i><b>Egg Timer</b></h2>
-        <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:00:0</div>
+        <div class="values my-3 p-3 w-75">00:00:00:00</div>
         <h3 class="p-2"><b>Set Time</b></h3>
         <div class="d-flex flex-row justify-content-center my-2 mb-3">
             <div class="d-flex flex-column align-items-center mx-2">
                 <h5>Hours</h5>
-                <input class="input-group" type="number" id="hours" min="0" step="1" placeholder="00" onchange="setHours(this);"/>
+                <input class="numberstyle" type="number" id="hours" min="0" step="1" value="00" onchange="setHours(this);"/>
             </div>
             <div class="d-flex flex-column align-items-center mx-2">
                 <h5>Minutes</h5>
-                <input class="input-group" type="number" id="minutes" min="0" max="60" step="1" placeholder="00" onchange="setMinutes(this);"/>
+                <input class="numberstyle" type="number" id="minutes" min="0" max="60" step="1" value="00" onchange="setMinutes(this);"/>
             </div>
             <div class="d-flex flex-column align-items-center mx-2">
                 <h5>Seconds</h5>
-                <input class="input-group" type="number" id="seconds" min="0" max="60" step="1" placeholder="00" onchange="setSeconds(this);"/>
+                <input class="numberstyle" type="number" id="seconds" min="0" max="60" step="1" value="00" onchange="setSeconds(this);"/>
             </div>
         </div>
         <div class="d-flex flex-row justify-content-center align-items-center my-2 mx-3">
@@ -85,18 +85,19 @@
                 </select>
             </div>
         </div>
-        <div class="d-flex flex-row justify-content-center my-2 m-2 pb-2 border-bottom">
-            <button class="btn btn-info mx-3" onclick="preSetMinutes(3)">3 min</button>
-            <button class="btn btn-info mx-3" onclick="preSetMinutes(4)">4 mins</button>
-            <button class="btn btn-info mx-3" onclick="preSetMinutes(5)">5 mins</button>
-            <button class="btn btn-info mx-3" onclick="preSetMinutes(6)">6 mins</button>
-            <button class="btn btn-info mx-3" onclick="preSetMinutes(7)">7 mins</button>
+        <div id="chronoExample">
+            <button class="btn btn-primary startButton mx-2" id="timer-btn">Start</button>
+            <button class="btn btn-outline-info resetButton mx-2">Reset</button>
+        </div>
+
+        <div class="d-flex flex-row justify-content-center my-2 m-2 pb-2 border-bottom timings">
+            <p class="text-primary" onclick="preSetMinutes(3)">3 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(4)">4 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(5)">5 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(6)">6 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(7)">7 minutes</p>
         </div>
         
-        <div id="chronoExample">
-            <button class="btn btn-success startButton" id="timer-btn">Start</button>
-            <button class="btn btn-danger resetButton">Reset</button>
-        </div>
     </div>
 
     
@@ -105,7 +106,10 @@
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-    <script src="js/easytimer.min.js"></script>
+    <script src="js/easytimer_doubledigits.min.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/inputbutton.js"></script>
+
     <script>
         var timer = new easytimer.Timer();
         var valuesDict = {
@@ -223,23 +227,20 @@
             if (timer_btn == 0){
                 timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
                 timer.addEventListener('secondTenthsUpdated', function (e) {
-                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']) + ':<span style="font-size:40px">' + timer.getTimeValues().secondTenths) + '</span>';
+                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours','minutes', 'seconds', 'secondTenths']));
                 });
                 timer_btn = 1; //timer has started
-                $('#timer-btn').removeClass("btn-success").addClass("btn-dark");
                 $("#timer-btn").html("Stop");
             }
             else{
                 if (timer.getTimeValues().minutes > 0 || timer.getTimeValues().seconds > 0 ){
                     if (paused == false){
                         timer.pause();
-                        $('#timer-btn').removeClass("btn-dark").addClass("btn-warning");
                         $("#timer-btn").html("Continue");
                         paused = true;
                     }
                     else{
                         timer.start();
-                        $('#timer-btn').removeClass("btn-warning").addClass("btn-dark");
                         $("#timer-btn").html("Stop");
                         paused = false;
                     }
@@ -259,11 +260,10 @@
         
         function resetTimer(){
             var total_time = displayTimerValues($("#hours").val(), $("#minutes").val(), $("#seconds").val());
-            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] + ":0");
+            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] + ":00");
             timer.stop();
             timer_btn = 0;
             paused = false;
-            $('#timer-btn').removeClass().addClass("btn btn-success startButton");
             $("#timer-btn").html("Start");
         }
 
@@ -277,11 +277,12 @@
         });
         
         timer.addEventListener('started', function (e) {
+            playStartSound();
             $('#chronoExample .values').html(timer.getTimeValues().toString());
         });
         
-        timer.addEventListener('reset', function (e) {
-            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        timer.addEventListener('stopped', function (e) {
+            playStopSound();
         });
     </script>
   </body>

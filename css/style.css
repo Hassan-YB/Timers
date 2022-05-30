@@ -116,7 +116,14 @@ h1,h2,h3,h4,h5{
     -moz-appearance: textfield;
 }
 
-
+.timings > p{
+    margin: 5px 40px;
+    cursor: pointer;
+}
+.timings > :hover{
+    transform: scale(1.1);
+    transition: 1.5s;
+}
 
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) { 

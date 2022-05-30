@@ -45,6 +45,7 @@ h1,h2,h3,h4,h5{
     font-size: 180px;
     color: #48494e;
 }
+
 .btn{
     width: 150px !important;
     margin: 10px 20px;
@@ -114,6 +115,7 @@ h1,h2,h3,h4,h5{
 .numberstyle-qty input[type=number] {
     -moz-appearance: textfield;
 }
+
 
 
 /* Small devices (landscape phones, 576px and up) */

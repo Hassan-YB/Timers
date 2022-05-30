@@ -49,7 +49,7 @@
 
       <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
         <h2 class="p-3 d-flex align-items-center justify-content-between"><i class="fas fa-stopwatch fa-2x mx-4"></i><b>Stopwatch</b></h2>
-        <div class="values my-3 p-3 border rounded" style="font-size:56px;">00:00:00:<span style="font-size:40px">0</span></div>
+        <div class="values my-3 p-3 border rounded text-left" style="font-size:56px;">00:00:00:<span style="font-size:40px">0</span></div>
         
         <div id="chronoExample">
             <button class="btn btn-success startButton" id="timer-btn">Start</button>
@@ -62,7 +62,7 @@
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
-    <script src="js/easytimer.min.js"></script>
+    <script src="js/easytimer_doubledigits.min.js"></script>
     <script>
         var timer = new easytimer.Timer();
         var timer_btn = 0;
@@ -71,7 +71,7 @@
             if (timer_btn == 0){
                 timer.start({precision: 'secondTenths'});
                 timer.addEventListener('secondTenthsUpdated', function (e) {
-                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']) + ':<span style="font-size:40px">' + timer.getTimeValues().secondTenths) + '</span>';
+                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
                 });
                 timer_btn = 1; //timer has started
                 $('#timer-btn').removeClass("btn-success").addClass("btn-dark");

@@ -44,8 +44,12 @@ h1,h2,h3,h4,h5{
 .values{
     font-size: 180px;
     color: #48494e;
+    width: 920px;
 }
-
+.values-small{
+    font-size: 130px;
+    color: #48494e;
+}
 .btn{
     width: 150px !important;
     margin: 10px 20px;
@@ -57,7 +61,24 @@ h1,h2,h3,h4,h5{
     background-color: rgb(193 193 193 / 50%);
     color: #747474 !important;
 }
+.current-interval{
+    color: #747474;
+    font-size: 30px !important;
+    font-weight: 700;
+    border-radius: 6px;
+    background-color: #fff;
+    overflow: hidden;
+    padding: 6px 41px;
+}
 
+
+.text-block{
+    width: 250px;
+    padding-left: 100px;
+}
+.check-block{
+    width: 350px;
+}
 
 .cursor-pointer{
     cursor: pointer;

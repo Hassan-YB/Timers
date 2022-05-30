@@ -49,7 +49,7 @@
 
       <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
         <h2 class="p-3 d-flex align-items-center justify-content-between"><i class="fas fa-stopwatch fa-2x mx-4"></i><b>Stopwatch</b></h2>
-        <div class="values my-3 p-3 text-left w-75">00:00:00:00</div>
+        <div class="values my-3 p-3 text-left">00:00:00<span class="values-small">:00</span></div>
         
         <div id="chronoExample">
             <button class="btn btn-primary startButton" id="timer-btn">Start</button>
@@ -73,7 +73,7 @@
             if (timer_btn == 0){
                 timer.start({precision: 'secondTenths'});
                 timer.addEventListener('secondTenthsUpdated', function (e) {
-                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
                 });
                 timer_btn = 1; //timer has started
                 $("#timer-btn").html("Stop");
@@ -94,7 +94,7 @@
         function resetTimer(){
             playStopSound();
             timer.stop();
-            $('#secondTenthsExample .values').html("00:00:00:00");
+            $('#secondTenthsExample .values').html("00:00:00"+'<span class="values-small">:00'+'</span>');
             timer_btn = 0;
             paused = false;
             $("#timer-btn").html("Start");

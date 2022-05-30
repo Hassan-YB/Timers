@@ -227,7 +227,7 @@
             if (timer_btn == 0){
                 timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
                 timer.addEventListener('secondTenthsUpdated', function (e) {
-                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours','minutes', 'seconds', 'secondTenths']));
+                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
                 });
                 timer_btn = 1; //timer has started
                 $("#timer-btn").html("Stop");
@@ -260,7 +260,7 @@
         
         function resetTimer(){
             var total_time = displayTimerValues($("#hours").val(), $("#minutes").val(), $("#seconds").val());
-            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] + ":00");
+            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] +'<span class="values-small">:00'+'</span>');
             timer.stop();
             timer_btn = 0;
             paused = false;
@@ -273,12 +273,12 @@
         
         
         timer.addEventListener('secondsUpdated', function (e) {
-            $('#chronoExample .values').html(timer.getTimeValues().toString());
+            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
         });
         
         timer.addEventListener('started', function (e) {
             playStartSound();
-            $('#chronoExample .values').html(timer.getTimeValues().toString());
+            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
         });
         
         timer.addEventListener('stopped', function (e) {

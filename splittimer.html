@@ -81,7 +81,7 @@
 
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
         <h2 class="p-3"><b>Split Timer</b></h2>
-        <div class="values my-3 p-3 w-75">00:00:00:00</div>
+        <div class="values my-3 p-3">00:00:00<span class="values-small">:00</span></div>
         <div class="d-flex justify-content-center flex-row mb-3">
             <h5 class="mx-3">Stopwatch split</h5>
             <label class="switch">
@@ -174,7 +174,7 @@
                     if (valuesDict.minutes > 0 || valuesDict.seconds > 0 || valuesDict.hours > 0){
                         timer.start({countdown: countdown_val, startValues: valuesDict,precision: 'secondTenths'});
                         timer.addEventListener('secondTenthsUpdated', function (e) {
-                            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
                         });
 
                         timer_btn = 1; //timer has started
@@ -185,7 +185,7 @@
                     playStartSound();
                     timer.start({countdown: countdown_val ,precision: 'secondTenths'});
                     timer.addEventListener('secondTenthsUpdated', function (e) {
-                        $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                        $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
                     });
 
                     timer_btn = 1; //timer has started
@@ -212,12 +212,12 @@
         
         
         timer.addEventListener('secondsUpdated', function (e) {
-            $('#chronoExample .values').html(timer.getTimeValues().toString());
+            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
         });
         
         timer.addEventListener('started', function (e) {
             playStartSound();
-            $('#chronoExample .values').html(timer.getTimeValues().toString());
+            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
         });
         
         timer.addEventListener('stopped', function (e) {
@@ -357,14 +357,14 @@
             //checked for countdown timer
             if ($("#switch-checkbox").is(":checked") == true){
                 var total_time = displayTimerValues($("#hours").val(), $("#minutes").val(), $("#seconds").val());
-                $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] + ":00");
+                $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] +'<span class="values-small">:00'+'</span>');
             }
             //unchecked for stopwatch timer
             else{
                 valuesDict.hours = $("#hours").val();
                 valuesDict.minutes = $("#minutes").val();
                 valuesDict.seconds = $("#seconds").val();
-                $("#secondTenthsExample .values").html("00:00:00:00");
+                $('#secondTenthsExample .values').html("00:00:00"+'<span class="values-small">:00'+'</span>');
             }
             
             timer.stop();

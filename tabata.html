@@ -113,7 +113,6 @@
     </nav>
     
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
-        <p class="current-interval"></p>
         <p class="timer-class"></p>
         <div class="d-flex flex-column justify-content-center align-items-end">
             <div class="m-2 text-center">
@@ -121,14 +120,22 @@
                 <div class="values my-1 px-3 py-1">00:00</div>
             </div>
         </div>
-        <div class="d-flex flex-column align-items-center mx-2 mb-2">
-            <h6 id="remaining-time">Remaining Time</h6>
-            <div class="total-time remaining-time">00:00</div>
+        <div class="d-flex flex-row justify-content-between">
+            <div class="d-flex flex-column align-items-center mx-2 mb-2">
+                <h6 id="remaining-time">Current Interval</h6>
+                <p class="current-interval px-3"></p>
+            </div>
+            <div class="d-flex flex-column align-items-center mx-2 mb-2">
+                <h6 id="remaining-time">Remaining Time</h6>
+                <div class="total-time remaining-time bg-light px-3 mx-2">00:00</div>
+            </div>
         </div>
 
+        
+
         <div id="chronoExample">
-            <button class="btn btn-danger resetButton" id="reset-btn">Reset</button>
-            <button class="btn btn-success startButton" id="timer-btn">Start</button>
+            <button class="btn btn-primary startButton" id="timer-btn">Start</button>
+            <button class="btn btn-outline-info resetButton" id="reset-btn">Reset</button>
         </div>
 
         <div class="d-flex flex-column justify-content-between my-2 mb-3 px-2">
@@ -139,7 +146,7 @@
                 </div>
             </div>
             <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center my-2">
-                <h3 class="text-info pt-4"><b>Work Time</b></h3>
+                <h3 class="text-info pt-4 text-block"><b>Work Time</b></h3>
                 <div class="d-flex flex-row justify-content-center px-3">
                     <div class="d-flex flex-column align-items-center ml-3 mr-2">
                         <h6>Minutes</h6>
@@ -152,7 +159,7 @@
                 </div>
             </div>
             <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center my-2">
-                <h3 class="text-info pt-4"><b>Rest Time</b></h3>
+                <h3 class="text-info pt-4 text-block"><b>Rest Time</b></h3>
                 <div class="d-flex flex-row justify-content-center px-3">
                     <div class="d-flex flex-column align-items-center ml-3 mr-2">
                         <h6>Minutes</h6>
@@ -165,7 +172,7 @@
                 </div>
             </div>
             <div class="d-flex flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-around my-2">
-                <div class="form-check mt-4 align-items-center d-flex flex-row pl-0">
+                <div class="form-check check-block mt-4 align-items-center d-flex flex-row pl-0">
                     <label class="switch3 mr-3" >
                         <input type="checkbox" id="warm-up-check" onchange="checkboxField();"/>
                         <div></div>
@@ -184,7 +191,7 @@
                 </div>
             </div>
             <div class="d-flex flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-around my-2">
-                <div class="form-check align-items-center d-flex flex-row pl-1">
+                <div class="form-check check-block align-items-center d-flex flex-row pl-1">
                     <label class="switch3 mr-3" >
                         <input type="checkbox" id="cool-down-check" onchange="checkboxField();"/>
                         <div></div>
@@ -216,6 +223,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
     <script src="js/easytimer.min.js"></script>
     <script src="js/inputbutton.js"></script>
+    <script src="js/sound.js"></script>
     <script>
         function sleep(ms) {
             return new Promise(function (resolve, reject) {
@@ -344,7 +352,6 @@
                 
                 if (totalDict.minutes > 0 || totalDict.seconds > 0 ){
                     $("#timer-btn").html('Stop');
-                    $("#timer-btn").addClass("btn btn-dark");
                 }
 
 
@@ -353,12 +360,13 @@
                 $(".total-time").html(total_time_min_and_sec_list[0] +":"+ total_time_min_and_sec_list[1])
 
                 $("#main-timer").hide();
+                playStartSound();
                 if ($("#warm-up-check").is(":checked") == true){
                     if (warm_up_minutes > 0 || warm_up_seconds > 0){
                         setMinutes(warm_up_minutes);
                         setSeconds(warm_up_seconds);
                         var warm_up_min_and_sec_list = displayTimerValues(warm_up_minutes,warm_up_seconds);
-                        $(".timer-class").html(`<div class="bg-warning d-flex rounded text-white justify-content-center py-1 px-3"># Warm up </div>`);
+                        $(".timer-class").html(`<div class="bg-warning d-flex rounded text-white justify-content-center py-1 px-3"> Warm up </div>`);
                         $(".values").html(warm_up_min_and_sec_list[0] +":"+ warm_up_min_and_sec_list[1]);
                         timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                         await sleep(milliSeconds(warm_up_minutes,warm_up_seconds));
@@ -375,7 +383,7 @@
                             setMinutes(work_minutes);
                             setSeconds(work_seconds);
                             var work_min_and_sec_list = displayTimerValues(work_minutes,work_seconds);
-                            $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3"># Work </div>`);
+                            $(".timer-class").html(`<div class="bg-primary d-flex rounded text-white justify-content-center py-1 px-3"> Work </div>`);
                             $(".values").html(work_min_and_sec_list[0] +":"+ work_min_and_sec_list[1]);
                             timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                             await sleep(milliSeconds(work_minutes,work_seconds));
@@ -389,7 +397,7 @@
                             setMinutes(rest_minutes);
                             setSeconds(rest_seconds);
                             var rest_min_and_sec_list = displayTimerValues(rest_minutes,rest_seconds);
-                            $(".timer-class").html(`<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3"># Time for a break </div>`);
+                            $(".timer-class").html(`<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3"> Time for a break </div>`);
                             $(".values").html(rest_min_and_sec_list[0] +":"+ rest_min_and_sec_list[1]);
                             timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                             await sleep(milliSeconds(rest_minutes,rest_seconds));
@@ -398,15 +406,17 @@
                 }
                 if ($("#cool-down-check").is(":checked") == true){
                     if (cool_down_minutes > 0 || cool_down_seconds > 0){
+                        $(".current-interval").html("");
                         setMinutes(cool_down_minutes);
                         setSeconds(cool_down_seconds);
                         var cool_down_min_and_sec_list = displayTimerValues(cool_down_minutes,cool_down_seconds);
-                        $(".timer-class").html(`<div class="bg-info d-flex rounded text-white justify-content-center py-1 px-3"># Cool Down </div>`);
+                        $(".timer-class").html(`<div class="bg-info d-flex rounded text-white justify-content-center py-1 px-3"> Cool Down </div>`);
                         $(".values").html(cool_down_min_and_sec_list[0] +":"+ cool_down_min_and_sec_list[1]);
                         timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                         await sleep(milliSeconds(cool_down_minutes,cool_down_seconds));
                     }
                 }
+                playStopSound();
             }
             catch{
                 //pass                
@@ -425,14 +435,12 @@
             else{
                 if(started == 1){
                     $("#timer-btn").html('Continue');
-                    $("#timer-btn").removeClass('btn-dark').addClass("btn-warning");
                     timer.pause();
                     timer2.pause();
                     started = 2;
                 }
                 else if (started ==2){
                     $("#timer-btn").html('Stop');
-                    $("#timer-btn").removeClass('btn-warning').addClass("btn-dark");
                     timer.start();
                     timer2.start();
                     started = 1;
@@ -459,7 +467,7 @@
             $(".remaining-time , .values").html("00:00");
             started = 0;
             total_seconds = 0;
-            $("#timer-btn").removeClass('btn-warning btn-dark').addClass('btn-success').html("Start");
+            $("#timer-btn").html("Start");
             $(".timer-class").html("");
             $("#main-timer").show();
             $(".values");
@@ -469,6 +477,7 @@
 
         
         $('#chronoExample .resetButton').click(function () {
+            playStopSound();
             resetTimer();
         });
         

@@ -16,7 +16,6 @@
   <body>
     <style>
         .values{
-            font-size: 120px;
             color: #48494e;
         }
     </style>
@@ -55,7 +54,7 @@
 
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3 pb-5">
         <h2 class="p-3 d-flex align-items-center justify-content-between"><i class="fas fa-hourglass-end fa-2x mx-4"></i><b> CountDown Timer</b></h2>
-        <div class="values my-3 p-3 text-left w-50">00:00:00:00</div>
+        <div class="values my-3 p-3 text-left">00:00:00<span class="values-small">:00</span></div>
         <h3 class="p-2"><b>Set Time</b></h3>
         <div class="d-flex flex-row justify-content-center my-2 mb-3">
             <div class="d-flex flex-column align-items-center mx-2">
@@ -105,19 +104,22 @@
 
         }
         function setHours(obj){
-            var hours = $(obj).val();
+            var hours = obj.value;
+            $("#hours").val(hours);
             if(hours!=""){
                 valuesDict.hours = hours;
             }
         }
         function setMinutes(obj){
-            var minutes = $(obj).val();
+            var minutes = obj.value;
+            $("#minutes").val(minutes);
             if(minutes!=""){
                 valuesDict.minutes = minutes;
             }
         }
         function setSeconds(obj){
-            var seconds = $(obj).val();
+            var seconds = obj.value;
+            $("#seconds").val(seconds);
             if(seconds!=""){
                 valuesDict.seconds = seconds;
             }
@@ -187,7 +189,7 @@
                 if (timer_btn == 0){
                     timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
                     timer.addEventListener('secondTenthsUpdated', function (e) {
-                        $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                        $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
                     });
     
                     timer_btn = 1; //timer has started
@@ -226,7 +228,7 @@
         
         function resetTimer(){
             var total_time = displayTimerValues($("#hours").val(), $("#minutes").val(), $("#seconds").val());
-            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] + ":00");
+            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] + '<span class="values-small">:00'+'</span>');
             timer.stop();
             timer_btn = 0;
             paused = false;

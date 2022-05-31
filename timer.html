@@ -103,6 +103,19 @@
             seconds:0
 
         }
+        var getUrlMinutes = getUrlParameter('minutes');
+        var getUrlSeconds = getUrlParameter('seconds');
+        var getUrlHours = getUrlParameter('hours');
+
+        if (getUrlMinutes){
+            preSetMinutes(getUrlMinutes);
+        }
+        if (getUrlSeconds){
+            preSetSeconds(getUrlSeconds);
+        }
+        if (getUrlHours){
+            preSetHours(getUrlHours);
+        }
         function setHours(obj){
             var hours = obj.value;
             $("#hours").val(hours);
@@ -126,14 +139,12 @@
         }
         function preSetHours(obj){
             $("#hours").val(obj);
-            $("#minutes").val("00");
             valuesDict.minutes = 0;
             resetTimer();
             valuesDict.hours = obj;
         }
         function preSetMinutes(obj){
             $("#minutes").val(obj);
-            $("#hours").val("00");
             valuesDict.hours = 0;
             resetTimer();
             valuesDict.minutes = obj;
@@ -251,6 +262,8 @@
             playStopSound();
             $('#timer-btn').html("Start");
         });
+
+
     </script>
 
     

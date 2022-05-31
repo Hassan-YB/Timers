@@ -63,7 +63,7 @@
             $(this).addClass('disabled');
           }
           sibBtn.removeClass('disabled');
-         
+        
         //Remove value
         } else {
           
@@ -106,6 +106,8 @@
    */
   
 	$('.numberstyle').numberstyle();
-
+  $("#tasks").change(function(){
+    $('.numberstyle').numberstyle()}
+    );
 }( jQuery ));
 

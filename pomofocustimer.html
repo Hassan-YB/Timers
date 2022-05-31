@@ -139,7 +139,7 @@
             <h3 class="p-2"><b>Set Time</b></h3>
             <div class="d-flex flex-column align-items-center my-2 mx-3 ">
                 <div class="form-group mx-2 text-center">
-                    <label for="tasks" class="font-weight-bold">Select number of tasks</label>
+                    <label for="tasks">Select number of tasks</label>
                     <select id="tasks" class="form-control" onchange="setTask();toggleLastBreak();">
                     <option value="1" selected>1 task</option>
                     <option value="2">2 task</option>
@@ -154,18 +154,18 @@
                     </select>
                 </div>
                 <div class="form-check my-1 align-items-center d-flex flex-column">
-                    <h5>Remove last break</h5>
+                    <h3 class="p-2"><b>Remove last break</b></h3>
                     <label class="switch3" >
                         <input type="checkbox" id="no-break-check" onchange="toggleLastBreak();"/>
                         <div></div>
                     </label>
                 </div>
             </div>
-            <div class="d-flex align-items-center flex-column p-2 tasks-column mb-3" id="style-1" style="max-height:320px;overflow:auto;">
+            <div class="d-flex align-items-center flex-column p-2 tasks-column mb-3" id="style-1" style="max-height:320px;overflow:auto;width:450px;">
             </div>
             <div id="chronoExample">
-                <button class="btn btn-success startButton" id="timer-btn">Start</button>
-                <button class="btn btn-danger reset-btn" id="reset-btn" onclick="resetTimer();">Reset</button>
+                <button class="btn btn-primary startButton" id="timer-btn">Start</button>
+                <button class="btn btn-outline-info reset-btn" id="reset-btn" onclick="resetTimer();playStopSound();">Reset</button>
             </div>
         </div>
         
@@ -177,6 +177,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
     <script src="js/easytimer.min.js"></script>
+    <script src="js/inputbutton.js" async></script>
+    <script src="js/sound.js"></script>
     <script>
         function sleep(ms) {
             return new Promise(function (resolve, reject) {
@@ -225,18 +227,30 @@
                 $('.tasks-column').append(
                     `
                     <div class="d-flex flex-column align-items-center task my-2">
-                        <div class="d-flex flex-row justify-content-between align-items-center bg-primary px-2 py-1 border rounded my-2 cursor-pointer">
-                            <h5 class="text-white pt-1 mr-5 cursor-pointer task-no" data-task='${i}' onclick="currentTask(this);">Task ${i}</h5>
-                            <div class="d-flex justify-content-between">
-                                <input style="width:70px;font-size:1.25rem" class="form-control mx-1 task-minutes" name="task-minutes" onchange="resetTimer();" type="number" max="60" value="25">
-                                <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 task-seconds" name="task-seconds" onchange="resetTimer();"  type="number" max="59" value="00">
+                        <div class="d-flex flex-row justify-content-between align-items-center px-2 py-1 my-2 cursor-pointer">
+                            <h5 class="text-white pt-1 mr-5 cursor-pointer task-no text-info" data-task='${i}' onclick="currentTask(this);">Task ${i}</h5>
+                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                <div class="d-flex flex-column align-items-center mr-3">
+                                    <h6>Minutes</h6>
+                                    <input type="number" style="font-size:1.25rem" class="numberstyle mx-1 task-minutes" name="task-minutes" onchange="resetTimer();" step="1" max="60" min="00" value="25">
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <h6>Seconds</h6>
+                                    <input style="font-size:1.25rem" class="numberstyle mx-1 task-seconds" name="task-seconds" onchange="resetTimer();"  type="number" step="1" max="59" min="00" value="00">
+                                </div>
                             </div>
                         </div>
-                        <div class="d-flex flex-row justify-content-between align-items-center bg-success px-2 py-1 border rounded my-2 cursor-pointer break-${i}" >
-                            <h5 class="text-white pt-1 mr-5 cursor-pointer break-no" data-break='${i}' onclick="currentBreak(this);">Break</h5>
-                            <div class="d-flex justify-content-between">
-                                <input style="width:70px;font-size:1.25rem" class="form-control mx-1 break-minutes" name="break-minutes" onchange="resetTimer();" type="number" max="60" value="5">
-                                <input style="width:70px;font-size:1.25rem" class="form-control mmx-1 break-seconds" name="break-seconds" onchange="resetTimer();" type="number" max="59" value="00">
+                        <div class="d-flex flex-row justify-content-between align-items-center px-2 py-1 my-2 cursor-pointer break-${i}" >
+                            <h5 class="text-white pt-1 mr-5 cursor-pointer break-no text-info" data-break='${i}' onclick="currentBreak(this);">Break</h5>
+                            <div class="d-flex flex-row justify-content-between align-items-center">
+                                <div class="d-flex flex-column align-items-center mr-3">
+                                    <h6>Minutes</h6>
+                                    <input style="font-size:1.25rem" class="numberstyle mx-1 break-minutes" name="break-minutes" onchange="resetTimer();" type="number" step="1" max="60" min="00" value="5">
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <h6>Seconds</h6>
+                                    <input style="font-size:1.25rem" class="numberstyle mx-1 break-seconds" name="break-seconds" onchange="resetTimer();" type="number" step="1" max="59" min="00" value="00">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -244,7 +258,6 @@
                 );
                 i++;
             }
-            
         }
         setTask();
         
@@ -267,7 +280,6 @@
             updateTimerDict();
             pomofocus();
             console.log("current task")
-            $('#timer-btn').removeClass("btn-warning btn-success").addClass("btn btn-dark");
             $("#timer-btn").html("Stop");
         }
 
@@ -283,7 +295,6 @@
             updateTimerDict();
             pomofocus();
             console.log("current break")
-            $('#timer-btn').removeClass("btn-warning btn-success").addClass("btn btn-dark");
             $("#timer-btn").html("Stop");
         }
 
@@ -333,8 +344,9 @@
         async function pomofocus(){
             timer = new easytimer.Timer();
             try{
+                playStartSound();
                 for (i; i < time_list.length; i++){
-                    
+                     
                         if (currently_break == false){
                             setMinutes(time_list[i]['task_minutes']);
                             setSeconds(time_list[i]['task_seconds']);
@@ -359,8 +371,10 @@
                             currently_break = false;
                             await sleep(milliSeconds(time_list[i]['break_minutes'],time_list[i]['break_seconds']));
                             
-                        }              
+                        }
+                        playIntervalSound();              
                 }
+                playStopSound();
             }
             catch(e){
                 console.log(e)
@@ -406,19 +420,16 @@
                 pomofocus();
 
                 timer_btn = 1; //timer has started
-                $('#timer-btn').removeClass("btn-success").addClass("btn-dark");
                 $("#timer-btn").html("Stop");
             }
             else{
                     if (paused == false){
                         timer.pause();
-                        $('#timer-btn').removeClass("btn-dark").addClass("btn-warning");
                         $("#timer-btn").html("Continue");
                         paused = true;
                     }
                     else{
                         timer.start();
-                        $('#timer-btn').removeClass("btn-warning").addClass("btn-dark");
                         $("#timer-btn").html("Stop");
                         paused = false;
                     }
@@ -472,7 +483,6 @@
             var task_min_and_sec_list = displayTimerValues(time_list[0]['task_minutes'],time_list[0]['task_seconds']);
             $(".values").html(task_min_and_sec_list[0] +":"+ task_min_and_sec_list[1]);
             
-            $('#timer-btn').removeClass("btn-warning btn-dark").addClass("btn btn-success");
             $("#timer-btn").html("Start");
             
             

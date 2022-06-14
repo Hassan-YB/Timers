@@ -88,28 +88,28 @@
         </div> -->
         <div class="d-flex flex-row justify-content-between my-2 m-2 pb-2">
             <div class="d-flex flex-column align-items-start align-items-sm-center mx-4">
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(5)">05 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(10)">10 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(20)">20 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(30)">30 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(40)">40 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(60)">60 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(5)">05 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(10)">10 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(20)">20 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(30)">30 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(40)">40 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(60)">60 seconds</p>
             </div>
             <div class="d-flex flex-column align-items-lg-start mx-4">
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(1)">01 minute</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(2)">02 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(5)">05 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(10)">10 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(20)">20 minutes </p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(30)">30 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(1)">01 minute</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(2)">02 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(5)">05 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(10)">10 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(20)">20 minutes </p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(30)">30 minutes</p>
             </div>
             <div class="d-flex flex-column align-items-start mx-4">    
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(40)">40 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(50)">50 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(60)">60 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetHours(1)">1 hour</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetHours(2)">2 hours</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetHours(3)">3 hours</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(40)">40 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(50)">50 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(60)">60 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetHoursLink(1)">1 hour</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetHoursLink(2)">2 hours</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetHoursLink(3)">3 hours</p>
             </div>
         </div>
     </div>
@@ -130,6 +130,15 @@
             minutes:0,
             seconds:0
 
+        }
+        function preSetSecondsLink(secs){
+            window.location.href = "timer.html?seconds="+secs;
+        }
+        function preSetMinutesLink(mins){
+            window.location.href = "timer.html?minutes="+mins;
+        }
+        function preSetHoursLink(hours){
+            window.location.href = "timer.html?hours="+hours;
         }
         var getUrlMinutes = getUrlParameter('minutes');
         var getUrlSeconds = getUrlParameter('seconds');
@@ -179,6 +188,7 @@
         }
         function preSetSeconds(obj){
             $("#seconds").val(obj);
+            resetTimer();
             valuesDict.seconds = obj;
         }
 

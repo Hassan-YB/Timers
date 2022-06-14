@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>Egg Timer</title>
+  </head>
+  <body>
+    <style>
+        .form-control{
+            border: 0.1px solid #f2f2f2 !important;
+        }
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand " href="#"> <b> Timers</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="timer.html">CountDown</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="chesstimer.html">ChessTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="stopwatch.html">Stopwatch</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="splittimer.html">SplitTimer</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="eggtimer.html">EggTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tabata.html">TabataTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pomofocustimer.html">PomofocusTimer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
+        <h2 class="tophead pt-0 pb-3 d-flex align-items-center justify-content-between font-color"><b>Egg Timer</b></h2>
+        <div class="values mx-3 px-3">00:00:00:00</div>
+        <!-- <h3 class="p-2"><b>Set Time</b></h3> -->
+        <div class="d-flex flex-row justify-content-center my-2 mb-3">
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5 class="font-label">Hours</h5>
+                <input class="numberstyle" type="number" id="hours" min="0" step="1" value="00" onchange="setHours(this);"/>
+            </div>
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5 class="font-label">Minutes</h5>
+                <input class="numberstyle" type="number" id="minutes" min="0" max="60" step="1" value="00" onchange="setMinutes(this);"/>
+            </div>
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5 class="font-label">Seconds</h5>
+                <input class="numberstyle" type="number" id="seconds" min="0" max="60" step="1" value="00" onchange="setSeconds(this);"/>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-start align-items-center col-lg-4 mb-2">
+            <h5 class="col-lg-6 font-label">Egg Size</h5>
+            <select id="egg-size" class="form-control col-lg-6" onchange="setEggType(this);">
+              <option value="" selected>Choose size</option>
+              <option value="1">Medium</option>
+              <option value="2">Large</option>
+              <option value="3">Extra Large</option>
+            </select>
+        </div>
+        <div class="d-flex flex-row justify-content-start align-items-center col-lg-4">
+            <h5 class="col-lg-6 font-label">Egg Boil type</h5>
+            <select id="egg-type" class="form-control col-lg-6" onchange="setEggSize(this);">
+              <option selected>Choose boil type</option>
+              <option value="2">Soft</option>
+              <option value="3">Medium</option>
+              <option value="6">Hard</option>
+            </select>
+        </div>
+        <div id="chronoExample" class="d-flex justify-content-center flex-row align-items-center">
+            <button class="btn btn-outline-info resetButton mx-2">Reset</button>
+            <button class="btn btn-primary startButton mx-2" id="timer-btn">Start</button>
+            <i class="far fa-volume-up fa-2x cursor-pointer font-color mx-2" id="toggleSoundBtn" style="width:32px"></i>
+        </div>
+        <h5 class="p-2 mt-1 font-label">Related Countdown Timers</h5>
+        <div class="resp d-flex flex-row justify-content-center my-2 m-2 pb-2 timings">
+            <p class="text-primary" onclick="preSetMinutes(3)">3 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(4)">4 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(5)">5 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(6)">6 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(7)">7 minutes</p>
+        </div>
+        
+    
+
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script src="js/easytimer_doubledigits.min.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/inputbutton.js"></script>
+
+    <script>
+        var timer = new easytimer.Timer();
+        var valuesDict = {
+            hours:0,
+            minutes:0,
+            seconds:0
+
+        }
+        var egg_size = 0;
+        var egg_type = 0;
+
+        
+        function setHours(obj){
+            var hours = $(obj).val();
+            if(hours!=""){
+                valuesDict.hours = hours;
+            }
+        }
+        function setMinutes(obj){
+            var minutes = $(obj).val();
+            if(minutes!=""){
+                valuesDict.minutes = minutes;
+            }
+        }
+        function setSeconds(obj){
+            var seconds = $(obj).val();
+            if(seconds!=""){
+                valuesDict.seconds = seconds;
+            }
+        }
+        function preSetHours(obj){
+            $("#hours").val(obj);
+            $("#minutes").val("00");
+            valuesDict.minutes = 0;
+            resetTimer();
+            valuesDict.hours = obj;
+        }
+        function preSetMinutes(obj){
+            $("#minutes").val(obj);
+            $("#hours").val("00");
+            valuesDict.hours = 0;
+            resetTimer();
+            valuesDict.minutes = obj;
+        }
+        function preSetSeconds(obj){
+            $("#seconds").val(obj);
+            valuesDict.seconds = obj;
+        }
+
+        function displayTimerValues(hrs, mins, secs){
+            var display_mins = ""
+            var display_secs = ""
+            var display_hrs = ""
+
+            if ( (hrs.toString()).length === 1 ){
+                display_hrs = "0" + hrs.toString();
+            }
+            else if ( (hrs.toString()).length === 0 ){
+                display_hrs = "00";
+            }
+            else{
+                display_hrs = hrs;
+            }
+
+            if ( (mins.toString()).length === 1 ){
+                display_mins = "0" + mins.toString();
+            }
+            else if ( (mins.toString()).length === 0 ){
+                display_mins = "00";
+            }
+            else{
+                display_mins = mins;
+            }
+
+            if ( (secs.toString()).length === 1 ){
+                display_secs = "0" + secs.toString();
+            }
+            else if ( (secs.toString()).length === 0 ){
+                display_secs = "00";
+            }
+            else{
+                display_secs = secs
+            }
+            return [display_hrs, display_mins, display_secs]
+        }
+        
+        function setBoilingTimer(type,size){
+            var time = Number(type)+Number(size);
+            preSetMinutes(time);
+            resetTimer();
+        }
+
+        function setEggType(obj){
+            if ($(obj).val()!==""){
+                egg_type = $(obj).val();
+            }
+            if (egg_size!="0" && egg_type!="0"){
+                setBoilingTimer(egg_type,egg_size);
+            }
+        }
+
+        function setEggSize(obj){
+            if ($(obj).val()!==""){
+                egg_size = $(obj).val();
+            }
+            if (egg_size!=="0" && egg_type!=="0"){
+                setBoilingTimer(egg_type,egg_size);
+            }
+        }
+
+        preSetMinutes('5');
+        var timer_btn = 0;
+        var paused = false;
+        $('#chronoExample .startButton').click(function () {
+            if (timer_btn == 0){
+                timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+                timer.addEventListener('secondTenthsUpdated', function (e) {
+                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
+                });
+                timer_btn = 1; //timer has started
+                $("#timer-btn").html("Stop");
+            }
+            else{
+                if (timer.getTimeValues().minutes > 0 || timer.getTimeValues().seconds > 0 ){
+                    if (paused == false){
+                        timer.pause();
+                        $("#timer-btn").html("Continue");
+                        paused = true;
+                    }
+                    else{
+                        timer.start();
+                        $("#timer-btn").html("Stop");
+                        paused = false;
+                    }
+                    
+                    
+                }
+            }
+        });
+        
+        $('#chronoExample .pauseButton').click(function () {
+            timer.pause();
+        });
+        
+        $('#chronoExample .stopButton').click(function () {
+            timer.stop();
+        });
+        
+        function resetTimer(){
+            var total_time = displayTimerValues($("#hours").val(), $("#minutes").val(), $("#seconds").val());
+            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] +'<span class="values-small">:00'+'</span>');
+            timer.stop();
+            timer_btn = 0;
+            paused = false;
+            $("#timer-btn").html("Start");
+        }
+
+        $('#chronoExample .resetButton').click(function () {
+            resetTimer();
+        });
+        
+        
+        timer.addEventListener('secondsUpdated', function (e) {
+            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
+        });
+        
+        timer.addEventListener('started', function (e) {
+            playStartSound();
+            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
+        });
+        
+        timer.addEventListener('stopped', function (e) {
+            playStopSound();
+        });
+    </script>
+  </body>
+</html>
+

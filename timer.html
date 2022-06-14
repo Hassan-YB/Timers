@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>CountDown Timer</title>
+  </head>
+  <body>
+    <style>
+        .values{
+            color: #48494e;
+        }
+        
+    </style>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand " href="#"><b> Timers</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="timer.html">CountDown</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="chesstimer.html">ChessTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="stopwatch.html">Stopwatch</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="splittimer.html">SplitTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="eggtimer.html">EggTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tabata.html">TabataTimer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="pomofocustimer.html">PomofocusTimer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3 pb-5">
+        <h2 class="tophead pt-0 pb-3 d-flex align-items-center justify-content-between font-color"><b> CountDown Timer</b></h2>
+        <div class="values mx-3 px-3 text-left">00:00:00<span class="values-small">:00</span></div>
+        <!-- <h3 class="sechead p-2"><b>Set Time</b></h3> -->
+        <div class="tophead d-flex flex-row justify-content-center my-2 mb-3">
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5 class="font-label">Hours</h5>
+                <input class="numberstyle" type="number" id="hours" min="0" step="1" value="00" onchange="setHours(this);"/>
+            </div>
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5 class="font-label">Minutes</h5>
+                <input class="numberstyle" type="number" id="minutes" min="0" max="60" step="1" value="00" onchange="setMinutes(this);"/>
+            </div>
+            <div class="d-flex flex-column align-items-center mx-2">
+                <h5 class="font-label">Seconds</h5>
+                <input class="numberstyle" type="number" id="seconds" min="0" max="60" step="1" value="00" onchange="setSeconds(this);"/>
+            </div>
+        </div>
+        
+        <div id="chronoExample" class="d-flex justify-content-center flex-row align-items-center">
+            <button class="btn btn-outline-info resetButton">Reset</button>
+            <button class="btn btn-primary startButton" id="timer-btn">Start</button>
+            <i class="far fa-volume-up fa-2x cursor-pointer font-color mx-2" id="toggleSoundBtn" style="width:32px"></i>
+        </div>
+
+        <h5 class="p-2 mt-1 font-label">Related Countdown Timers</h5>
+        <!-- <div class="resp d-flex flex-row justify-content-between my-2 m-2 pb-2 timings">
+            <p class="text-primary" onclick="preSetMinutes(1)">1 minute</p>
+            <p class="text-primary" onclick="preSetMinutes(5)">5 minutes</p>
+            <p class="text-primary" onclick="preSetMinutes(30)">30 minutes</p>
+            <p class="text-primary" onclick="preSetHours(1)">1 hour</p>
+            <p class="text-primary" onclick="preSetHours(3)">3 hours</p>
+        </div> -->
+        <div class="d-flex flex-row justify-content-between my-2 m-2 pb-2">
+            <div class="d-flex flex-column align-items-start align-items-sm-center mx-4">
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(5)">05 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(10)">10 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(20)">20 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(30)">30 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(40)">40 seconds</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetSeconds(60)">60 seconds</p>
+            </div>
+            <div class="d-flex flex-column align-items-lg-start mx-4">
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(1)">01 minute</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(2)">02 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(5)">05 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(10)">10 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(20)">20 minutes </p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(30)">30 minutes</p>
+            </div>
+            <div class="d-flex flex-column align-items-start mx-4">    
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(40)">40 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(50)">50 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutes(60)">60 minutes</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetHours(1)">1 hour</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetHours(2)">2 hours</p>
+                <p class="text-primary cursor-pointer text-center" onclick="preSetHours(3)">3 hours</p>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script src="js/easytimer_doubledigits.min.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/inputbutton.js"></script>
+    <script>
+        var timer = new easytimer.Timer();
+        var valuesDict = {
+            hours:0,
+            minutes:0,
+            seconds:0
+
+        }
+        var getUrlMinutes = getUrlParameter('minutes');
+        var getUrlSeconds = getUrlParameter('seconds');
+        var getUrlHours = getUrlParameter('hours');
+
+        if (getUrlMinutes){
+            preSetMinutes(getUrlMinutes);
+        }
+        if (getUrlSeconds){
+            preSetSeconds(getUrlSeconds);
+        }
+        if (getUrlHours){
+            preSetHours(getUrlHours);
+        }
+        function setHours(obj){
+            var hours = obj.value;
+            $("#hours").val(hours);
+            if(hours!=""){
+                valuesDict.hours = hours;
+            }
+        }
+        function setMinutes(obj){
+            var minutes = obj.value;
+            $("#minutes").val(minutes);
+            if(minutes!=""){
+                valuesDict.minutes = minutes;
+            }
+        }
+        function setSeconds(obj){
+            var seconds = obj.value;
+            $("#seconds").val(seconds);
+            if(seconds!=""){
+                valuesDict.seconds = seconds;
+            }
+        }
+        function preSetHours(obj){
+            $("#hours").val(obj);
+            valuesDict.minutes = 0;
+            resetTimer();
+            valuesDict.hours = obj;
+        }
+        function preSetMinutes(obj){
+            $("#minutes").val(obj);
+            valuesDict.hours = 0;
+            resetTimer();
+            valuesDict.minutes = obj;
+        }
+        function preSetSeconds(obj){
+            $("#seconds").val(obj);
+            valuesDict.seconds = obj;
+        }
+
+        function displayTimerValues(hrs, mins, secs){
+            var display_mins = ""
+            var display_secs = ""
+            var display_hrs = ""
+
+            if ( (hrs.toString()).length === 1 ){
+                display_hrs = "0" + hrs.toString();
+            }
+            else if ( (hrs.toString()).length === 0 ){
+                display_hrs = "00";
+            }
+            else{
+                display_hrs = hrs;
+            }
+
+            if ( (mins.toString()).length === 1 ){
+                display_mins = "0" + mins.toString();
+            }
+            else if ( (mins.toString()).length === 0 ){
+                display_mins = "00";
+            }
+            else{
+                display_mins = mins;
+            }
+
+            if ( (secs.toString()).length === 1 ){
+                display_secs = "0" + secs.toString();
+            }
+            else if ( (secs.toString()).length === 0 ){
+                display_secs = "00";
+            }
+            else{
+                display_secs = secs
+            }
+            return [display_hrs, display_mins, display_secs]
+        }
+
+        
+        var timer_btn = 0;
+        var paused = false;
+
+        $('#chronoExample .startButton').click(function () {
+            if(Number($("#hours").val()) > 0 || Number($("#minutes").val()) > 0 || Number($("#seconds").val()) > 0){
+                if (timer_btn == 0){
+                    timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
+                    timer.addEventListener('secondTenthsUpdated', function (e) {
+                        $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
+                    });
+    
+                    timer_btn = 1; //timer has started
+                    $("#timer-btn").html("Stop");
+                }
+                else{
+                    if (timer.getTimeValues().minutes > 0 || timer.getTimeValues().seconds > 0 ){
+                        if (paused == false){
+                            timer.pause();
+                            $("#timer-btn").html("Continue");
+                            paused = true;
+                        }
+                        else{
+                            timer.start();
+                            $("#timer-btn").html("Stop");
+                            paused = false;
+                        }
+                        
+                        
+                    }
+                }
+            }
+            else{
+                alert("Set Time First");
+            }
+            
+        });
+
+        $('#chronoExample .pauseButton').click(function () {
+            timer.pause();
+        });
+        
+        $('#chronoExample .stopButton').click(function () {
+            timer.stop();
+        });
+        
+        function resetTimer(){
+            var total_time = displayTimerValues($("#hours").val(), $("#minutes").val(), $("#seconds").val());
+            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] + '<span class="values-small">:00'+'</span>');
+            timer.stop();
+            timer_btn = 0;
+            paused = false;
+            $("#timer-btn").html("Start");
+        }
+        $('#chronoExample .resetButton').click(function () {
+            resetTimer();
+        });
+        
+        timer.addEventListener('secondsUpdated', function (e) {
+            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        });
+        
+        timer.addEventListener('started', function (e) {
+            playStartSound();
+            $('#chronoExample .values').html(timer.getTimeValues().toString());
+        });
+        
+        timer.addEventListener('stopped', function (e) {
+            playStopSound();
+            $('#timer-btn').html("Start");
+        });
+
+
+    </script>
+    
+  </body>
+</html>
+

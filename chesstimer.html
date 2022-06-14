@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>Chess Timer</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand " href="#"><b> Timers</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="timer.html">CountDown</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="chesstimer.html">ChessTimer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="stopwatch.html">Stopwatch</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="splittimer.html">SplitTimer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="eggtimer.html">EggTimer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="tabata.html">TabataTimer</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pomofocustimer.html">PomofocusTimer</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
+    <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
+        <h2 class="tophead pt-0 pb-3 d-flex align-items-center justify-content-between font-color"><b>Chess Timer</b></h2>
+        <div class="d-flex flex-row align-items-center my-2 mx-3">
+            <div class="m-3 d-flex flex-column align-items-center">
+                <h3 class="mb-3 font-color"><b>Player 1</b></h3>
+                <span class="player-1 border p-2" style="font-size:70px;width: 435px;text-align: left;border-radius:10px;color: #48494e;">00:00:00:00</span>
+            </div>
+            <div class="m-3 d-flex flex-column align-items-center" style="font-size:56px;">
+                <h3 class="mb-3 font-color"><b>Player 2</b></h3>
+                <span class="player-2 border p-2" style="font-size:80px;width: 435px;text-align: left;border-radius:10px;color: #48494e;">00:00:00:00</span>
+            </div>
+        </div>
+ 
+        <div id="chronoExample" class="d-flex justify-content-center flex-row align-items-center">
+            <button class="btn btn-outline-info resetButton">Reset</button>
+            <button class="btn btn-warning pauseButton" >Switch</button>
+            <button class="btn btn-primary startButton" id="timer-btn">Start</button>
+            <i class="far fa-volume-up fa-2x cursor-pointer font-color mx-2" id="toggleSoundBtn" style="width:32px"></i>
+        </div>
+    </div>
+
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script src="js/easytimer_doubledigits.min.js"></script>
+    <script src="js/sound.js"></script>
+
+    <script>
+        var timer1 = new easytimer.Timer();
+        var timer2 = new easytimer.Timer();
+        var switch_player = true;
+        var timer_reset = true;
+        var valuesDict = {
+            hours:0,
+            minutes:0,
+            seconds:0,
+            secondTenths:0,
+
+        }
+        function setHours(obj){
+            var hours = $(obj).val();
+            if(hours!=""){
+                valuesDict.hours = hours;
+            }
+        }
+        function setMinutes(obj){
+            var minutes = $(obj).val();
+            if(minutes!=""){
+                valuesDict.minutes = minutes;
+            }
+        }
+        function setSeconds(obj){
+            var seconds = $(obj).val();
+            if(seconds!=""){
+                valuesDict.seconds = seconds;
+            }
+        }
+        function preSetHours(obj){
+            $("#hours").val(obj);
+            valuesDict.hours = obj;
+        }
+        function preSetMinutes(obj){
+            $("#minutes").val(obj);
+            valuesDict.minutes = obj;
+        }
+        function preSetSeconds(obj){
+            $("#seconds").val(obj);
+            valuesDict.seconds = obj;
+        }
+        var timer_btn = 0;
+        var timer_one_stopped = false;
+        var timer_two_stopped = false;
+
+        function chessTimer(){
+            if (timer_btn == 0){
+                timer1.start({countdown: false, startValues: valuesDict,precision: 'secondTenths'});
+                timer1.addEventListener('secondTenthsUpdated', function (e) {
+                    $('.player-1').html(timer1.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                });
+
+                $(".player-1").addClass("bg-success text-white");
+                $(".player-2").removeClass("bg-success text-white");
+                $("#timer-btn").html("Stop");
+                timer_btn = 1;
+            }
+            else if (timer_btn == 1){
+                if (switch_player == false){
+                    if (timer_two_stopped == false){
+                        timer2.pause();
+                        $("#timer-btn").html("Continue");
+                        timer_two_stopped = true;
+                    }
+                    else {
+                        timer2.start();
+                        $("#timer-btn").html("Stop");
+                        timer_two_stopped = false;
+                    }
+                    
+                }
+                else{
+                    if (timer_one_stopped == false){
+                        timer1.pause();
+                        $("#timer-btn").html("Continue");
+                        timer_one_stopped = true;
+                    }
+                    else {
+                        timer1.start();
+                        $("#timer-btn").html("Stop");
+                        timer_one_stopped = false;
+                    }
+                   
+                }
+            }
+        }
+        $('#chronoExample .startButton').click(function () {
+            chessTimer();
+        });
+        
+        $('#chronoExample .pauseButton').click(function () {
+            if (switch_player==true){
+                $("#timer-btn").html("Stop");
+                timer1.pause();
+                if (timer_reset==true){
+                    timer2.start({countdown: false, startValues: valuesDict,precision: 'secondTenths'});
+                    timer2.addEventListener('secondTenthsUpdated', function (e) {
+                        $('.player-2').html(timer2.getTimeValues().toString(['hours', 'minutes', 'seconds', 'secondTenths']));
+                    });
+                    $(".player-2").addClass("bg-success text-white");
+                    $(".player-1").removeClass("bg-success text-white");
+                    timer_reset = false;
+                }
+                else{
+                    timer2.start();
+                    $(".player-2").addClass("bg-success text-white");
+                    $(".player-1").removeClass("bg-success text-white");
+                }
+                
+                switch_player = false;
+            }
+            else{
+                timer1.start();
+                timer2.pause();
+                $(".player-1").addClass("bg-success text-white");
+                $(".player-2").removeClass("bg-success text-white");
+                $("#timer-btn").html("Stop");
+                $("#timer-btn").removeClass("btn-warning").addClass("btn btn-dark");
+                switch_player = true;
+            }
+            
+        });
+        
+        $('#chronoExample .stopButton').click(function () {
+            timer1.stop();
+            timer2.stop();
+        });
+        function resetTimer(){
+            playStopSound();
+            timer1.stop();
+            timer2.stop();
+            $('.player-1, .player-2').html("00:00:00:00");
+            timer_btn = 0;
+            timer_one_stopped = false;
+            timer_two_stopped = false;
+            switch_player = true;
+            timer_reset = true;
+            $('#timer-btn').removeClass().addClass("btn btn-success startButton");
+            $("#timer-btn").html("Start");
+            $(".player-2,.player-1").removeClass("bg-success text-white");
+        }
+        $('#chronoExample .resetButton').click(function () {
+            resetTimer()
+        });
+        
+        timer1.addEventListener('secondsUpdated', function (e) {
+            $('.player-1').html(timer1.getTimeValues().toString());
+        });
+        
+        timer1.addEventListener('started', function (e) {
+            playStartSound();
+            $('.player-1').html(timer1.getTimeValues().toString());
+        });
+
+        timer2.addEventListener('started', function (e) {
+            playStartSound();
+        });
+        
+        timer1.addEventListener('reset', function (e) {
+            $('.player-1').html(timer1.getTimeValues().toString());
+        });
+    </script>
+  </body>
+</html>
+

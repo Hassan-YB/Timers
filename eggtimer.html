@@ -93,7 +93,7 @@
         <h2 class="tophead pt-0 pb-3 d-flex align-items-center justify-content-between font-color"><b>Egg Timer</b></h2>
         <div class="values mx-3 px-3">00:00:00</div>
         <!-- <h3 class="p-2"><b>Set Time</b></h3> -->
-        <div class="d-flex flex-lg-row flex-column align-items-center justify-content-center my-2 mb-3">
+        <div class="d-flex flex-lg-row flex-md-row flex-column align-items-center justify-content-center my-2 mb-3">
             <div class="d-flex flex-column align-items-center mx-2">
                 <h5 class="font-label">Hours</h5>
                 <input class="numberstyle" type="number" id="hours" min="0" step="1" value="00" onchange="setHours(this);"/>
@@ -107,18 +107,18 @@
                 <input class="numberstyle" type="number" id="seconds" min="0" max="60" step="1" value="00" onchange="setSeconds(this);"/>
             </div>
         </div>
-        <div class="d-flex flex-row justify-content-start align-items-center col-lg-4 mb-2">
-            <h5 class="col-lg-6 col-5 font-label">Egg Size</h5>
-            <select id="egg-size" class="form-control col-lg-6 col-7" onchange="setEggType(this);">
+        <div class="d-flex flex-row justify-content-start justify-content-md-center align-items-center col-lg-4 mb-2">
+            <h5 class="col-lg-6 col-md-3 col-5 font-label">Egg Size</h5>
+            <select id="egg-size" class="form-control col-lg-6 col-md-4 col-7" onchange="setEggType(this);">
               <option value="" selected>Choose size</option>
               <option value="1">Medium</option>
               <option value="2">Large</option>
               <option value="3">Extra Large</option>
             </select>
         </div>
-        <div class="d-flex flex-row justify-content-start align-items-center col-lg-4">
-            <h5 class="col-lg-6 col-5 font-label">Egg Boil type</h5>
-            <select id="egg-type" class="form-control col-lg-6 col-7" onchange="setEggSize(this);">
+        <div class="d-flex flex-row justify-content-start justify-content-md-center align-items-center col-lg-4">
+            <h5 class="col-lg-6 col-md-3 col-5 font-label">Egg Boil type</h5>
+            <select id="egg-type" class="form-control col-lg-6 col-md-4 col-7" onchange="setEggSize(this);">
               <option selected>Choose boil type</option>
               <option value="2">Soft</option>
               <option value="3">Medium</option>

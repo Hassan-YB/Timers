@@ -163,7 +163,7 @@
                     <input class="numberstyle" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
                 </div>
             </div>
-            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column justify-content-end align-items-center mx-2 my-1">
+            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-row justify-content-end align-items-center mx-2 my-1">
                 <h5 class="pt-4 font-label">Work Time</h5>
                 <div class="d-flex flex-row justify-content-center px-1">
                     <div class="d-flex flex-column align-items-center mx-2">
@@ -176,7 +176,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-end align-items-center mx-2 my-1">
+            <div class="d-flex flex-lg-row flex-sm-column flex-md-row justify-content-end align-items-center mx-2 my-1">
                 <h5 class="font-label">Rest Time</h5>
                 <div class="d-flex flex-row justify-content-center px-1">
                     <div class="d-flex flex-column align-items-center mx-2">
@@ -187,7 +187,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-end mx-2 my-1">
+            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-row align-items-center justify-content-end mx-2 my-1">
                 <div class="">
                     <label class="switch3 mr-3" >
                         <input type="checkbox" id="warm-up-check" onchange="checkboxField();"/>
@@ -197,14 +197,14 @@
                 <h5 class="font-label ml-2 pl-1">Warm Up</h5>
                 <div class="d-flex flex-row justify-content-center align-items-center px-1" id="warm-up-div">
                     <div class="d-flex flex-column align-items-center  mx-2">
-                        <input style="font-size:1.25rem" class="numberstyle task-minutes" id="warm-up-minutes" type="number" min="0" max="59" step="1" value="00">
+                        <input class="numberstyle task-minutes" id="warm-up-minutes" type="number" min="0" max="59" step="1" value="00">
                     </div>
                     <div class="d-flex flex-column align-items-center mx-2">
-                        <input style="font-size:1.25rem" class="numberstyle task-seconds" id="warm-up-seconds" type="number" max="59" min="0" max="59" step="1" value="30">
+                        <input class="numberstyle task-seconds" id="warm-up-seconds" type="number" max="59" min="0" max="59" step="1" value="30">
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-end mx-2 my-1">
+            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-row align-items-center justify-content-end mx-2 my-1">
                 <div class="">
                     <label class="switch3 mr-3" >
                         <input type="checkbox" id="cool-down-check" onchange="checkboxField();"/>
@@ -215,11 +215,11 @@
                 <div class="d-flex flex-row justify-center align-items-center px-1" id="cool-down-div">
                     <div class="d-flex flex-column align-items-center mx-2">
                         <!-- <h6>Minutes</h6> -->
-                        <input style="font-size:1.25rem" class="numberstyle break-minutes" id="cool-down-minutes" type="number" min="0" max="59" step="1" value="00">
+                        <input class="numberstyle break-minutes" id="cool-down-minutes" type="number" min="0" max="59" step="1" value="00">
                     </div>
                     <div class="d-flex flex-column align-items-center mx-2">
                         <!-- <h6>Seconds</h6> -->
-                        <input style="font-size:1.25rem" class="numberstyle break-seconds" id="cool-down-seconds" type="number" max="59" min="0" max="59" step="1" value="30">
+                        <input class="numberstyle break-seconds" id="cool-down-seconds" type="number" max="59" min="0" max="59" step="1" value="30">
                     </div>
                 </div>
             </div>

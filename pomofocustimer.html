@@ -93,9 +93,12 @@
         .form-control{
             border: 0.1px solid #f2f2f2 !important;
         }
+        .mins-secs-row{
+            width: 310px;
+        }
         @media only screen and (max-width: 576px){
             .numberstyle-qty input {
-                width: 60px;
+                width: 45px;
                 border-left: 0;
                 border-right: 0;
                 color: #747474;
@@ -113,6 +116,12 @@
                 position: relative;
                 display: inline-block;
                 width: 107px;
+            }
+            .numberstyle-qty .qty-btn {
+                width: 30px;
+            }
+            .mins-secs-row{
+                width: 276px;
             }
         }
       </style>
@@ -187,9 +196,9 @@
                 <button class="btn btn-primary startButton" id="timer-btn">Start</button>
                 <i class="far fa-volume-up fa-2x cursor-pointer font-color mx-2" id="toggleSoundBtn" style="width:32px"></i>
             </div>
-            <div class="d-flex flex-row justify-content-end" style="width:310px;">
-                <h5 class="font-label mr-5 mb-0 pt-2">Minutes</h5>
-                <h5 class="font-label ml-5 mb-0 pt-2">Seconds</h5>
+            <div class="d-flex flex-row justify-content-end mins-secs-row">
+                <h5 class="font-label mr-lg-5 mr-4 mb-0 pt-2">Minutes</h5>
+                <h5 class="font-label ml-5 mr-lg-0 mr-2 mb-0 pt-2">Seconds</h5>
             </div>
             <div class="d-flex align-items-center flex-column px-2 tasks-column mb-3" id="style-1">
             </div>

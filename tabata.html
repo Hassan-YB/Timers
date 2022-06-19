@@ -74,7 +74,19 @@
           .border-10{
               border-radius:10px;
           }
-
+          
+          @media only screen and (min-width: 1200px){
+            .font-label{
+                width: 85px;
+                text-align: left;
+              }
+          }
+          @media (min-width: 768px) and (max-width: 900px){
+            .font-label{
+                width: 85px;
+                text-align: left;
+              }
+          }
         @media only screen and (max-width: 576px){
 
             .numberstyle-qty input {
@@ -194,7 +206,7 @@
                         <div></div>
                     </label>
                 </div>
-                <h5 class="font-label ml-2 pl-1">Warm Up</h5>
+                <h5 class="font-label">Warm Up</h5>
                 <div class="d-flex flex-row justify-content-center align-items-center px-1" id="warm-up-div">
                     <div class="d-flex flex-column align-items-center  mx-2">
                         <input class="numberstyle task-minutes" id="warm-up-minutes" type="number" min="0" max="59" step="1" value="00">

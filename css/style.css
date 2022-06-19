@@ -224,7 +224,7 @@ h1,h2,h3,h4,h5{
         margin-bottom: -49px;
     }
     .btn {
-        width: 71px !important;
+        width: 90px !important;
         margin: 10px 10px;
     }
     .timings > p {
@@ -240,9 +240,7 @@ h1,h2,h3,h4,h5{
     }
     body{
         width: 100%;
-    margin: 0 auto;
-    position: relative;
-    overflow: hidden;
+
     }
     
     /* New Classes */
@@ -256,10 +254,6 @@ h1,h2,h3,h4,h5{
         margin-top: 40px !important;
     }
 
-    .tophead{
-         /* margin-right: 87px; */
-         font-size: 22px;
-    }
     div.resp{
         font-size: 13px;
         flex-direction: row !important;
@@ -267,10 +261,6 @@ h1,h2,h3,h4,h5{
     .last-break{
         font-size: 17px !important;
     }
- } 
-
-/* Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) { 
     .flex-sm-column{
         flex-direction: column;
     }
@@ -298,14 +288,8 @@ h1,h2,h3,h4,h5{
     .work-sec{
         margin-top: 10px;
     }
-    #warm-up-div{
-        margin-left: 17px;
-    }
     .warmupbox{
         height: 120px !important;
-    }
-    #cool-down-div{
-        margin-left: 12px;
     }
     .text-block{
         width: 265px;
@@ -317,10 +301,12 @@ h1,h2,h3,h4,h5{
     .align-items-sm-center{
         align-items: center !important;
     }
- }
+ } 
+
+
 
 /* Large devices (desktops, 992px and up) */
-@media (min-width: 992px) { 
+@media (max-width: 992px) { 
     .flex-md-column{
         flex-direction: column;
     }
@@ -340,10 +326,11 @@ h1,h2,h3,h4,h5{
     .cool-down-position{
         position:absolute;left:27%
     }
+    #style-1{
+        max-height:320px;overflow:auto;width:450px;
+    }
 }  
- #cool-down-div{
-    margin-left: 15px;
-}
+
 .nav-link {
     color: #48494e;
     font-family: Segoe UI;
@@ -429,3 +416,6 @@ h1,h2,h3,h4,h5{
     color: hsl(265deg 100% 47%);
 }
 
+.timer-class{
+    height: 25px;
+}

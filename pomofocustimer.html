@@ -93,6 +93,28 @@
         .form-control{
             border: 0.1px solid #f2f2f2 !important;
         }
+        @media only screen and (max-width: 576px){
+            .numberstyle-qty input {
+                width: 60px;
+                border-left: 0;
+                border-right: 0;
+                color: #747474;
+                font-size: 24px !important;
+                font-weight: 700;
+                z-index: 1;
+            }
+            .numberstyle-qty {
+                font-size: 22px;
+            }
+            .form-control{
+                font-size: 1rem;
+            }
+            .switch3 {
+                position: relative;
+                display: inline-block;
+                width: 107px;
+            }
+        }
       </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand " href="#"><b> Timers</b></a>
@@ -131,15 +153,15 @@
             <div class="d-flex flex-row justify-content-center align-items-center">
                 <div class="m-2 text-center d-flex flex-column align-items-center">
                     <h2 class="tophead px-3 font-color"><b>Pomofocus Timer</b></h2>
-                    <p class="timer-class text-center my-2"></p>
-                    <div class="values my-3 w-100">00:00</div>
+                    <p class="timer-class text-center mt-2 mb-0"></p>
+                    <div class="values mb-3 mt-0 w-100">00:00</div>
                 </div>
             </div>
             <!-- <h3 class="p-2"><b>Set Time</b></h3> -->
             <div class="d-flex flex-column align-items-center my-2">
-                <div class="d-flex flex-row justify-content-start align-items-center col-lg-12 text-center mb-2">
-                    <h5 class="col-lg-8 font-label">Select number of tasks</h5>
-                    <select id="tasks" class="form-control col-lg-4" onchange="setTask();toggleLastBreak();">
+                <div class="d-flex flex-row justify-content-start align-items-center col-lg-12 text-center mb-2 px-0">
+                    <h5 class="col-lg-8 col-8 px-0 font-label">Select number of tasks</h5>
+                    <select id="tasks" class="form-control col-lg-4 col-4" onchange="setTask();toggleLastBreak();">
                         <option value="1" selected>1 task</option>
                         <option value="2">2 task</option>
                         <option value="3">3 tasks</option>
@@ -169,7 +191,7 @@
                 <h5 class="font-label mr-5 mb-0 pt-2">Minutes</h5>
                 <h5 class="font-label ml-5 mb-0 pt-2">Seconds</h5>
             </div>
-            <div class="d-flex align-items-center flex-column px-2 tasks-column mb-3" id="style-1" style="max-height:320px;overflow:auto;width:450px;">
+            <div class="d-flex align-items-center flex-column px-2 tasks-column mb-3" id="style-1">
             </div>
             
         </div>
@@ -233,9 +255,9 @@
                     `
                     <div class="d-flex flex-column align-items-center task my-1">
                         <div class="d-flex flex-row justify-content-between align-items-center px-2 py-1 my-2 cursor-pointer">
-                            <h5 class="font-color font-label pt-1 mr-5 cursor-pointer task-no" data-task='${i}' onclick="currentTask(this);">Task ${i}</h5>
+                            <h5 class="font-color font-label pt-1 mr-lg-5 mr-2 cursor-pointer task-no" data-task='${i}' onclick="currentTask(this);">Task ${i}</h5>
                             <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="d-flex flex-column align-items-center mr-3">
+                                <div class="d-flex flex-column align-items-center mr-lg-3 mr-3">
                                     <input type="number" style="font-size:1.25rem" class="numberstyle mx-1 task-minutes" name="task-minutes" onchange="resetTimer();" step="1" max="60" min="00" value="25">
                                 </div>
                                 <div class="d-flex flex-column align-items-center">
@@ -244,9 +266,9 @@
                             </div>
                         </div>
                         <div class="d-flex flex-row justify-content-between align-items-center px-2 py-1 my-2 cursor-pointer break-${i}" >
-                            <h5 class="font-color font-label pt-1 mr-5 cursor-pointer break-no" data-break='${i}' onclick="currentBreak(this);">Break</h5>
+                            <h5 class="font-color font-label pt-1 mr-lg-5 mr-3 cursor-pointer break-no" data-break='${i}' onclick="currentBreak(this);">Break</h5>
                             <div class="d-flex flex-row justify-content-between align-items-center">
-                                <div class="d-flex flex-column align-items-center mr-3">
+                                <div class="d-flex flex-column align-items-center mr-lg-3 mr-3">
                                     <input style="font-size:1.25rem" class="numberstyle mx-1 break-minutes" name="break-minutes" onchange="resetTimer();" type="number" step="1" max="60" min="00" value="5">
                                 </div>
                                 <div class="d-flex flex-column align-items-center">
@@ -341,13 +363,20 @@
             }
             resetTimer();
         }
-        
+        var first_sound = true;
         async function pomofocus(){
             timer = new easytimer.Timer();
             try{
-                playStartSound();
+                
                 for (i; i < time_list.length; i++){
-                     
+                        if (first_sound){
+                            playStartSound();
+                            first_sound = false;
+                        }
+                        else{
+                            playIntervalSound();
+                        }
+                        
                         if (currently_break == false){
                             setMinutes(time_list[i]['task_minutes']);
                             setSeconds(time_list[i]['task_seconds']);
@@ -361,8 +390,10 @@
                         else{
                             //pass
                         }
+                        
                         if (time_list[i]['break_minutes'] > 0 || time_list[i]['break_seconds'] > 0){
-                            
+                            playIntervalSound();
+
                             setMinutes(time_list[i]['break_minutes']);
                             setSeconds(time_list[i]['break_seconds']);
                             break_min_and_sec_list = displayTimerValues(time_list[i]['break_minutes'],time_list[i]['break_seconds']);
@@ -373,7 +404,6 @@
                             await sleep(milliSeconds(time_list[i]['break_minutes'],time_list[i]['break_seconds']));
                             
                         }
-                        playIntervalSound();              
                 }
                 playStopSound();
             }
@@ -471,6 +501,7 @@
                 //pass
             }
             
+            first_sound = true
                         
             zero_time_list();
             currently_break = false;

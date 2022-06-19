@@ -74,6 +74,22 @@
           .border-10{
               border-radius:10px;
           }
+
+        @media only screen and (max-width: 576px){
+
+            .numberstyle-qty input {
+                width: 60px;
+                border-left: 0;
+                border-right: 0;
+                color: #747474;
+                font-size: 24px !important;
+                font-weight: 700;
+                z-index: 1;
+            }
+            .numberstyle-qty {
+                font-size: 22px;
+            }
+        }
     </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand " href="#"><b> Timers</b></a>
@@ -112,8 +128,8 @@
         <div class="d-flex flex-column justify-content-center align-items-end">
             <div class="m-2 text-center d-flex flex-column align-items-center">
                 <h2 id="main-timer" class="tophead font-color"><b>Tabata Timer</b></h2>
-                <p class="timer-class text-center my-2"></p>
-                <div class="values my-1 px-3 py-1">00:00</div>
+                <p class="timer-class text-center mt-2 mb-0"></p>
+                <div class="values mb-1 mt-0 px-3 pb-1 pt-0">00:00</div>
             </div>
         </div>
         <div class="d-flex flex-row justify-content-between">
@@ -144,7 +160,7 @@
                     <input class="numberstyle" type="number" id="intervals" min="0" max="20" step="1" value="1"/>
                 </div>
             </div>
-            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center mx-2 my-1">
+            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column justify-content-end align-items-center mx-2 my-1">
                 <h5 class="pt-4 font-label">Work Time</h5>
                 <div class="d-flex flex-row justify-content-center px-1">
                     <div class="d-flex flex-column align-items-center mx-2">
@@ -157,7 +173,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-between align-items-center mx-2 my-1">
+            <div class="d-flex flex-lg-row flex-sm-column flex-md-column justify-content-end align-items-center mx-2 my-1">
                 <h5 class="font-label">Rest Time</h5>
                 <div class="d-flex flex-row justify-content-center px-1">
                     <div class="d-flex flex-column align-items-center mx-2">
@@ -168,25 +184,25 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-between mx-2 my-1">
-                <div class="warm-up-position">
+            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-end mx-2 my-1">
+                <div class="">
                     <label class="switch3 mr-3" >
                         <input type="checkbox" id="warm-up-check" onchange="checkboxField();"/>
                         <div></div>
                     </label>
                 </div>
-                <h5 class="font-label">Warm Up</h5>
+                <h5 class="font-label ml-2 pl-1">Warm Up</h5>
                 <div class="d-flex flex-row justify-content-center align-items-center px-1" id="warm-up-div">
                     <div class="d-flex flex-column align-items-center  mx-2">
                         <input style="font-size:1.25rem" class="numberstyle task-minutes" id="warm-up-minutes" type="number" min="0" max="59" step="1" value="00">
                     </div>
                     <div class="d-flex flex-column align-items-center mx-2">
-                        <input style="font-size:1.25rem" class="numberstyle task-seconds" id="warm-up-seconds" type="number" max="59" min="0" max="59" step="1" value="00">
+                        <input style="font-size:1.25rem" class="numberstyle task-seconds" id="warm-up-seconds" type="number" max="59" min="0" max="59" step="1" value="30">
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-between mx-2 my-1">
-                <div class="cool-down-position">
+            <div class="d-flex flex-row flex-lg-row flex-sm-column flex-md-column align-items-center justify-content-end mx-2 my-1">
+                <div class="">
                     <label class="switch3 mr-3" >
                         <input type="checkbox" id="cool-down-check" onchange="checkboxField();"/>
                             <div></div>
@@ -200,7 +216,7 @@
                     </div>
                     <div class="d-flex flex-column align-items-center mx-2">
                         <!-- <h6>Seconds</h6> -->
-                        <input style="font-size:1.25rem" class="numberstyle break-seconds" id="cool-down-seconds" type="number" max="59" min="0" max="59" step="1" value="00">
+                        <input style="font-size:1.25rem" class="numberstyle break-seconds" id="cool-down-seconds" type="number" max="59" min="0" max="59" step="1" value="30">
                     </div>
                 </div>
             </div>
@@ -309,6 +325,7 @@
             }
             return [display_mins,display_secs]
         }
+        var finished = false;
 
         async function tabata(){
             timer = new easytimer.Timer();
@@ -325,6 +342,8 @@
             var cool_down_seconds = Number($("#cool-down-seconds").val());
 
             try{
+                playStartSound();
+
                 total_seconds = 0;
                 if ( $("#warm-up-check").is(":checked") == true){
                     total_seconds = (Number(warm_up_minutes)*60) + Number(warm_up_seconds);
@@ -354,8 +373,9 @@
                 var total_time_min_and_sec_list = displayTimerValues(total_time[0],total_time[1]);
                 $(".total-time").html(total_time_min_and_sec_list[0] +":"+ total_time_min_and_sec_list[1])
 
-                playStartSound();
+                
                 if ($("#warm-up-check").is(":checked") == true){
+                    
                     if (warm_up_minutes > 0 || warm_up_seconds > 0){
                         setMinutes(warm_up_minutes);
                         setSeconds(warm_up_seconds);
@@ -364,12 +384,18 @@
                         $(".values").html(warm_up_min_and_sec_list[0] +":"+ warm_up_min_and_sec_list[1]);
                         timer.start({countdown: true, startValues: valuesDict, callback: function (timer){$('#secondTenthsExample .values').html(timer.getTimeValues().toString(['minutes', 'seconds']));}});
                         await sleep(milliSeconds(warm_up_minutes,warm_up_seconds));
+                        playIntervalSound();
                     }
+                    
                 }
                 
 
                 if (intervals > 0){
                     for(i=1;i<=intervals;i++){
+                        if (i!=1){
+                            playIntervalSound();
+                        }
+
                         if (work_minutes > 0 || work_seconds > 0 || rest_minutes > 0 || rest_seconds > 0){
                             $(".current-interval").addClass('bg-light py-1 px-2 border-10').html(i+"/"+intervals);
                         }
@@ -383,11 +409,12 @@
                             await sleep(milliSeconds(work_minutes,work_seconds));
                         }
                         
-
+                        
                         if ( $("#cool-down-check").is(":checked") == true && i==intervals){
                             //pass
                         }
                         else if(rest_minutes > 0 || rest_seconds > 0){
+                            playIntervalSound();
                             setMinutes(rest_minutes);
                             setSeconds(rest_seconds);
                             var rest_min_and_sec_list = displayTimerValues(rest_minutes,rest_seconds);
@@ -398,8 +425,11 @@
                         }
                     }
                 }
+                
                 if ($("#cool-down-check").is(":checked") == true){
                     if (cool_down_minutes > 0 || cool_down_seconds > 0){
+                        playIntervalSound();
+
                         $(".current-interval").html("");
                         setMinutes(cool_down_minutes);
                         setSeconds(cool_down_seconds);
@@ -410,7 +440,9 @@
                         await sleep(milliSeconds(cool_down_minutes,cool_down_seconds));
                     }
                 }
+                finished = true;
                 playStopSound();
+            
             }
             catch{
                 //pass                
@@ -465,6 +497,14 @@
             $(".timer-class").html("");
             $("#main-timer").show();
             $(".values");
+
+            if(finished){
+                $(".timer-class").html('<div class="bg-success d-flex rounded text-white justify-content-center py-1 px-3"> Finished! </div>');
+                finished = false;
+            }
+            else{
+                $(".timer-class").html("");
+            }
 
         }
 

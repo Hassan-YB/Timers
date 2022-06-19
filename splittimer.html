@@ -42,7 +42,22 @@
         left: 0px;
         transition: all .4s;
     }
-    
+    @media only screen and (max-width: 576px){
+
+        .numberstyle-qty input {
+            width: 76px;
+            border-left: 0;
+            border-right: 0;
+            color: #747474;
+            font-size: 30px;
+            font-weight: 700;
+            z-index: 1;
+        }
+        .numberstyle-qty {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+    }
   
   </style>
 
@@ -91,7 +106,7 @@
             <h5 class="mx-3 text-center">Countdown split</h5>
         </div>
         <h3 class="set-time"><b>Set Time</b></h3>
-        <div class="d-flex flex-row justify-content-center my-2 mb-3 set-time" id="set-time">
+        <div class="d-flex flex-lg-row flex-column justify-content-center my-2 mb-3 set-time" id="set-time">
             <div class="d-flex flex-column align-items-center mx-2">
                 <h5 class="font-label">Hours</h5>
                 <input class="numberstyle" type="number" id="hours" min="0" step="1" value="00" onchange="setHours(this);"/>

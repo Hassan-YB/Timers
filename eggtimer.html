@@ -18,6 +18,43 @@
         .form-control{
             border: 0.1px solid #f2f2f2 !important;
         }
+        .values {
+            font-size: 120px;
+            color: hsl(230, 4%, 29%);
+            width: 492px;
+        }
+        @media only screen and (max-width: 576px){
+            .values {
+                font-size: 60px !important;
+                justify-content: center;
+                color: hsl(230, 4%, 29%);
+                width: 268px;
+            }
+            .numberstyle-qty input {
+                width: 76px;
+                border-left: 0;
+                border-right: 0;
+                color: #747474;
+                font-size: 30px;
+                font-weight: 700;
+                z-index: 1;
+            }
+            .numberstyle-qty {
+                margin-bottom: 10px;
+                font-size: 22px;
+            }
+            .form-control{
+                font-size: 1rem;
+            }
+            .flex-wrap > p {
+                flex: 0 0 29%;
+                text-align: center;
+            }
+        }
+        .text-primary{
+            color: #495057 !important;
+        }
+
     </style>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand " href="#"> <b> Timers</b></a>
@@ -54,9 +91,9 @@
 
     <div id="secondTenthsExample" class="d-flex justify-content-center flex-column align-items-center m-3">
         <h2 class="tophead pt-0 pb-3 d-flex align-items-center justify-content-between font-color"><b>Egg Timer</b></h2>
-        <div class="values mx-3 px-3">00:00:00:00</div>
+        <div class="values mx-3 px-3">00:00:00</div>
         <!-- <h3 class="p-2"><b>Set Time</b></h3> -->
-        <div class="d-flex flex-row justify-content-center my-2 mb-3">
+        <div class="d-flex flex-lg-row flex-column align-items-center justify-content-center my-2 mb-3">
             <div class="d-flex flex-column align-items-center mx-2">
                 <h5 class="font-label">Hours</h5>
                 <input class="numberstyle" type="number" id="hours" min="0" step="1" value="00" onchange="setHours(this);"/>
@@ -71,8 +108,8 @@
             </div>
         </div>
         <div class="d-flex flex-row justify-content-start align-items-center col-lg-4 mb-2">
-            <h5 class="col-lg-6 font-label">Egg Size</h5>
-            <select id="egg-size" class="form-control col-lg-6" onchange="setEggType(this);">
+            <h5 class="col-lg-6 col-5 font-label">Egg Size</h5>
+            <select id="egg-size" class="form-control col-lg-6 col-7" onchange="setEggType(this);">
               <option value="" selected>Choose size</option>
               <option value="1">Medium</option>
               <option value="2">Large</option>
@@ -80,8 +117,8 @@
             </select>
         </div>
         <div class="d-flex flex-row justify-content-start align-items-center col-lg-4">
-            <h5 class="col-lg-6 font-label">Egg Boil type</h5>
-            <select id="egg-type" class="form-control col-lg-6" onchange="setEggSize(this);">
+            <h5 class="col-lg-6 col-5 font-label">Egg Boil type</h5>
+            <select id="egg-type" class="form-control col-lg-6 col-7" onchange="setEggSize(this);">
               <option selected>Choose boil type</option>
               <option value="2">Soft</option>
               <option value="3">Medium</option>
@@ -94,7 +131,7 @@
             <i class="far fa-volume-up fa-2x cursor-pointer font-color mx-2" id="toggleSoundBtn" style="width:32px"></i>
         </div>
         <h5 class="p-2 mt-1 font-label">Related Countdown Timers</h5>
-        <div class="resp d-flex flex-row justify-content-center my-2 m-2 pb-2 timings">
+        <div class="resp d-flex flex-lg-row flex-wrap justify-content-center my-2 m-2 pb-2 timings">
             <p class="text-primary" onclick="preSetMinutes(3)">3 minutes</p>
             <p class="text-primary" onclick="preSetMinutes(4)">4 minutes</p>
             <p class="text-primary" onclick="preSetMinutes(5)">5 minutes</p>
@@ -231,7 +268,7 @@
             if (timer_btn == 0){
                 timer.start({countdown: true, startValues: valuesDict,precision: 'secondTenths'});
                 timer.addEventListener('secondTenthsUpdated', function (e) {
-                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
+                    $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']));
                 });
                 timer_btn = 1; //timer has started
                 $("#timer-btn").html("Stop");
@@ -264,7 +301,7 @@
         
         function resetTimer(){
             var total_time = displayTimerValues($("#hours").val(), $("#minutes").val(), $("#seconds").val());
-            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2] +'<span class="values-small">:00'+'</span>');
+            $("#secondTenthsExample .values").html(total_time[0] + ":" + total_time[1] + ":" + total_time[2]);
             timer.stop();
             timer_btn = 0;
             paused = false;
@@ -277,12 +314,12 @@
         
         
         timer.addEventListener('secondsUpdated', function (e) {
-            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
+            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']));
         });
         
         timer.addEventListener('started', function (e) {
             playStartSound();
-            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds'])+'<span class="values-small">:'+timer.getTimeValues().secondTenths+'</span>');
+            $('#secondTenthsExample .values').html(timer.getTimeValues().toString(['hours', 'minutes', 'seconds']));
         });
         
         timer.addEventListener('stopped', function (e) {

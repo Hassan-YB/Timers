@@ -251,10 +251,7 @@ h1,h2,h3,h4,h5{
         margin-top: 40px !important;
     }
 
-    div.resp{
-        font-size: 13px;
-        flex-direction: row !important;
-    }
+    
     .last-break{
         font-size: 17px !important;
     }

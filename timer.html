@@ -21,6 +21,24 @@
         .text-primary{
             color: #495057 !important;
         }
+        .btn-outline-primary{
+            width: 120px !important;
+        }
+        .btn:hover , .btn-outline-primary:hover{
+            color: #fff !important;
+        }
+        @media (min-width: 1200px){
+            .timings > p {
+                margin: 10px 8px !important;
+                cursor: pointer;
+            }
+        }
+        @media (max-width:992px){
+            .timings > p {
+                margin: 10px 8px !important;
+                cursor: pointer;
+            }
+        }
         @media (max-width: 768px) { 
             .numberstyle-qty input {
                 width: 76px;
@@ -37,6 +55,9 @@
             }
             .text-primary:hover{
                 color: #007bff !important;
+            }
+            .btn-outline-primary{
+                width: 110px !important;
             }
          }
         
@@ -109,30 +130,30 @@
             <p class="text-primary" onclick="preSetHours(1)">1 hour</p>
             <p class="text-primary" onclick="preSetHours(3)">3 hours</p>
         </div> -->
-        <div class="d-flex flex-row justify-content-between my-2 m-2 pb-2">
-            <div class="d-flex flex-column align-items-start align-items-sm-center mx-lg-4 mx-2">
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(5)">05 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(10)">10 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(20)">20 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(30)">30 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(40)">40 seconds</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetSecondsLink(60)">60 seconds</p>
+        <div class="d-flex flex-row justify-content-between my-2 pb-2">
+            <div class="d-flex flex-column align-items-start align-items-sm-center mx-lg-0 timings">
+                <p class="btn btn-outline-primary" onclick="preSetSecondsLink(5)">05 seconds</p>
+                <p class="btn btn-outline-primary" onclick="preSetSecondsLink(10)">10 seconds</p>
+                <p class="btn btn-outline-primary" onclick="preSetSecondsLink(20)">20 seconds</p>
+                <p class="btn btn-outline-primary" onclick="preSetSecondsLink(30)">30 seconds</p>
+                <p class="btn btn-outline-primary" onclick="preSetSecondsLink(40)">40 seconds</p>
+                <p class="btn btn-outline-primary" onclick="preSetSecondsLink(60)">60 seconds</p>
             </div>
-            <div class="d-flex flex-column align-items-lg-start mx-lg-4 mx-2">
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(1)">01 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(2)">02 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(5)">05 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(10)">10 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(20)">20 minutes </p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(30)">30 minutes</p>
+            <div class="d-flex flex-column align-items-lg-start mx-lg-0 timings">
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(1)">01 minutes</p>
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(2)">02 minutes</p>
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(5)">05 minutes</p>
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(10)">10 minutes</p>
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(20)">20 minutes </p>
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(30)">30 minutes</p>
             </div>
-            <div class="d-flex flex-column align-items-start mx-lg-4 mx-2">    
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(40)">40 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(50)">50 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetMinutesLink(60)">60 minutes</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetHoursLink(1)">01 hours</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetHoursLink(2)">02 hours</p>
-                <p class="text-primary cursor-pointer text-center" onclick="preSetHoursLink(3)">03 hours</p>
+            <div class="d-flex flex-column align-items-start mx-lg-0 timings">    
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(40)">40 minutes</p>
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(50)">50 minutes</p>
+                <p class="btn btn-outline-primary" onclick="preSetMinutesLink(60)">60 minutes</p>
+                <p class="btn btn-outline-primary" onclick="preSetHoursLink(1)">01 hours</p>
+                <p class="btn btn-outline-primary" onclick="preSetHoursLink(2)">02 hours</p>
+                <p class="btn btn-outline-primary" onclick="preSetHoursLink(3)">03 hours</p>
             </div>
         </div>
     </div>

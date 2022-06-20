@@ -23,6 +23,25 @@
             color: hsl(230, 4%, 29%);
             width: 492px;
         }
+        .btn-outline-primary{
+            width: 100px !important;
+        }
+        .btn:hover , .btn-outline-primary:hover{
+            color: #fff !important;
+        }
+        @media (min-width: 1200px){
+            .timings > p {
+                margin: 10px 8px !important;
+                cursor: pointer;
+            }
+        }
+        @media (min-width: 768px) and (max-width:900px){
+            .timings > p {
+                margin: 10px 8px !important;
+                cursor: pointer;
+            }
+        }
+
         @media only screen and (max-width: 576px){
             .values {
                 font-size: 60px !important;
@@ -51,7 +70,7 @@
                 text-align: center;
             }
             .timings > p {
-                margin: 5px 14px;
+                margin: 5px 4px;
                 cursor: pointer;
             }
             .text-primary:hover{
@@ -139,11 +158,11 @@
         </div>
         <h5 class="p-2 mt-1 font-label">Related Countdown Timers</h5>
         <div class="resp d-flex flex-lg-row flex-wrap justify-content-center my-2 m-2 pb-2 timings">
-            <p class="text-primary" onclick="preSetMinutes(3)">3 minutes</p>
-            <p class="text-primary" onclick="preSetMinutes(4)">4 minutes</p>
-            <p class="text-primary" onclick="preSetMinutes(5)">5 minutes</p>
-            <p class="text-primary" onclick="preSetMinutes(6)">6 minutes</p>
-            <p class="text-primary" onclick="preSetMinutes(7)">7 minutes</p>
+            <p class="btn btn-outline-primary" onclick="preSetMinutes(3)">3 minutes</p>
+            <p class="btn btn-outline-primary" onclick="preSetMinutes(4)">4 minutes</p>
+            <p class="btn btn-outline-primary" onclick="preSetMinutes(5)">5 minutes</p>
+            <p class="btn btn-outline-primary" onclick="preSetMinutes(6)">6 minutes</p>
+            <p class="btn btn-outline-primary" onclick="preSetMinutes(7)">7 minutes</p>
         </div>
         
     
